@@ -24,35 +24,34 @@
         /* --- STAGE 2: HUB VIEW --- */
         #app-view { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
         .major-mono { font-family: 'Major Mono Display', monospace; color: #23d5ab; }
-        .selector-row { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        
+        .hub-container { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
+        .wing { flex: 1; min-width: 300px; background: rgba(255, 255, 255, 0.02); border-radius: 30px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .wing-title { font-family: 'Major Mono Display', monospace; color: #23d5ab; margin-bottom: 20px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; }
+
         .tab-btn {
             background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 0.9rem;
+            padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; margin-right: 5px;
         }
         .tab-btn.active { background: #23d5ab; color: #010410; font-weight: 700; border-color: transparent; box-shadow: 0 0 15px #23d5ab; }
 
-        /* Subject Grid */
-        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
         .subject-card {
-            background: rgba(255,255,255,0.03); padding: 35px; border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05); cursor: pointer; text-align: center;
+            background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 15px; margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; text-align: center;
         }
-        .subject-card:hover { border-color: #23d5ab; background: rgba(35, 213, 171, 0.05); transform: translateY(-5px); }
+        .subject-card:hover { border-color: #23d5ab; background: rgba(35, 213, 171, 0.08); transform: translateY(-3px); }
 
         /* --- STAGE 3: MODAL --- */
         #content-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #010410; z-index: 1000; padding: 40px; overflow-y: auto;
         }
-        .btn {
-            background: #23d5ab; color: #010410; padding: 15px 35px; border-radius: 12px;
-            font-weight: bold; cursor: pointer; border: none; margin-top: 15px; display: inline-block;
-        }
         .option-btn {
             width: 100%; text-align: left; background: rgba(255,255,255,0.05); color: white;
             padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; cursor: pointer;
         }
         .option-btn:hover { background: rgba(35, 213, 171, 0.1); border-color: #23d5ab; }
+        .btn { background: #23d5ab; color: #010410; padding: 15px 35px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; }
     </style>
 </head>
 <body>
@@ -62,9 +61,9 @@
             <h1 class="major-mono" style="font-size: 2.8rem; margin-bottom: 20px;">DODOLA LAB</h1>
             <div style="text-align: left; margin-bottom: 30px;">
                 <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Mission</h3>
-                <p style="opacity: 0.8; margin-bottom: 20px;">Empowering Grades 9-12 with the same mathematical logic that achieved a 590/600 national record.</p>
+                <p style="opacity: 0.8; margin-bottom: 20px;">Empowering Grades 9-12 with the logic that achieved a 590/600 national record.</p>
                 <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Vision</h3>
-                <p style="opacity: 0.8;">Creating a 20-year sustainable digital infrastructure for Ethiopian students based on <i>ifa boru</i>.</p>
+                <p style="opacity: 0.8;">Creating a sustainable digital infrastructure for Ethiopia based on ifa boru.</p>
             </div>
             <button class="btn" onclick="enterLab()">Initialize Hub</button>
         </div>
@@ -79,43 +78,46 @@
             <div id="clock" class="major-mono" style="color: #23d5ab; font-size: 1.5rem;">00:00:00</div>
         </div>
 
-        <div class="selector-row">
-            <button id="stream-nat" class="tab-btn active" onclick="setStream('natural')">Natural Science</button>
-            <button id="stream-soc" class="tab-btn" onclick="setStream('social')">Social Science</button>
-        </div>
-
-        <div class="selector-row" id="grade-row">
+        <div id="grade-row" style="margin-bottom: 30px;">
             <button class="tab-btn active" onclick="setGrade(12, this)">Grade 12</button>
             <button class="tab-btn" onclick="setGrade(11, this)">Grade 11</button>
             <button class="tab-btn" onclick="setGrade(10, this)">Grade 10</button>
             <button class="tab-btn" onclick="setGrade(9, this)">Grade 9</button>
         </div>
 
-        <h2 id="view-title" style="margin: 40px 0 20px 0; color: #23d5ab;">Natural Science | Grade 12</h2>
-        <div class="subject-grid" id="subject-list"></div>
+        <div class="hub-container">
+            <div class="wing">
+                <h3 class="wing-title">NATURAL_SCIENCE</h3>
+                <div id="natural-list"></div>
+            </div>
+            <div class="wing">
+                <h3 class="wing-title">SOCIAL_SCIENCE</h3>
+                <div id="social-list"></div>
+            </div>
+        </div>
     </section>
 
     <div id="content-modal">
         <button class="tab-btn" onclick="closeModal()">← Return to Hub</button>
         <div style="max-width: 700px; margin: 40px auto;">
-            <h1 id="modal-title" class="major-mono" style="font-size: 2.5rem; margin-bottom: 10px;">Subject</h1>
-            <p id="grade-badge" style="color: #23d5ab; margin-bottom: 30px;">Grade 12 Module</p>
-            
-            <div style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;">
-                <h3 id="quiz-question" style="margin-bottom: 25px; line-height: 1.5;">Question?</h3>
+            <h1 id="modal-title" class="major-mono" style="font-size: 2.5rem; color:#23d5ab;">Subject</h1>
+            <p id="grade-badge" style="margin-bottom: 30px; opacity: 0.6;">Grade 12 Module</p>
+            <div id="quiz-container" style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;">
+                <h3 id="quiz-question" style="margin-bottom: 25px;"></h3>
                 <div id="options-box"></div>
-                
                 <div id="explanation-box" style="display:none; margin-top:30px; padding:25px; border-radius:15px; background: rgba(35, 213, 171, 0.1); border: 1px solid #23d5ab;">
                     <h2 id="result-status" style="margin-bottom:10px;"></h2>
-                    <p id="explain-text" style="line-height: 1.6; opacity: 0.9;"></p>
+                    <p id="explain-text" style="line-height: 1.6;"></p>
+                    <button class="tab-btn" style="margin-top:20px;" onclick="nextQuestion()">Next Question →</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentStream = 'natural';
         let currentGrade = 12;
+        let currentSubject = '';
+        let currentQuestionIndex = 0;
 
         const subjects = {
             natural: ['Maths', 'Physics', 'Chemistry', 'Biology', 'English'],
@@ -123,28 +125,44 @@
         };
 
         const quizData = {
-            'Maths': { q: "Solve for x: 2x² - 8 = 0", a: "x = ±2", options: ["x = 4", "x = ±2", "x = 2", "x = 0"], explain: "2x² = 8 → x² = 4 → x = ±2. Remember to always consider the negative root in quadratics!" },
-            'Physics': { q: "What is the unit of Force?", a: "Newton", options: ["Joule", "Watt", "Newton", "Pascal"], explain: "Force is measured in Newtons (N), named after Isaac Newton. F = ma." },
-            'Chemistry': { q: "What is the pH of pure water?", a: "7", options: ["1", "7", "14", "5"], explain: "Pure water is neutral, meaning its pH is exactly 7." },
-            'Biology': { q: "Which part of the plant performs photosynthesis?", a: "Leaves", options: ["Roots", "Stem", "Leaves", "Seeds"], explain: "Leaves contain chlorophyll which captures sunlight to make food." },
-            'English': { q: "Find the antonym of 'Success'.", a: "Failure", options: ["Win", "Failure", "Goal", "Progress"], explain: "Antonyms are opposites. While you focus on success, analyzing failure helps us improve." },
-            'Geography': { q: "What is the capital of Ethiopia?", a: "Addis Ababa", options: ["Adama", "Addis Ababa", "Gondar", "Bahir Dar"], explain: "Addis Ababa is the diplomatic heart of Africa and our capital." },
-            'History': { q: "Who was the Emperor during the Battle of Adwa?", a: "Menelik II", options: ["Haile Selassie", "Menelik II", "Tewodros II", "Yohannes IV"], explain: "Emperor Menelik II led the nation to a historic victory in 1896." },
-            'Economics': { q: "What is 'Supply' in economics?", a: "Quantity available", options: ["Total demand", "Quantity available", "Market price", "Tax rate"], explain: "Supply refers to how much of a good or service is available to consumers." }
+            'Biology': [
+                { q: "Which organelle synthesizes ATP through respiration?", a: "Mitochondria", options: ["Ribosome", "Mitochondria", "Golgi", "Lysosome"], explain: "Mitochondria is the powerhouse where glucose becomes ATP." },
+                { q: "Phenotypic ratio of a dihybrid cross (AaBb x AaBb)?", a: "9:3:3:1", options: ["3:1", "9:3:3:1", "1:2:1", "1:1:1:1"], explain: "Two heterozygotes produce a 9:3:3:1 phenotypic ratio." },
+                { q: "Primary function of Insulin?", a: "Glucose uptake", options: ["Increase sugar", "Glucose uptake", "Glycogen breakdown", "Adrenaline"], explain: "Insulin allows cells to absorb glucose from the blood." },
+                { q: "Main structural component of plant cell walls?", a: "Cellulose", options: ["Chitin", "Cellulose", "Peptidoglycan", "Glycogen"], explain: "Cellulose provides rigidity and structural support." },
+                { q: "Phase where sister chromatids separate?", a: "Anaphase", options: ["Prophase", "Metaphase", "Anaphase", "Telophase"], explain: "In Anaphase, chromatids move toward opposite poles." }
+            ],
+            'Physics': [
+                { q: "Acceleration due to gravity on Earth?", a: "9.8 m/s²", options: ["10.5 m/s²", "9.8 m/s²", "8.9 m/s²", "7.5 m/s²"], explain: "Standard gravity (g) is 9.8 m/s²." },
+                { q: "Law stating equal and opposite reactions?", a: "Newton's 3rd Law", options: ["Newton's 1st Law", "Newton's 3rd Law", "Ohm's Law", "Inertia"], explain: "Action and reaction are the basis of mechanics." },
+                { q: "What is the formula for Ohm's Law?", a: "V = IR", options: ["P = IV", "V = IR", "F = ma", "E = mc²"], explain: "Voltage equals Current times Resistance." },
+                { q: "Lens used to correct nearsightedness?", a: "Concave", options: ["Convex", "Concave", "Bifocal", "Flat"], explain: "Concave lenses diverge light to fix Myopia." },
+                { q: "Speed of light in a vacuum?", a: "3x10⁸ m/s", options: ["3x10⁶ m/s", "3x10⁸ m/s", "1.5x10⁸ m/s", "3x10¹⁰ m/s"], explain: "Light travels at roughly 300,000 km/s." }
+            ],
+            'Geography': [
+                { q: "Layer containing the ozone shield?", a: "Stratosphere", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], explain: "The stratosphere filters harmful UV radiation." },
+                { q: "Great Rift Valley formation process?", a: "Divergent movement", options: ["Convergent", "Divergent", "Subduction", "Transform"], explain: "Divergent plates pull apart to form rifts." },
+                { q: "Primary cause of seasonal changes?", a: "Earth's Tilt", options: ["Distance", "Earth's Tilt", "Rotation", "Solar Output"], explain: "The 23.5° tilt dictates seasonal sunlight intensity." },
+                { q: "Which is a 'Large Scale' map?", a: "1:5,000", options: ["1:1,000,000", "1:5,000", "1:500,000", "1:250,000"], explain: "Large scale means more detail for a smaller area." },
+                { q: "Max population an environment can sustain?", a: "Carrying Capacity", options: ["Density", "Carrying Capacity", "Growth", "Transition"], explain: "Resources limit how many individuals can survive." }
+            ],
+            'History': [
+                { q: "In which year was the UN founded?", a: "1945", options: ["1918", "1945", "1950", "1963"], explain: "The United Nations was formed after WWII for global peace." },
+                { q: "First President of the OAU?", a: "Haile Selassie I", options: ["Kwame Nkrumah", "Haile Selassie I", "Nelson Mandela", "Jomo Kenyatta"], explain: "The Emperor led the OAU in Addis Ababa." },
+                { q: "Purpose of the Berlin Conference?", a: "Scramble for Africa", options: ["Trade", "Scramble for Africa", "Slavery", "Peace"], explain: "European powers met to divide Africa." },
+                { q: "Civilization that built the Giza Pyramids?", a: "Egyptians", options: ["Romans", "Greeks", "Egyptians", "Mayans"], explain: "The ancient Egyptians built them during the Old Kingdom." },
+                { q: "Where did the Industrial Revolution begin?", a: "Great Britain", options: ["USA", "Germany", "Great Britain", "France"], explain: "Britain was the 18th-century origin of modern industry." }
+            ]
         };
 
         function enterLab() {
             document.getElementById('mission-gate').style.display = 'none';
             document.getElementById('app-view').style.display = 'block';
             updateGrid();
-            setInterval(updateClock, 1000);
-        }
-
-        function setStream(s) {
-            currentStream = s;
-            document.getElementById('stream-nat').classList.toggle('active', s === 'natural');
-            document.getElementById('stream-soc').classList.toggle('active', s === 'social');
-            updateGrid();
+            setInterval(() => {
+                const etTime = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
+                document.getElementById('clock').innerText = etTime.toISOString().substr(11, 8);
+            }, 1000);
         }
 
         function setGrade(g, btn) {
@@ -155,50 +173,58 @@
         }
 
         function updateGrid() {
-            document.getElementById('view-title').innerText = `${currentStream.charAt(0).toUpperCase() + currentStream.slice(1)} Science | Grade ${currentGrade}`;
-            const list = document.getElementById('subject-list');
-            list.innerHTML = subjects[currentStream].map(sub => `
-                <div class="subject-card" onclick="openSubject('${sub}')">
-                    <h3 class="major-mono" style="color:#23d5ab">${sub}</h3>
-                    <p style="font-size:0.8rem; margin-top:10px; opacity:0.6">Unlock Grade ${currentGrade} Quiz</p>
-                </div>
-            `).join('');
+            const populate = (id, list) => {
+                document.getElementById(id).innerHTML = list.map(sub => `
+                    <div class="subject-card" onclick="openSubject('${sub}')">
+                        <h4 class="major-mono" style="color:#23d5ab; font-size:0.9rem">${sub}</h4>
+                        <p style="font-size:0.7rem; margin-top:5px; opacity:0.6">G${currentGrade} Logic Hub</p>
+                    </div>
+                `).join('');
+            };
+            populate('natural-list', subjects.natural);
+            populate('social-list', subjects.social);
         }
 
         function openSubject(name) {
-            const quiz = quizData[name] || quizData['Maths'];
-            document.getElementById('modal-title').innerText = name;
-            document.getElementById('grade-badge').innerText = `Grade ${currentGrade} Module`;
-            document.getElementById('quiz-question').innerText = quiz.q;
-            document.getElementById('explanation-box').style.display = 'none';
-            
-            document.getElementById('options-box').innerHTML = quiz.options.map(opt => `
-                <button class="option-btn" onclick="checkAns('${opt}', '${quiz.a}', '${quiz.explain.replace(/'/g, "\\'")}')">${opt}</button>
-            `).join('');
-            
+            currentSubject = name;
+            currentQuestionIndex = 0;
+            loadQuestion();
             document.getElementById('content-modal').style.display = 'block';
         }
 
-        function checkAns(selected, correct, explain) {
+        function loadQuestion() {
+            const list = quizData[currentSubject] || quizData['Biology'];
+            const quiz = list[currentQuestionIndex];
+            document.getElementById('modal-title').innerText = currentSubject;
+            document.getElementById('grade-badge').innerText = `Grade ${currentGrade} Module | Question ${currentQuestionIndex + 1}`;
+            document.getElementById('quiz-question').innerText = quiz.q;
+            document.getElementById('explanation-box').style.display = 'none';
+            document.getElementById('options-box').innerHTML = quiz.options.map(opt => `
+                <button class="option-btn" onclick="checkAns('${opt}', '${quiz.a}', '${quiz.explain}')">${opt}</button>
+            `).join('');
+        }
+
+        function checkAns(sel, cor, exp) {
             const box = document.getElementById('explanation-box');
             const status = document.getElementById('result-status');
             box.style.display = 'block';
-            if(selected === correct) {
+            if(sel === cor) {
                 status.innerText = "✅ Logic Confirmed!";
                 status.style.color = "#23d5ab";
             } else {
                 status.innerText = "❌ Analysis Required";
                 status.style.color = "#ff4d4d";
             }
-            document.getElementById('explain-text').innerText = explain;
+            document.getElementById('explain-text').innerText = exp;
+        }
+
+        function nextQuestion() {
+            const list = quizData[currentSubject] || quizData['Biology'];
+            currentQuestionIndex = (currentQuestionIndex + 1) % list.length;
+            loadQuestion();
         }
 
         function closeModal() { document.getElementById('content-modal').style.display = 'none'; }
-        
-        function updateClock() {
-            const etTime = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
-            document.getElementById('clock').innerText = etTime.toISOString().substr(11, 8);
-        }
     </script>
 </body>
 </html>
