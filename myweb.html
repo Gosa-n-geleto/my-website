@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gosa's Personal Website</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            width: 350px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid #00b4db;
+            margin-bottom: 20px;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(0, 180, 219, 0.5);
+        }
+
+        h1 { margin-bottom: 5px; font-size: 1.8rem; letter-spacing: 1px; }
+        p { margin-bottom: 30px; opacity: 0.8; font-weight: 300; font-size: 1.1rem; }
+
+        button {
+            background: #00b4db;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: white;
+            color: #00b4db;
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <img src="Screenshot 2026-04-11 210033.png" alt="Gosa's Profile" class="profile-pic">
+        
+        <h1>Gosa Negeso</h1>
+        <p>Student & Developer</p>
+        
+        <button onclick="alert('Welcome to my world!')">Get In Touch</button>
+    </div>
+
+</body>
+</html>
