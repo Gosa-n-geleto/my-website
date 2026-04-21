@@ -3,145 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gosa Negeso | Dodola Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+    <title>Dodola Lab | Educational OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; transition: 0.3s cubic-bezier(0.1, 0.7, 0.1, 1); }
-        body { background: #010410; color: #e2e8f0; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        body { background: #010410; color: #e2e8f0; overflow-x: hidden; min-height: 100vh; }
 
-        /* --- THE QUANTUM FIELD (First View) --- */
-        #field {
-            position: absolute; width: 100%; height: 100%; 
-            background: radial-gradient(circle, rgba(16,23,42,0.9) 0%, rgba(1,4,16,1) 100%), url('dodola-school.jpg');
-            background-size: cover; background-position: center; transition: 1s;
+        /* --- THE MISSION (Landing Page) --- */
+        #mission-gate {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(1,4,16,0.8), rgba(1,4,16,0.8)), url('dodola-school.jpg');
+            background-size: cover; background-position: center;
         }
 
-        .core-card {
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px);
-            border-radius: 50px; padding: 60px; width: 440px; text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 0 80px rgba(35, 213, 171, 0.15);
-            position: relative; z-index: 10;
+        .mission-box {
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px);
+            border-radius: 40px; padding: 60px; max-width: 600px; text-align: center;
+            border: 1px solid rgba(35, 213, 171, 0.2);
         }
 
-        .profile-pic { width: 140px; height: 140px; border-radius: 50%; border: 3px solid #23d5ab; margin-bottom: 25px; box-shadow: 0 0 30px #23d5ab; }
+        /* --- THE LAB (App View) --- */
+        #app-view { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
 
-        /* --- THE LOGIC LAB (Inside View) --- */
-        #lab { display: none; width: 95%; max-width: 1300px; height: 90vh; animation: panelSlideIn 1s forwards; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .major-mono { font-family: 'Major Mono Display', monospace; color: #23d5ab; }
 
-        @keyframes panelSlideIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-        /* Grade Selector */
-        .hub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #23d5ab33; padding-bottom: 20px;}
-        .grade-menu { display: flex; gap: 15px; }
-        .grade-btn {
-            background: transparent; color: #23d5ab; border: 1px solid #23d5ab33;
-            padding: 12px 25px; border-radius: 12px; cursor: pointer; font-family: 'Major Mono Display', monospace;
+        /* Stream/Grade Selectors */
+        .selector-row { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .tab-btn {
+            background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 25px; border-radius: 12px; cursor: pointer;
         }
-        .grade-btn:hover, .grade-btn.active { background: #23d5ab; color: #010410; box-shadow: 0 0 20px #23d5ab; border-color: transparent; }
+        .tab-btn.active { background: #23d5ab; color: #010410; font-weight: bold; border-color: transparent; }
 
-        /* Dynamic Grid */
-        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; height: 70vh; }
-        .grid-panel { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        /* Subject Cards */
+        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .subject-card {
+            background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05); cursor: pointer; text-align: center;
+        }
+        .subject-card:hover { border-color: #23d5ab; background: rgba(35, 213, 171, 0.05); transform: translateY(-5px); }
 
-        .resource-card { background: rgba(255,255,255,0.03); padding: 25px; border-radius: 15px; border: 1px solid transparent; cursor: pointer; margin-bottom: 15px; }
-        .resource-card:hover { border-color: #23d5ab33; background: rgba(35, 213, 171, 0.05); transform: translateX(5px); }
+        /* Modal for Notes/Quizzes */
+        #content-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1,4,16,0.95); z-index: 1000; padding: 50px; overflow-y: auto;
+        }
 
         .btn {
-            background: #23d5ab; color: #010410; padding: 18px 45px; border-radius: 15px;
-            text-decoration: none; font-weight: bold; cursor: pointer; border: none; font-size: 1.1rem;
-            transition: 0.3s; box-shadow: 0 10px 30px rgba(35, 213, 171, 0.3);
+            background: #23d5ab; color: #010410; padding: 15px 40px; border-radius: 12px;
+            text-decoration: none; font-weight: bold; cursor: pointer; border: none; margin-top: 20px;
         }
-        .btn:hover { transform: scale(1.03); background: white; }
-
-        .major-mono { font-family: 'Major Mono Display', monospace; color: #23d5ab; }
     </style>
 </head>
 <body>
 
-    <section id="field">
-        <div style="height:100vh; display:flex; align-items:center; justify-content:center;">
-            <div class="core-card">
-                <img src="Screenshot 2026-04-11 210033.png" alt="Gosa" class="profile-pic">
-                <h1 style="font-size: 2.5rem; color:#23d5ab;">Gosa Negeso</h1>
-                <p style="margin-bottom: 30px; opacity: 0.8;">The Dodola Hub Concept | Grade 9-12</p>
-                <button class="btn" onclick="openLab()">Initialize Platform</button>
-            </div>
+    <section id="mission-gate">
+        <div class="mission-box">
+            <h1 class="major-mono" style="font-size: 2.5rem; margin-bottom: 20px;">DODOLA LAB</h1>
+            <h3 style="color: #23d5ab; margin-bottom: 15px;">Our Mission</h3>
+            <p style="opacity: 0.8; margin-bottom: 25px;">To bridge the digital and educational divide through mathematical logic, providing every student in Oromia with professional-grade STEM and Social Science resources.</p>
+            <h3 style="color: #23d5ab; margin-bottom: 15px;">Our Vision</h3>
+            <p style="opacity: 0.8; margin-bottom: 30px;">Fulfilling the <i>ifa boru</i> philosophy by creating a 20-year sustainable platform for academic excellence.</p>
+            <button class="btn" onclick="enterLab()">Enter The Hub</button>
         </div>
     </section>
 
-    <section id="lab">
-        <div class="hub-header">
-            <h2 class="major-mono">Dodola Lab v1.0</h2>
-            <div class="grade-menu">
-                <button class="grade-btn active" onclick="showResources(9)">G9</button>
-                <button class="grade-btn" onclick="showResources(10)">G10</button>
-                <button class="grade-btn" onclick="showResources(11)">G11</button>
-                <button class="grade-btn" onclick="showResources(12)">G12</button>
-            </div>
-            <button class="grade-btn" style="border-radius: 50px; font-size:1.5rem;" onclick="location.reload()">↺</button>
+    <section id="app-view">
+        <div class="header">
+            <h2 class="major-mono">HUB_SYSTEM_v2.0</h2>
+            <div id="clock" class="major-mono" style="color: #23d5ab;">00:00:00</div>
         </div>
 
-        <div class="main-grid">
-            <div class="grid-panel">
-                <h3 id="gradeTitle" style="color:#23d5ab; margin-bottom: 20px;">Grade 9 Resources</h3>
-                <div id="resourceList">
-                    <div class="resource-card"><h4>Algebra Essentials</h4><p>Mastering core equations for STEM tracks.</p></div>
-                    <div class="resource-card"><h4>Regional Geography</h4><p>Data visualization of Oromia's resources.</p></div>
-                    <div class="resource-card"><h4>Intro to Logic</h4><p>The foundation of mathematical thought and code.</p></div>
-                </div>
-            </div>
-            <div class="grid-panel" style="text-align: center;">
-                <h3 style="margin-bottom: 20px;">Current Status</h3>
-                <div style="background:#010410; padding: 20px; border-radius: 15px;">
-                    <h2 class="major-mono" id="clock" style="font-size: 2rem;">00:00:00</h2>
-                    <p>Oromia Time</p>
-                </div>
-                <div style="margin-top: 30px;">
-                    <h2>590/600</h2>
-                    <p>The Record of Excellence</p>
-                </div>
-            </div>
+        <div class="selector-row">
+            <button class="tab-btn active" onclick="setStream('natural', this)">Natural Science</button>
+            <button class="tab-btn" onclick="setStream('social', this)">Social Science</button>
         </div>
+
+        <div class="selector-row" id="grade-selectors">
+            <button class="tab-btn active" onclick="setGrade(12, this)">Grade 12</button>
+            <button class="tab-btn" onclick="setGrade(11, this)">Grade 11</button>
+            <button class="tab-btn" onclick="setGrade(10, this)">Grade 10</button>
+            <button class="tab-btn" onclick="setGrade(9, this)">Grade 9</button>
+        </div>
+
+        <h2 id="current-view-title" style="margin-bottom: 30px;">Natural Science | Grade 12</h2>
+        
+        <div class="subject-grid" id="subject-list">
+            </div>
     </section>
+
+    <div id="content-modal">
+        <button class="tab-btn" onclick="closeModal()">← Back to Hub</button>
+        <div style="max-width: 800px; margin: 40px auto;">
+            <h1 id="modal-title" class="major-mono" style="color: #23d5ab; margin-bottom: 20px;">Subject Name</h1>
+            <div id="modal-content" style="line-height: 1.8;">
+                </div>
+        </div>
+    </div>
 
     <script>
-        function openLab() {
-            document.getElementById('field').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('field').style.display = 'none';
-                document.getElementById('lab').style.display = 'block';
-                startTime();
-            }, 800);
+        let currentStream = 'natural';
+        let currentGrade = 12;
+
+        const data = {
+            natural: ['Maths', 'Physics', 'Chemistry', 'Biology', 'English'],
+            social: ['Geography', 'History', 'Maths', 'English', 'Economics']
+        };
+
+        function enterLab() {
+            document.getElementById('mission-gate').style.display = 'none';
+            document.getElementById('app-view').style.display = 'block';
+            updateSubjects();
+            startClock();
         }
 
-        function showResources(grade) {
-            const title = document.getElementById('gradeTitle');
-            const list = document.getElementById('resourceList');
-            const buttons = document.querySelectorAll('.grade-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.grade-btn:nth-child(${grade - 8})`).classList.add('active');
-
-            title.innerText = `Grade ${grade} Resources`;
-
-            const data = {
-                9: ['Algebra Essentials', 'Regional Geography', 'Intro to Logic'],
-                10: ['Trigonometry v1', 'Ethiopian History 1', 'Agro-Mesh Logic'],
-                11: ['Calculus & Coding', 'Physics & Hardware', 'BGC Leadership v1'],
-                12: ['College Readiness', 'Computer Science & AI', 'Thesis Workshop']
-            };
-
-            list.innerHTML = data[grade].map(res => `<div class="resource-card"><h4>${res}</h4><p>Interactive STEM logic for your academic level.</p></div>`).join('');
+        function setStream(stream, btn) {
+            currentStream = stream;
+            document.querySelectorAll('.selector-row:first-of-type .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateSubjects();
         }
 
-        function startTime() {
-            function updateClock() {
+        function setGrade(grade, btn) {
+            currentGrade = grade;
+            document.querySelectorAll('#grade-selectors .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateSubjects();
+        }
+
+        function updateSubjects() {
+            document.getElementById('current-view-title').innerText = `${currentStream.charAt(0).toUpperCase() + currentStream.slice(1)} Science | Grade ${currentGrade}`;
+            const list = document.getElementById('subject-list');
+            list.innerHTML = data[currentStream].map(sub => `
+                <div class="subject-card" onclick="openSubject('${sub}')">
+                    <h3>${sub}</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Click for Notes & Quizzes</p>
+                </div>
+            `).join('');
+        }
+
+        function openSubject(name) {
+            const modal = document.getElementById('content-modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+            
+            title.innerText = name;
+            content.innerHTML = `
+                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; margin-bottom: 30px;">
+                    <h2 style="margin-bottom: 15px;">Short Notes (G${currentGrade})</h2>
+                    <p>This is where your summarized lesson for ${name} will go. As a National Youth Laureate, your notes will help students focus on the most important logic for their exams.</p>
+                </div>
+                <div style="background: rgba(35, 213, 171, 0.1); padding: 30px; border-radius: 20px;">
+                    <h2 style="margin-bottom: 15px;">Practice Quiz</h2>
+                    <p>Question 1: Sample question based on the Grade ${currentGrade} curriculum?</p>
+                    <button class="tab-btn" style="margin-top:10px">Start Full Quiz</button>
+                </div>
+            `;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('content-modal').style.display = 'none';
+        }
+
+        function startClock() {
+            setInterval(() => {
                 const now = new Date();
                 const ethiopiaTime = new Date(now.getTime() + (3 * 60 * 60 * 1000));
                 document.getElementById('clock').innerText = ethiopiaTime.toISOString().substr(11, 8);
-            }
-            setInterval(updateClock, 1000);
-            updateClock();
+            }, 1000);
         }
     </script>
 </body>
