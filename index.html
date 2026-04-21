@@ -3,75 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodola Lab | ProMax</title>
+    <title>Dodola Lab | ProMax Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --neon: #23d5ab; --bg: #010410; --card: rgba(255,255,255,0.03); }
         * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.5s cubic-bezier(0.1, 0.8, 0.2, 1); }
         body { background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
 
-        /* --- STAGE 1: THE ENTRANCE --- */
+        /* --- STAGE 1: THE CINEMATIC GATE --- */
         #entrance-gate {
             height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(1,4,16,0.9), rgba(1,4,16,0.9)), url('dodola-school.jpg') center/cover;
+            background: linear-gradient(rgba(1,4,16,0.85), rgba(1,4,16,0.85)), url('dodola-school.jpg') center/cover;
+            position: fixed; inset: 0; z-index: 5000;
         }
         .pro-btn { 
             background: transparent; border: 2px solid var(--neon); color: var(--neon); 
             padding: 20px 50px; font-family: 'Major Mono Display'; font-size: 1.2rem; 
-            cursor: pointer; letter-spacing: 5px; border-radius: 50px;
+            cursor: pointer; letter-spacing: 5px; border-radius: 50px; text-transform: uppercase;
         }
-        .pro-btn:hover { background: var(--neon); color: var(--bg); box-shadow: 0 0 30px var(--neon); }
+        .pro-btn:hover { background: var(--neon); color: var(--bg); box-shadow: 0 0 40px var(--neon); transform: scale(1.05); }
 
-        /* --- STAGE 2: THE MANIFESTO (Motto/Mission/Vision) --- */
+        /* --- STAGE 2: THE MANIFESTO SEQUENCE --- */
         #manifesto-overlay {
-            display: none; position: fixed; inset: 0; z-index: 2000; background: var(--bg);
+            display: none; position: fixed; inset: 0; z-index: 4000; background: var(--bg);
             padding: 60px; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        .manifesto-text { font-family: 'Major Mono Display'; color: var(--neon); margin-bottom: 20px; opacity: 0; transform: translateY(20px); }
+        .manifesto-text { font-family: 'Major Mono Display'; color: var(--neon); margin-bottom: 25px; opacity: 0; transform: translateY(30px); font-size: 1.8rem; }
 
         /* --- STAGE 3: THE COMMAND HUB --- */
-        #hub-view { display: none; padding: 60px 5%; opacity: 0; }
+        #hub-view { display: none; padding: 60px 8%; opacity: 0; }
         .grade-center { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; }
         .grade-pill { 
-            padding: 15px 30px; border-radius: 100px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer; font-weight: 700; color: rgba(255,255,255,0.5);
+            padding: 15px 35px; border-radius: 100px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; font-weight: 700; color: rgba(255,255,255,0.4); font-size: 0.9rem;
         }
-        .grade-pill.active { background: var(--neon); color: var(--bg); border-color: transparent; box-shadow: 0 0 20px rgba(35, 213, 171, 0.4); }
+        .grade-pill.active { background: var(--neon); color: var(--bg); border-color: transparent; box-shadow: 0 0 25px rgba(35, 213, 171, 0.5); }
 
-        /* The Dossier (Grade Details) */
         #grade-dossier { 
-            background: var(--card); border-radius: 30px; padding: 40px; margin-bottom: 50px;
-            border: 1px solid rgba(255,255,255,0.05); display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            background: var(--card); border-radius: 40px; padding: 50px; margin-bottom: 60px;
+            border: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* The Wings */
-        .wing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .wing-box { background: rgba(255,255,255,0.02); border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .wing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .wing-box { background: rgba(255,255,255,0.01); border-radius: 35px; padding: 40px; border: 1px solid rgba(255,255,255,0.04); }
         .subject-tag { 
-            padding: 20px; background: rgba(255,255,255,0.03); border-radius: 15px; margin-bottom: 10px;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            padding: 22px; background: rgba(255,255,255,0.02); border-radius: 18px; margin-bottom: 12px;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent;
         }
-        .subject-tag:hover { border-left: 5px solid var(--neon); background: rgba(35, 213, 171, 0.05); }
+        .subject-tag:hover { border-color: var(--neon); background: rgba(35, 213, 171, 0.05); transform: translateX(10px); }
 
         /* --- STAGE 4: THE LAB (QUIZ) --- */
         #lab-modal {
-            display: none; position: fixed; inset: 0; z-index: 3000; background: #010410; padding: 40px;
+            display: none; position: fixed; inset: 0; z-index: 6000; background: #010410; padding: 50px;
             font-family: 'JetBrains Mono', monospace;
         }
-        .lab-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 40px; }
-        .focus-clock { color: var(--neon); font-size: 2rem; font-weight: 700; text-shadow: 0 0 10px var(--neon); }
+        .lab-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px; margin-bottom: 50px; }
+        .focus-clock { color: var(--neon); font-size: 2.2rem; font-weight: 700; text-shadow: 0 0 15px var(--neon); }
         
         .option-pro {
-            display: block; width: 100%; padding: 20px; margin-bottom: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; text-align: left;
+            display: block; width: 100%; padding: 22px; margin-bottom: 15px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; color: white; cursor: pointer; text-align: left; font-size: 1rem;
         }
-        .option-pro:hover { border-color: var(--neon); box-shadow: inset 0 0 15px rgba(35, 213, 171, 0.1); }
+        .option-pro:hover { border-color: var(--neon); background: rgba(35, 213, 171, 0.05); }
     </style>
 </head>
 <body>
 
     <section id="entrance-gate">
-        <button class="pro-btn" onclick="triggerManifesto()">ENTER_LAB</button>
+        <button class="pro-btn" onclick="startSequence()">ENTER_LAB</button>
     </section>
 
     <div id="manifesto-overlay">
@@ -81,31 +80,31 @@
     </div>
 
     <section id="hub-view">
-        <div class="grade-center" id="grade-pills">
-            <div class="grade-pill active" onclick="selectGrade(12, this)">G12</div>
-            <div class="grade-pill" onclick="selectGrade(11, this)">G11</div>
-            <div class="grade-pill" onclick="selectGrade(10, this)">G10</div>
-            <div class="grade-pill" onclick="selectGrade(9, this)">G9</div>
+        <div class="grade-center">
+            <div class="grade-pill active" onclick="selectGrade(12, this)">Grade 12</div>
+            <div class="grade-pill" onclick="selectGrade(11, this)">Grade 11</div>
+            <div class="grade-pill" onclick="selectGrade(10, this)">Grade 10</div>
+            <div class="grade-pill" onclick="selectGrade(9, this)">Grade 9</div>
         </div>
 
         <div id="grade-dossier">
             <div>
-                <h1 id="dossier-title" class="major-mono" style="color:var(--neon); font-size: 3rem;">G12</h1>
-                <p id="dossier-desc" style="opacity:0.6; margin-top:10px;">University Readiness & Advanced Logic Integration.</p>
+                <h1 id="d-title" class="major-mono" style="color:var(--neon); font-size: 3.5rem;">Grade 12</h1>
+                <p id="d-desc" style="opacity:0.6; margin-top:10px; max-width: 400px;">University Readiness & Advanced Logic Integration.</p>
             </div>
             <div style="text-align: right;">
-                <p style="opacity:0.4">EXCELLENCE_RECORD</p>
-                <h1 style="font-size: 4rem;">590/600</h1>
+                <p style="opacity:0.4; letter-spacing: 2px;">RECORD_EXCELLENCE</p>
+                <h1 style="font-size: 5rem; line-height: 1;">590/600</h1>
             </div>
         </div>
 
         <div class="wing-grid">
             <div class="wing-box">
-                <h3 class="major-mono" style="margin-bottom:20px; color:var(--neon)">NATURAL_STREAM</h3>
+                <h3 class="major-mono" style="margin-bottom:25px; color:var(--neon); letter-spacing: 2px;">NATURAL_STREAM</h3>
                 <div id="nat-list"></div>
             </div>
             <div class="wing-box">
-                <h3 class="major-mono" style="margin-bottom:20px; color:var(--neon)">SOCIAL_STREAM</h3>
+                <h3 class="major-mono" style="margin-bottom:25px; color:var(--neon); letter-spacing: 2px;">SOCIAL_STREAM</h3>
                 <div id="soc-list"></div>
             </div>
         </div>
@@ -114,23 +113,23 @@
     <div id="lab-modal">
         <div class="lab-header">
             <div>
-                <h4 class="major-mono" id="lab-subject">SUBJECT</h4>
-                <p style="opacity:0.5; font-size:0.8rem;">DODOLA_LAB_SYSTEM_ACTIVE</p>
+                <h4 class="major-mono" id="lab-sub" style="color:var(--neon)">SUBJECT</h4>
+                <p style="opacity:0.4; font-size:0.7rem; letter-spacing: 1px;">SYSTEMS_STABLE // G12_LOGIC_ACTIVE</p>
             </div>
             <div id="clock" class="focus-clock">00:00:00</div>
         </div>
 
-        <div style="max-width: 800px; margin: 0 auto;">
-            <h2 id="q-text" style="margin-bottom: 40px; font-size: 1.8rem;">Question Content?</h2>
+        <div style="max-width: 850px; margin: 0 auto;">
+            <h2 id="q-text" style="margin-bottom: 45px; font-size: 2rem; line-height: 1.4;">Initialize sequence...</h2>
             <div id="opt-container"></div>
             
-            <div id="feedback" style="display:none; margin-top:40px; padding:30px; border-radius:20px; background: rgba(255,255,255,0.02); border: 1px solid var(--neon);">
-                <h3 id="res-status" style="margin-bottom:10px;"></h3>
-                <p id="res-explain" style="opacity:0.8; line-height:1.6;"></p>
-                <button class="pro-btn" style="margin-top:20px; font-size:0.8rem;" onclick="nextQ()">CONTINUE_SEQUENCE</button>
+            <div id="feedback" style="display:none; margin-top:45px; padding:35px; border-radius:25px; background: rgba(35, 213, 171, 0.05); border: 1px solid var(--neon);">
+                <h2 id="res-status" style="margin-bottom:12px; font-family: 'Major Mono Display';"></h2>
+                <p id="res-explain" style="opacity:0.9; line-height:1.7; font-size: 1.1rem;"></p>
+                <button class="pro-btn" style="margin-top:25px; font-size:0.8rem; padding: 15px 30px;" onclick="nextQ()">CONTINUE_SEQUENCE</button>
             </div>
         </div>
-        <button class="pro-btn" style="position:fixed; bottom:40px; right:40px; font-size:0.7rem; letter-spacing:2px;" onclick="exitLab()">EXIT_LAB</button>
+        <button class="pro-btn" style="position:fixed; bottom:50px; right:50px; font-size:0.7rem; letter-spacing:2px; padding: 12px 25px;" onclick="exitLab()">EXIT_LAB</button>
     </div>
 
     <script>
@@ -138,7 +137,7 @@
             12: "University Readiness & Advanced Logic Integration. Focus on National Exam Excellence.",
             11: "Core Foundation of Specialized Streams. Preparing for the Senior Transition.",
             10: "Secondary Synthesis. Mapping the path between Science and Social studies.",
-            9: "Exploration & Fundamental Discovery. Establishing the Academic Identity."
+            9: "Exploration & Fundamental Discovery. Establishing Academic Identity."
         };
 
         const subjects = {
@@ -147,45 +146,54 @@
         };
 
         const quizDB = {
-            'Biology': [{ q: "Which organelle creates ATP?", a: "Mitochondria", options: ["Ribosome", "Mitochondria", "Nucleus"], explain: "The powerhouse of the cell." }],
-            'History': [{ q: "Founding year of the UN?", a: "1945", options: ["1918", "1945", "1963"], explain: "Established post-WWII for global stability." }]
+            'Biology': [{ q: "Which organelle is responsible for creating ATP?", a: "Mitochondria", options: ["Ribosome", "Mitochondria", "Nucleus", "Vacuole"], explain: "Mitochondria is the powerhouse where glucose is converted to energy." }],
+            'Physics': [{ q: "What is the formula for Ohm's Law?", a: "V = IR", options: ["P = IV", "V = IR", "F = ma", "E = mc²"], explain: "Voltage (V) equals Current (I) times Resistance (R)." }],
+            'History': [{ q: "Who was the first President of the OAU?", a: "Haile Selassie I", options: ["Kwame Nkrumah", "Haile Selassie I", "Nelson Mandela", "Jomo Kenyatta"], explain: "The Emperor led the OAU foundation in Addis Ababa." }],
+            'Geography': [{ q: "Which layer contains the Ozone shield?", a: "Stratosphere", options: ["Troposphere", "Stratosphere", "Mesosphere", "Exosphere"], explain: "The stratosphere filters harmful UV radiation." }]
         };
 
         let currentSub = '';
         let qIdx = 0;
 
-        function triggerManifesto() {
+        function startSequence() {
             document.getElementById('entrance-gate').style.display = 'none';
             const manifest = document.getElementById('manifesto-overlay');
             manifest.style.display = 'flex';
             
-            setTimeout(() => { document.getElementById('m1').style.opacity = 1; document.getElementById('m1').style.transform = 'none'; }, 500);
-            setTimeout(() => { document.getElementById('m2').style.opacity = 1; document.getElementById('m2').style.transform = 'none'; }, 1500);
-            setTimeout(() => { document.getElementById('m3').style.opacity = 1; document.getElementById('m3').style.transform = 'none'; }, 2500);
+            const animate = (id, time) => setTimeout(() => { 
+                const el = document.getElementById(id);
+                el.style.opacity = 1; el.style.transform = 'none';
+            }, time);
+
+            animate('m1', 500);
+            animate('m2', 1500);
+            animate('m3', 2500);
+
             setTimeout(() => { 
                 manifest.style.opacity = 0;
                 setTimeout(() => { 
                     manifest.style.display = 'none';
-                    document.getElementById('hub-view').style.display = 'block';
-                    setTimeout(() => document.getElementById('hub-view').style.opacity = 1, 100);
+                    const hub = document.getElementById('hub-view');
+                    hub.style.display = 'block';
+                    setTimeout(() => hub.style.opacity = 1, 100);
                     renderHub();
                 }, 1000);
-            }, 5000);
+            }, 6000);
         }
 
         function selectGrade(g, el) {
             document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
-            document.getElementById('dossier-title').innerText = `G${g}`;
-            document.getElementById('dossier-desc').innerText = gradeInfo[g];
+            document.getElementById('d-title').innerText = `Grade ${g}`;
+            document.getElementById('d-desc').innerText = gradeInfo[g];
         }
 
         function renderHub() {
             const wrap = (list, id) => {
                 document.getElementById(id).innerHTML = list.map(s => `
                     <div class="subject-tag" onclick="startLab('${s}')">
-                        <span>${s}</span>
-                        <span style="color:var(--neon); font-size:0.8rem;">→ START</span>
+                        <span style="font-weight:700;">${s.toUpperCase()}</span>
+                        <span style="color:var(--neon); font-family:'Major Mono Display'; font-size:0.7rem;">start_module</span>
                     </div>
                 `).join('');
             };
@@ -196,9 +204,9 @@
         function startLab(sub) {
             currentSub = sub; qIdx = 0;
             document.getElementById('lab-modal').style.display = 'block';
-            document.getElementById('lab-subject').innerText = sub;
+            document.getElementById('lab-sub').innerText = sub;
             loadQ();
-            startClock();
+            if(!window.clockStarted) { startClock(); window.clockStarted = true; }
         }
 
         function loadQ() {
@@ -211,12 +219,13 @@
             `).join('');
         }
 
-        function verify(s, a, e) {
+        function verify(sel, ans, exp) {
             const f = document.getElementById('feedback');
+            const s = document.getElementById('res-status');
             f.style.display = 'block';
-            document.getElementById('res-status').innerText = s === a ? "LOGIC_VERIFIED" : "ANALYSIS_REQUIRED";
-            document.getElementById('res-status').style.color = s === a ? var(--neon) : "#ff4d4d";
-            document.getElementById('res-explain').innerText = e;
+            s.innerText = sel === ans ? "VERIFIED_LOGIC" : "ANALYSIS_NEEDED";
+            s.style.color = sel === ans ? var(--neon) : "#ff4d4d";
+            document.getElementById('res-explain').innerText = exp;
         }
 
         function startClock() {
