@@ -102,78 +102,98 @@
         </div>
     </div>
 
-    <script>
-        let currentStream = 'natural';
-        let currentGrade = 12;
+    let currentStream = 'natural';
+let currentGrade = 12;
 
-        const data = {
-            natural: ['Maths', 'Physics', 'Chemistry', 'Biology', 'English'],
-            social: ['Geography', 'History', 'Maths', 'English', 'Economics']
-        };
+// This is the "Brain" of your quiz system
+const quizData = {
+    'Maths': {
+        q: "In calculus, what is the derivative of f(x) = x² + 5x?",
+        a: "2x + 5",
+        options: ["2x", "x + 5", "2x + 5", "5x"],
+        explain: "Using the Power Rule: the derivative of xⁿ is nxⁿ⁻¹. So, (x²)' = 2x and (5x)' = 5. Logic is the key to STEM!"
+    },
+    'Physics': {
+        q: "A car travels at 20m/s for 5 seconds. What is the total displacement?",
+        a: "100m",
+        options: ["4m", "100m", "25m", "80m"],
+        explain: "Displacement = Velocity × Time. So, 20m/s × 5s = 100m. Basic physics is the foundation of our Agro-Mesh nodes!"
+    },
+    'Chemistry': {
+        q: "Which element has the atomic number 1?",
+        a: "Hydrogen",
+        options: ["Oxygen", "Carbon", "Hydrogen", "Helium"],
+        explain: "Hydrogen is the simplest and most abundant element in the universe, consisting of a single proton."
+    },
+    'Biology': {
+        q: "What is known as the powerhouse of the cell?",
+        a: "Mitochondria",
+        options: ["Nucleus", "Mitochondria", "Ribosome", "Cell Wall"],
+        explain: "The mitochondria is responsible for creating ATP (energy) for the cell through cellular respiration."
+    },
+    'English': {
+        q: "Identify the conjunction in: 'I wanted to study, but I was tired.'",
+        a: "but",
+        options: ["wanted", "but", "tired", "to"],
+        explain: "A conjunction joins two independent clauses. 'But' shows a contrast between wanting to study and being tired."
+    },
+    'Geography': {
+        q: "Which is the longest river in Africa?",
+        a: "Nile",
+        options: ["Congo", "Niger", "Nile", "Zambezi"],
+        explain: "The Nile River is crucial for agriculture across many nations, including our own."
+    },
+    'History': {
+        q: "In what year did the Battle of Adwa take place?",
+        a: "1896",
+        options: ["1935", "1880", "1896", "1902"],
+        explain: "The Battle of Adwa in 1896 was a landmark victory for Ethiopian sovereignty and African independence."
+    },
+    'Economics': {
+        q: "What is the basic economic problem faced by all societies?",
+        a: "Scarcity",
+        options: ["Inflation", "Scarcity", "Trade", "Supply"],
+        explain: "Scarcity means human wants are unlimited but resources are finite. We use logic to allocate those resources fairly."
+    }
+};
 
-        function enterLab() {
-            document.getElementById('mission-gate').style.display = 'none';
-            document.getElementById('app-view').style.display = 'block';
-            updateSubjects();
-            startClock();
-        }
+function openSubject(name) {
+    const modal = document.getElementById('content-modal');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
+    const quiz = quizData[name] || quizData['Maths']; // Default to Maths if missing
 
-        function setStream(stream, btn) {
-            currentStream = stream;
-            document.querySelectorAll('.selector-row:first-of-type .tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateSubjects();
-        }
+    title.innerText = name;
+    content.innerHTML = `
+        <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; margin-bottom: 30px;">
+            <h2 style="color: #23d5ab; margin-bottom: 15px;">Daily Logic: ${name}</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">${quiz.q}</p>
+            <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;">
+                ${quiz.options.map(opt => `<button class="tab-btn" style="text-align:left" onclick="checkAnswer('${opt}', '${quiz.a}', '${quiz.explain.replace(/'/g, "\\'")}')">${opt}</button>`).join('')}
+            </div>
+            <div id="explanation-box" style="display:none; margin-top:30px; padding:20px; border-radius:15px; border:1px solid #23d5ab;">
+                <h4 id="result-text" style="margin-bottom:10px;"></h4>
+                <p id="explain-text"></p>
+            </div>
+        </div>
+    `;
+    modal.style.display = 'block';
+}
 
-        function setGrade(grade, btn) {
-            currentGrade = grade;
-            document.querySelectorAll('#grade-selectors .tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateSubjects();
-        }
-
-        function updateSubjects() {
-            document.getElementById('current-view-title').innerText = `${currentStream.charAt(0).toUpperCase() + currentStream.slice(1)} Science | Grade ${currentGrade}`;
-            const list = document.getElementById('subject-list');
-            list.innerHTML = data[currentStream].map(sub => `
-                <div class="subject-card" onclick="openSubject('${sub}')">
-                    <h3>${sub}</h3>
-                    <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Click for Notes & Quizzes</p>
-                </div>
-            `).join('');
-        }
-
-        function openSubject(name) {
-            const modal = document.getElementById('content-modal');
-            const title = document.getElementById('modal-title');
-            const content = document.getElementById('modal-content');
-            
-            title.innerText = name;
-            content.innerHTML = `
-                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; margin-bottom: 30px;">
-                    <h2 style="margin-bottom: 15px;">Short Notes (G${currentGrade})</h2>
-                    <p>This is where your summarized lesson for ${name} will go. As a National Youth Laureate, your notes will help students focus on the most important logic for their exams.</p>
-                </div>
-                <div style="background: rgba(35, 213, 171, 0.1); padding: 30px; border-radius: 20px;">
-                    <h2 style="margin-bottom: 15px;">Practice Quiz</h2>
-                    <p>Question 1: Sample question based on the Grade ${currentGrade} curriculum?</p>
-                    <button class="tab-btn" style="margin-top:10px">Start Full Quiz</button>
-                </div>
-            `;
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('content-modal').style.display = 'none';
-        }
-
-        function startClock() {
-            setInterval(() => {
-                const now = new Date();
-                const ethiopiaTime = new Date(now.getTime() + (3 * 60 * 60 * 1000));
-                document.getElementById('clock').innerText = ethiopiaTime.toISOString().substr(11, 8);
-            }, 1000);
-        }
-    </script>
+function checkAnswer(selected, correct, explanation) {
+    const box = document.getElementById('explanation-box');
+    const result = document.getElementById('result-text');
+    const text = document.getElementById('explain-text');
+    
+    box.style.display = 'block';
+    if(selected === correct) {
+        result.innerText = "✅ EXCELLENT LOGIC!";
+        result.style.color = "#23d5ab";
+    } else {
+        result.innerText = "❌ KEEP STUDYING!";
+        result.style.color = "#ff4d4d";
+    }
+    text.innerText = explanation;
+}
 </body>
 </html>
