@@ -3,228 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodola Lab | Educational OS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Dodola Lab | ProMax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); }
-        body { background: #010410; color: #e2e8f0; overflow-x: hidden; min-height: 100vh; }
+        :root { --neon: #23d5ab; --bg: #010410; --card: rgba(255,255,255,0.03); }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.5s cubic-bezier(0.1, 0.8, 0.2, 1); }
+        body { background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Space Grotesk', sans-serif; }
 
-        /* --- STAGE 1: MISSION & VISION --- */
-        #mission-gate {
+        /* --- STAGE 1: THE ENTRANCE --- */
+        #entrance-gate {
             height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(1,4,16,0.85), rgba(1,4,16,0.85)), url('dodola-school.jpg');
-            background-size: cover; background-position: center;
+            background: linear-gradient(rgba(1,4,16,0.9), rgba(1,4,16,0.9)), url('dodola-school.jpg') center/cover;
         }
-        .mission-box {
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px);
-            border-radius: 40px; padding: 50px; max-width: 650px; text-align: center;
-            border: 1px solid rgba(35, 213, 171, 0.2); box-shadow: 0 0 50px rgba(35, 213, 171, 0.1);
+        .pro-btn { 
+            background: transparent; border: 2px solid var(--neon); color: var(--neon); 
+            padding: 20px 50px; font-family: 'Major Mono Display'; font-size: 1.2rem; 
+            cursor: pointer; letter-spacing: 5px; border-radius: 50px;
+        }
+        .pro-btn:hover { background: var(--neon); color: var(--bg); box-shadow: 0 0 30px var(--neon); }
+
+        /* --- STAGE 2: THE MANIFESTO (Motto/Mission/Vision) --- */
+        #manifesto-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000; background: var(--bg);
+            padding: 60px; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        .manifesto-text { font-family: 'Major Mono Display'; color: var(--neon); margin-bottom: 20px; opacity: 0; transform: translateY(20px); }
+
+        /* --- STAGE 3: THE COMMAND HUB --- */
+        #hub-view { display: none; padding: 60px 5%; opacity: 0; }
+        .grade-center { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; }
+        .grade-pill { 
+            padding: 15px 30px; border-radius: 100px; background: var(--card); border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer; font-weight: 700; color: rgba(255,255,255,0.5);
+        }
+        .grade-pill.active { background: var(--neon); color: var(--bg); border-color: transparent; box-shadow: 0 0 20px rgba(35, 213, 171, 0.4); }
+
+        /* The Dossier (Grade Details) */
+        #grade-dossier { 
+            background: var(--card); border-radius: 30px; padding: 40px; margin-bottom: 50px;
+            border: 1px solid rgba(255,255,255,0.05); display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
         }
 
-        /* --- STAGE 2: HUB VIEW --- */
-        #app-view { display: none; padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
-        .major-mono { font-family: 'Major Mono Display', monospace; color: #23d5ab; }
+        /* The Wings */
+        .wing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .wing-box { background: rgba(255,255,255,0.02); border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .subject-tag { 
+            padding: 20px; background: rgba(255,255,255,0.03); border-radius: 15px; margin-bottom: 10px;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        }
+        .subject-tag:hover { border-left: 5px solid var(--neon); background: rgba(35, 213, 171, 0.05); }
+
+        /* --- STAGE 4: THE LAB (QUIZ) --- */
+        #lab-modal {
+            display: none; position: fixed; inset: 0; z-index: 3000; background: #010410; padding: 40px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .lab-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 40px; }
+        .focus-clock { color: var(--neon); font-size: 2rem; font-weight: 700; text-shadow: 0 0 10px var(--neon); }
         
-        .hub-container { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; }
-        .wing { flex: 1; min-width: 300px; background: rgba(255, 255, 255, 0.02); border-radius: 30px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .wing-title { font-family: 'Major Mono Display', monospace; color: #23d5ab; margin-bottom: 20px; text-align: center; font-size: 1.1rem; letter-spacing: 2px; }
-
-        .tab-btn {
-            background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; margin-right: 5px;
+        .option-pro {
+            display: block; width: 100%; padding: 20px; margin-bottom: 15px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; cursor: pointer; text-align: left;
         }
-        .tab-btn.active { background: #23d5ab; color: #010410; font-weight: 700; border-color: transparent; box-shadow: 0 0 15px #23d5ab; }
-
-        .subject-card {
-            background: rgba(255, 255, 255, 0.03); padding: 20px; border-radius: 15px; margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; text-align: center;
-        }
-        .subject-card:hover { border-color: #23d5ab; background: rgba(35, 213, 171, 0.08); transform: translateY(-3px); }
-
-        /* --- STAGE 3: MODAL --- */
-        #content-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #010410; z-index: 1000; padding: 40px; overflow-y: auto;
-        }
-        .option-btn {
-            width: 100%; text-align: left; background: rgba(255,255,255,0.05); color: white;
-            padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; cursor: pointer;
-        }
-        .option-btn:hover { background: rgba(35, 213, 171, 0.1); border-color: #23d5ab; }
-        .btn { background: #23d5ab; color: #010410; padding: 15px 35px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; }
+        .option-pro:hover { border-color: var(--neon); box-shadow: inset 0 0 15px rgba(35, 213, 171, 0.1); }
     </style>
 </head>
 <body>
 
-    <section id="mission-gate">
-        <div class="mission-box">
-            <h1 class="major-mono" style="font-size: 2.8rem; margin-bottom: 20px;">DODOLA LAB</h1>
-            <div style="text-align: left; margin-bottom: 30px;">
-                <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Mission</h3>
-                <p style="opacity: 0.8; margin-bottom: 20px;">Empowering Grades 9-12 with the logic that achieved a 590/600 national record.</p>
-                <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Vision</h3>
-                <p style="opacity: 0.8;">Creating a sustainable digital infrastructure for Ethiopia based on ifa boru.</p>
-            </div>
-            <button class="btn" onclick="enterLab()">Initialize Hub</button>
-        </div>
+    <section id="entrance-gate">
+        <button class="pro-btn" onclick="triggerManifesto()">ENTER_LAB</button>
     </section>
 
-    <section id="app-view">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+    <div id="manifesto-overlay">
+        <h2 class="manifesto-text" id="m1">WE ARE RESPONSIBLE CITIZENS</h2>
+        <h2 class="manifesto-text" id="m2">MISSION: OROMIA AS THE SOURCE OF GENIUS</h2>
+        <h2 class="manifesto-text" id="m3">VISION: IMPACT. INNOVATE. LEAD.</h2>
+    </div>
+
+    <section id="hub-view">
+        <div class="grade-center" id="grade-pills">
+            <div class="grade-pill active" onclick="selectGrade(12, this)">G12</div>
+            <div class="grade-pill" onclick="selectGrade(11, this)">G11</div>
+            <div class="grade-pill" onclick="selectGrade(10, this)">G10</div>
+            <div class="grade-pill" onclick="selectGrade(9, this)">G9</div>
+        </div>
+
+        <div id="grade-dossier">
             <div>
-                <h2 class="major-mono">DODOLA_HUB_v2.0</h2>
-                <p style="opacity: 0.6;">National Youth Laureate Platform</p>
+                <h1 id="dossier-title" class="major-mono" style="color:var(--neon); font-size: 3rem;">G12</h1>
+                <p id="dossier-desc" style="opacity:0.6; margin-top:10px;">University Readiness & Advanced Logic Integration.</p>
             </div>
-            <div id="clock" class="major-mono" style="color: #23d5ab; font-size: 1.5rem;">00:00:00</div>
+            <div style="text-align: right;">
+                <p style="opacity:0.4">EXCELLENCE_RECORD</p>
+                <h1 style="font-size: 4rem;">590/600</h1>
+            </div>
         </div>
 
-        <div id="grade-row" style="margin-bottom: 30px;">
-            <button class="tab-btn active" onclick="setGrade(12, this)">Grade 12</button>
-            <button class="tab-btn" onclick="setGrade(11, this)">Grade 11</button>
-            <button class="tab-btn" onclick="setGrade(10, this)">Grade 10</button>
-            <button class="tab-btn" onclick="setGrade(9, this)">Grade 9</button>
-        </div>
-
-        <div class="hub-container">
-            <div class="wing">
-                <h3 class="wing-title">NATURAL_SCIENCE</h3>
-                <div id="natural-list"></div>
+        <div class="wing-grid">
+            <div class="wing-box">
+                <h3 class="major-mono" style="margin-bottom:20px; color:var(--neon)">NATURAL_STREAM</h3>
+                <div id="nat-list"></div>
             </div>
-            <div class="wing">
-                <h3 class="wing-title">SOCIAL_SCIENCE</h3>
-                <div id="social-list"></div>
+            <div class="wing-box">
+                <h3 class="major-mono" style="margin-bottom:20px; color:var(--neon)">SOCIAL_STREAM</h3>
+                <div id="soc-list"></div>
             </div>
         </div>
     </section>
 
-    <div id="content-modal">
-        <button class="tab-btn" onclick="closeModal()">← Return to Hub</button>
-        <div style="max-width: 700px; margin: 40px auto;">
-            <h1 id="modal-title" class="major-mono" style="font-size: 2.5rem; color:#23d5ab;">Subject</h1>
-            <p id="grade-badge" style="margin-bottom: 30px; opacity: 0.6;">Grade 12 Module</p>
-            <div id="quiz-container" style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;">
-                <h3 id="quiz-question" style="margin-bottom: 25px;"></h3>
-                <div id="options-box"></div>
-                <div id="explanation-box" style="display:none; margin-top:30px; padding:25px; border-radius:15px; background: rgba(35, 213, 171, 0.1); border: 1px solid #23d5ab;">
-                    <h2 id="result-status" style="margin-bottom:10px;"></h2>
-                    <p id="explain-text" style="line-height: 1.6;"></p>
-                    <button class="tab-btn" style="margin-top:20px;" onclick="nextQuestion()">Next Question →</button>
-                </div>
+    <div id="lab-modal">
+        <div class="lab-header">
+            <div>
+                <h4 class="major-mono" id="lab-subject">SUBJECT</h4>
+                <p style="opacity:0.5; font-size:0.8rem;">DODOLA_LAB_SYSTEM_ACTIVE</p>
+            </div>
+            <div id="clock" class="focus-clock">00:00:00</div>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 id="q-text" style="margin-bottom: 40px; font-size: 1.8rem;">Question Content?</h2>
+            <div id="opt-container"></div>
+            
+            <div id="feedback" style="display:none; margin-top:40px; padding:30px; border-radius:20px; background: rgba(255,255,255,0.02); border: 1px solid var(--neon);">
+                <h3 id="res-status" style="margin-bottom:10px;"></h3>
+                <p id="res-explain" style="opacity:0.8; line-height:1.6;"></p>
+                <button class="pro-btn" style="margin-top:20px; font-size:0.8rem;" onclick="nextQ()">CONTINUE_SEQUENCE</button>
             </div>
         </div>
+        <button class="pro-btn" style="position:fixed; bottom:40px; right:40px; font-size:0.7rem; letter-spacing:2px;" onclick="exitLab()">EXIT_LAB</button>
     </div>
 
     <script>
-        let currentGrade = 12;
-        let currentSubject = '';
-        let currentQuestionIndex = 0;
+        const gradeInfo = {
+            12: "University Readiness & Advanced Logic Integration. Focus on National Exam Excellence.",
+            11: "Core Foundation of Specialized Streams. Preparing for the Senior Transition.",
+            10: "Secondary Synthesis. Mapping the path between Science and Social studies.",
+            9: "Exploration & Fundamental Discovery. Establishing the Academic Identity."
+        };
 
         const subjects = {
-            natural: ['Maths', 'Physics', 'Chemistry', 'Biology', 'English'],
-            social: ['Geography', 'History', 'Maths', 'English', 'Economics']
+            nat: ['Maths', 'Physics', 'Chemistry', 'Biology'],
+            soc: ['Geography', 'History', 'Economics', 'English']
         };
 
-        const quizData = {
-            'Biology': [
-                { q: "Which organelle synthesizes ATP through respiration?", a: "Mitochondria", options: ["Ribosome", "Mitochondria", "Golgi", "Lysosome"], explain: "Mitochondria is the powerhouse where glucose becomes ATP." },
-                { q: "Phenotypic ratio of a dihybrid cross (AaBb x AaBb)?", a: "9:3:3:1", options: ["3:1", "9:3:3:1", "1:2:1", "1:1:1:1"], explain: "Two heterozygotes produce a 9:3:3:1 phenotypic ratio." },
-                { q: "Primary function of Insulin?", a: "Glucose uptake", options: ["Increase sugar", "Glucose uptake", "Glycogen breakdown", "Adrenaline"], explain: "Insulin allows cells to absorb glucose from the blood." },
-                { q: "Main structural component of plant cell walls?", a: "Cellulose", options: ["Chitin", "Cellulose", "Peptidoglycan", "Glycogen"], explain: "Cellulose provides rigidity and structural support." },
-                { q: "Phase where sister chromatids separate?", a: "Anaphase", options: ["Prophase", "Metaphase", "Anaphase", "Telophase"], explain: "In Anaphase, chromatids move toward opposite poles." }
-            ],
-            'Physics': [
-                { q: "Acceleration due to gravity on Earth?", a: "9.8 m/s²", options: ["10.5 m/s²", "9.8 m/s²", "8.9 m/s²", "7.5 m/s²"], explain: "Standard gravity (g) is 9.8 m/s²." },
-                { q: "Law stating equal and opposite reactions?", a: "Newton's 3rd Law", options: ["Newton's 1st Law", "Newton's 3rd Law", "Ohm's Law", "Inertia"], explain: "Action and reaction are the basis of mechanics." },
-                { q: "What is the formula for Ohm's Law?", a: "V = IR", options: ["P = IV", "V = IR", "F = ma", "E = mc²"], explain: "Voltage equals Current times Resistance." },
-                { q: "Lens used to correct nearsightedness?", a: "Concave", options: ["Convex", "Concave", "Bifocal", "Flat"], explain: "Concave lenses diverge light to fix Myopia." },
-                { q: "Speed of light in a vacuum?", a: "3x10⁸ m/s", options: ["3x10⁶ m/s", "3x10⁸ m/s", "1.5x10⁸ m/s", "3x10¹⁰ m/s"], explain: "Light travels at roughly 300,000 km/s." }
-            ],
-            'Geography': [
-                { q: "Layer containing the ozone shield?", a: "Stratosphere", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], explain: "The stratosphere filters harmful UV radiation." },
-                { q: "Great Rift Valley formation process?", a: "Divergent movement", options: ["Convergent", "Divergent", "Subduction", "Transform"], explain: "Divergent plates pull apart to form rifts." },
-                { q: "Primary cause of seasonal changes?", a: "Earth's Tilt", options: ["Distance", "Earth's Tilt", "Rotation", "Solar Output"], explain: "The 23.5° tilt dictates seasonal sunlight intensity." },
-                { q: "Which is a 'Large Scale' map?", a: "1:5,000", options: ["1:1,000,000", "1:5,000", "1:500,000", "1:250,000"], explain: "Large scale means more detail for a smaller area." },
-                { q: "Max population an environment can sustain?", a: "Carrying Capacity", options: ["Density", "Carrying Capacity", "Growth", "Transition"], explain: "Resources limit how many individuals can survive." }
-            ],
-            'History': [
-                { q: "In which year was the UN founded?", a: "1945", options: ["1918", "1945", "1950", "1963"], explain: "The United Nations was formed after WWII for global peace." },
-                { q: "First President of the OAU?", a: "Haile Selassie I", options: ["Kwame Nkrumah", "Haile Selassie I", "Nelson Mandela", "Jomo Kenyatta"], explain: "The Emperor led the OAU in Addis Ababa." },
-                { q: "Purpose of the Berlin Conference?", a: "Scramble for Africa", options: ["Trade", "Scramble for Africa", "Slavery", "Peace"], explain: "European powers met to divide Africa." },
-                { q: "Civilization that built the Giza Pyramids?", a: "Egyptians", options: ["Romans", "Greeks", "Egyptians", "Mayans"], explain: "The ancient Egyptians built them during the Old Kingdom." },
-                { q: "Where did the Industrial Revolution begin?", a: "Great Britain", options: ["USA", "Germany", "Great Britain", "France"], explain: "Britain was the 18th-century origin of modern industry." }
-            ]
+        const quizDB = {
+            'Biology': [{ q: "Which organelle creates ATP?", a: "Mitochondria", options: ["Ribosome", "Mitochondria", "Nucleus"], explain: "The powerhouse of the cell." }],
+            'History': [{ q: "Founding year of the UN?", a: "1945", options: ["1918", "1945", "1963"], explain: "Established post-WWII for global stability." }]
         };
 
-        function enterLab() {
-            document.getElementById('mission-gate').style.display = 'none';
-            document.getElementById('app-view').style.display = 'block';
-            updateGrid();
-            setInterval(() => {
-                const etTime = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
-                document.getElementById('clock').innerText = etTime.toISOString().substr(11, 8);
-            }, 1000);
+        let currentSub = '';
+        let qIdx = 0;
+
+        function triggerManifesto() {
+            document.getElementById('entrance-gate').style.display = 'none';
+            const manifest = document.getElementById('manifesto-overlay');
+            manifest.style.display = 'flex';
+            
+            setTimeout(() => { document.getElementById('m1').style.opacity = 1; document.getElementById('m1').style.transform = 'none'; }, 500);
+            setTimeout(() => { document.getElementById('m2').style.opacity = 1; document.getElementById('m2').style.transform = 'none'; }, 1500);
+            setTimeout(() => { document.getElementById('m3').style.opacity = 1; document.getElementById('m3').style.transform = 'none'; }, 2500);
+            setTimeout(() => { 
+                manifest.style.opacity = 0;
+                setTimeout(() => { 
+                    manifest.style.display = 'none';
+                    document.getElementById('hub-view').style.display = 'block';
+                    setTimeout(() => document.getElementById('hub-view').style.opacity = 1, 100);
+                    renderHub();
+                }, 1000);
+            }, 5000);
         }
 
-        function setGrade(g, btn) {
-            currentGrade = g;
-            document.querySelectorAll('#grade-row .tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateGrid();
+        function selectGrade(g, el) {
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('dossier-title').innerText = `G${g}`;
+            document.getElementById('dossier-desc').innerText = gradeInfo[g];
         }
 
-        function updateGrid() {
-            const populate = (id, list) => {
-                document.getElementById(id).innerHTML = list.map(sub => `
-                    <div class="subject-card" onclick="openSubject('${sub}')">
-                        <h4 class="major-mono" style="color:#23d5ab; font-size:0.9rem">${sub}</h4>
-                        <p style="font-size:0.7rem; margin-top:5px; opacity:0.6">G${currentGrade} Logic Hub</p>
+        function renderHub() {
+            const wrap = (list, id) => {
+                document.getElementById(id).innerHTML = list.map(s => `
+                    <div class="subject-tag" onclick="startLab('${s}')">
+                        <span>${s}</span>
+                        <span style="color:var(--neon); font-size:0.8rem;">→ START</span>
                     </div>
                 `).join('');
             };
-            populate('natural-list', subjects.natural);
-            populate('social-list', subjects.social);
+            wrap(subjects.nat, 'nat-list');
+            wrap(subjects.soc, 'soc-list');
         }
 
-        function openSubject(name) {
-            currentSubject = name;
-            currentQuestionIndex = 0;
-            loadQuestion();
-            document.getElementById('content-modal').style.display = 'block';
+        function startLab(sub) {
+            currentSub = sub; qIdx = 0;
+            document.getElementById('lab-modal').style.display = 'block';
+            document.getElementById('lab-subject').innerText = sub;
+            loadQ();
+            startClock();
         }
 
-        function loadQuestion() {
-            const list = quizData[currentSubject] || quizData['Biology'];
-            const quiz = list[currentQuestionIndex];
-            document.getElementById('modal-title').innerText = currentSubject;
-            document.getElementById('grade-badge').innerText = `Grade ${currentGrade} Module | Question ${currentQuestionIndex + 1}`;
-            document.getElementById('quiz-question').innerText = quiz.q;
-            document.getElementById('explanation-box').style.display = 'none';
-            document.getElementById('options-box').innerHTML = quiz.options.map(opt => `
-                <button class="option-btn" onclick="checkAns('${opt}', '${quiz.a}', '${quiz.explain}')">${opt}</button>
+        function loadQ() {
+            const data = quizDB[currentSub] || quizDB['Biology'];
+            const q = data[qIdx % data.length];
+            document.getElementById('q-text').innerText = q.q;
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('opt-container').innerHTML = q.options.map(o => `
+                <button class="option-pro" onclick="verify('${o}', '${q.a}', '${q.explain}')">${o}</button>
             `).join('');
         }
 
-        function checkAns(sel, cor, exp) {
-            const box = document.getElementById('explanation-box');
-            const status = document.getElementById('result-status');
-            box.style.display = 'block';
-            if(sel === cor) {
-                status.innerText = "✅ Logic Confirmed!";
-                status.style.color = "#23d5ab";
-            } else {
-                status.innerText = "❌ Analysis Required";
-                status.style.color = "#ff4d4d";
-            }
-            document.getElementById('explain-text').innerText = exp;
+        function verify(s, a, e) {
+            const f = document.getElementById('feedback');
+            f.style.display = 'block';
+            document.getElementById('res-status').innerText = s === a ? "LOGIC_VERIFIED" : "ANALYSIS_REQUIRED";
+            document.getElementById('res-status').style.color = s === a ? var(--neon) : "#ff4d4d";
+            document.getElementById('res-explain').innerText = e;
         }
 
-        function nextQuestion() {
-            const list = quizData[currentSubject] || quizData['Biology'];
-            currentQuestionIndex = (currentQuestionIndex + 1) % list.length;
-            loadQuestion();
+        function startClock() {
+            setInterval(() => {
+                const now = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
+                document.getElementById('clock').innerText = now.toISOString().substr(11, 8);
+            }, 1000);
         }
 
-        function closeModal() { document.getElementById('content-modal').style.display = 'none'; }
+        function exitLab() { document.getElementById('lab-modal').style.display = 'none'; }
+        function nextQ() { qIdx++; loadQ(); }
     </script>
 </body>
 </html>
