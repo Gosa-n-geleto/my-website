@@ -64,4 +64,141 @@
                 <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Mission</h3>
                 <p style="opacity: 0.8; margin-bottom: 20px;">Empowering Grades 9-12 with the same mathematical logic that achieved a 590/600 national record.</p>
                 <h3 style="color: #23d5ab; margin-bottom: 5px;">Our Vision</h3>
-                <p style="opacity: 0.8;">
+                <p style="opacity: 0.8;">Creating a 20-year sustainable digital infrastructure for Ethiopian students based on <i>ifa boru</i>.</p>
+            </div>
+            <button class="btn" onclick="enterLab()">Initialize Hub</button>
+        </div>
+    </section>
+
+    <section id="app-view">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+            <div>
+                <h2 class="major-mono">DODOLA_HUB_v2.0</h2>
+                <p style="opacity: 0.6;">National Youth Laureate Platform</p>
+            </div>
+            <div id="clock" class="major-mono" style="color: #23d5ab; font-size: 1.5rem;">00:00:00</div>
+        </div>
+
+        <div class="selector-row">
+            <button id="stream-nat" class="tab-btn active" onclick="setStream('natural')">Natural Science</button>
+            <button id="stream-soc" class="tab-btn" onclick="setStream('social')">Social Science</button>
+        </div>
+
+        <div class="selector-row" id="grade-row">
+            <button class="tab-btn active" onclick="setGrade(12, this)">Grade 12</button>
+            <button class="tab-btn" onclick="setGrade(11, this)">Grade 11</button>
+            <button class="tab-btn" onclick="setGrade(10, this)">Grade 10</button>
+            <button class="tab-btn" onclick="setGrade(9, this)">Grade 9</button>
+        </div>
+
+        <h2 id="view-title" style="margin: 40px 0 20px 0; color: #23d5ab;">Natural Science | Grade 12</h2>
+        <div class="subject-grid" id="subject-list"></div>
+    </section>
+
+    <div id="content-modal">
+        <button class="tab-btn" onclick="closeModal()">← Return to Hub</button>
+        <div style="max-width: 700px; margin: 40px auto;">
+            <h1 id="modal-title" class="major-mono" style="font-size: 2.5rem; margin-bottom: 10px;">Subject</h1>
+            <p id="grade-badge" style="color: #23d5ab; margin-bottom: 30px;">Grade 12 Module</p>
+            
+            <div style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px;">
+                <h3 id="quiz-question" style="margin-bottom: 25px; line-height: 1.5;">Question?</h3>
+                <div id="options-box"></div>
+                
+                <div id="explanation-box" style="display:none; margin-top:30px; padding:25px; border-radius:15px; background: rgba(35, 213, 171, 0.1); border: 1px solid #23d5ab;">
+                    <h2 id="result-status" style="margin-bottom:10px;"></h2>
+                    <p id="explain-text" style="line-height: 1.6; opacity: 0.9;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStream = 'natural';
+        let currentGrade = 12;
+
+        const subjects = {
+            natural: ['Maths', 'Physics', 'Chemistry', 'Biology', 'English'],
+            social: ['Geography', 'History', 'Maths', 'English', 'Economics']
+        };
+
+        const quizData = {
+            'Maths': { q: "Solve for x: 2x² - 8 = 0", a: "x = ±2", options: ["x = 4", "x = ±2", "x = 2", "x = 0"], explain: "2x² = 8 → x² = 4 → x = ±2. Remember to always consider the negative root in quadratics!" },
+            'Physics': { q: "What is the unit of Force?", a: "Newton", options: ["Joule", "Watt", "Newton", "Pascal"], explain: "Force is measured in Newtons (N), named after Isaac Newton. F = ma." },
+            'Chemistry': { q: "What is the pH of pure water?", a: "7", options: ["1", "7", "14", "5"], explain: "Pure water is neutral, meaning its pH is exactly 7." },
+            'Biology': { q: "Which part of the plant performs photosynthesis?", a: "Leaves", options: ["Roots", "Stem", "Leaves", "Seeds"], explain: "Leaves contain chlorophyll which captures sunlight to make food." },
+            'English': { q: "Find the antonym of 'Success'.", a: "Failure", options: ["Win", "Failure", "Goal", "Progress"], explain: "Antonyms are opposites. While you focus on success, analyzing failure helps us improve." },
+            'Geography': { q: "What is the capital of Ethiopia?", a: "Addis Ababa", options: ["Adama", "Addis Ababa", "Gondar", "Bahir Dar"], explain: "Addis Ababa is the diplomatic heart of Africa and our capital." },
+            'History': { q: "Who was the Emperor during the Battle of Adwa?", a: "Menelik II", options: ["Haile Selassie", "Menelik II", "Tewodros II", "Yohannes IV"], explain: "Emperor Menelik II led the nation to a historic victory in 1896." },
+            'Economics': { q: "What is 'Supply' in economics?", a: "Quantity available", options: ["Total demand", "Quantity available", "Market price", "Tax rate"], explain: "Supply refers to how much of a good or service is available to consumers." }
+        };
+
+        function enterLab() {
+            document.getElementById('mission-gate').style.display = 'none';
+            document.getElementById('app-view').style.display = 'block';
+            updateGrid();
+            setInterval(updateClock, 1000);
+        }
+
+        function setStream(s) {
+            currentStream = s;
+            document.getElementById('stream-nat').classList.toggle('active', s === 'natural');
+            document.getElementById('stream-soc').classList.toggle('active', s === 'social');
+            updateGrid();
+        }
+
+        function setGrade(g, btn) {
+            currentGrade = g;
+            document.querySelectorAll('#grade-row .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateGrid();
+        }
+
+        function updateGrid() {
+            document.getElementById('view-title').innerText = `${currentStream.charAt(0).toUpperCase() + currentStream.slice(1)} Science | Grade ${currentGrade}`;
+            const list = document.getElementById('subject-list');
+            list.innerHTML = subjects[currentStream].map(sub => `
+                <div class="subject-card" onclick="openSubject('${sub}')">
+                    <h3 class="major-mono" style="color:#23d5ab">${sub}</h3>
+                    <p style="font-size:0.8rem; margin-top:10px; opacity:0.6">Unlock Grade ${currentGrade} Quiz</p>
+                </div>
+            `).join('');
+        }
+
+        function openSubject(name) {
+            const quiz = quizData[name] || quizData['Maths'];
+            document.getElementById('modal-title').innerText = name;
+            document.getElementById('grade-badge').innerText = `Grade ${currentGrade} Module`;
+            document.getElementById('quiz-question').innerText = quiz.q;
+            document.getElementById('explanation-box').style.display = 'none';
+            
+            document.getElementById('options-box').innerHTML = quiz.options.map(opt => `
+                <button class="option-btn" onclick="checkAns('${opt}', '${quiz.a}', '${quiz.explain.replace(/'/g, "\\'")}')">${opt}</button>
+            `).join('');
+            
+            document.getElementById('content-modal').style.display = 'block';
+        }
+
+        function checkAns(selected, correct, explain) {
+            const box = document.getElementById('explanation-box');
+            const status = document.getElementById('result-status');
+            box.style.display = 'block';
+            if(selected === correct) {
+                status.innerText = "✅ Logic Confirmed!";
+                status.style.color = "#23d5ab";
+            } else {
+                status.innerText = "❌ Analysis Required";
+                status.style.color = "#ff4d4d";
+            }
+            document.getElementById('explain-text').innerText = explain;
+        }
+
+        function closeModal() { document.getElementById('content-modal').style.display = 'none'; }
+        
+        function updateClock() {
+            const etTime = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
+            document.getElementById('clock').innerText = etTime.toISOString().substr(11, 8);
+        }
+    </script>
+</body>
+</html>
