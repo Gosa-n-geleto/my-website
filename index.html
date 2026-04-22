@@ -338,14 +338,28 @@ let currentSubject = "";
 
 // New helper function to load specific unit content
 function loadNoteContent(unitTitle) {
+    // 1. Update the 'active' class in the sidebar so the user knows where they are
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.remove('active');
+        if(item.innerText.includes(unitTitle.toUpperCase())) {
+            item.classList.add('active');
+        }
+    });
+
+    // 2. Inject the specific note content
     const content = document.getElementById('study-main-content');
     content.innerHTML = `
         <div class="note-card">
-            <h3>${currentSubject}: ${unitTitle}</h3>
-            <p>Targeting 590+ excellence. Analysis of key national exam concepts for ${unitTitle}.</p>
-            <div class="formula-box">// SYSTEM_SYNC: Grade ${currentGrade} ${currentSubject} Logic Active </div>
+            <h2 style="color:var(--neon); margin-bottom:10px;">${currentSubject.toUpperCase()}</h2>
+            <h3>UNIT: ${unitTitle}</h3>
+            <hr style="border:0; border-top:1fr solid var(--border); margin:20px 0;">
+            <p>Targeting 590+ excellence. Here we will integrate the detailed short-notes for Grade ${currentGrade}.</p>
+            <div class="formula-box" style="margin-top:20px;">
+                // DATA_STREAM: G${currentGrade}_${currentSubject.toUpperCase()}_UNIT_LOADED...
+                <br>// STATUS: READY_FOR_REVIEW
+            </div>
         </div>
-        <button class="grade-btn" onclick="launchExamRoom()">START ${unitTitle.toUpperCase()} EXAM →</button>
+        <button class="grade-btn" onclick="launchExamRoom()">SIMULATE ${unitTitle.toUpperCase()} EXAM →</button>
     `;
 }
         function closeStudyRoom() {
