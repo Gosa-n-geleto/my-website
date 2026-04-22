@@ -43,12 +43,19 @@
         .nav-links a:hover { opacity: 1; color: var(--neon); }
 
         /* --- 2. HERO SECTION --- */
-        header {
-            padding: 160px 5% 80px;
-            background: radial-gradient(circle at top right, rgba(35, 213, 171, 0.08), transparent);
-            display: flex; justify-content: space-between; align-items: center;
-            min-height: 80vh;
-        }
+        /* --- 2. HERO SECTION WITH SCHOOL BACKGROUND --- */
+header {
+    padding: 160px 5% 80px;
+    /* This adds a dark overlay so your white text stays readable over the photo */
+    background: linear-gradient(rgba(1, 4, 10, 0.75), rgba(1, 4, 10, 0.75)), url('dodola-school.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Creates a professional parallax effect */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    min-height: 80vh;
+}
         .hero-text h1 { font-family: 'Major Mono Display'; font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
         .stat-box { text-align: right; border-left: 1px solid var(--border); padding-left: 40px; }
         .stat-value { font-size: 7rem; font-weight: 800; color: white; line-height: 1; }
