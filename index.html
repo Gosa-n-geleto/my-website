@@ -371,8 +371,50 @@
         document.body.style.overflow = 'auto';
     }
 
+   // REPLACE YOUR OLD launchExamRoom WITH THIS:
     function launchExamRoom() {
-        alert(`Initializing Exam Room for ${currentSubject}...`);
+        // Use the current unit title from the active sidebar item
+        const activeUnit = document.querySelector('.sidebar-item.active').innerText.replace(/UNIT \d+: /, '').trim();
+        
+        // Convert to title case to match our database (e.g., SEQUENCES AND SERIES -> Sequences and Series)
+        const unitKey = activeUnit.split(' ').map(w => w[0] + w.slice(1).toLowerCase()).join(' ');
+        
+        const questions = appData.questions[unitKey];
+        
+        if (!questions) {
+            alert(`EXAM_DATABASE: Logic for ${unitKey} is currently being compiled.`);
+            return;
+        }
+
+        const q = questions[0]; 
+        const content = document.getElementById('study-main-content');
+        
+        content.innerHTML = `
+            <div class="note-card" style="border-left-color: #ff4d4d; background: rgba(255, 77, 77, 0.03);">
+                <h2 style="color:#ff4d4d; margin-bottom:20px; font-family:'Major Mono Display';">[ EXAM_MODE_ACTIVE ]</h2>
+                <p style="font-size:1.2rem; margin-bottom:25px; line-height:1.6;">${q.q}</p>
+                <div style="display:grid; gap:12px;">
+                    ${q.options.map((opt, i) => `
+                        <button class="grade-btn" style="text-align:left; border-color: rgba(255,255,255,0.1);" 
+                                onclick="checkAnswer(${i}, ${q.correct}, '${unitKey}')">
+                            <span style="color:var(--neon); margin-right:10px;">${String.fromCharCode(65 + i)}|</span> ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+            <button class="grade-btn" style="margin-top:20px; background:transparent; border:1px solid var(--border);" 
+                    onclick="loadNoteContent('${unitKey}')">← RETURN_TO_NOTES</button>
+        `;
+    }
+
+    function checkAnswer(selected, correct, unitKey) {
+        if(selected === correct) {
+            alert("VERIFIED: Correct logic applied.");
+            // You could add logic here to load the next question
+        } else {
+            alert("FAILED: Mismatch in mathematical derivation. Reviewing notes is recommended.");
+            loadNoteContent(unitKey);
+        }
     }
 
     function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
