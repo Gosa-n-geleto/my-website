@@ -138,4 +138,108 @@
             </div>
         </div>
 
-        <div class="grid-layout"
+        <div class="grid-layout" id="subject-grid"></div>
+    </div>
+
+    <div id="lab-view">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom: 1px solid var(--neon); padding-bottom: 40px; margin-bottom: 60px;">
+            <div>
+                <h1 id="lab-title" style="font-family:'Major Mono Display'; font-size: 3rem;">SUBJECT</h1>
+                <p style="opacity:0.4;">LOGIC_SYNC_ACTIVE // OROMIA_STANDARD_TIME</p>
+            </div>
+            <div id="lab-clock" class="clock-large">00:00:00</div>
+        </div>
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h2 id="quiz-q" style="font-size: 3rem; font-weight: 300; margin-bottom: 60px;">Analyzing Data...</h2>
+            <div id="quiz-opts"></div>
+            <button class="pill" style="margin-top: 60px; border:1px solid var(--neon);" onclick="closeLab()">RETURN_TO_HUB</button>
+        </div>
+    </div>
+
+    <script>
+        // LOGIN LOGIC
+        function verifyLogic() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pin').value;
+
+            if(u.length > 2 && p.length === 4) {
+                document.getElementById('auth-portal').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('auth-portal').style.display = 'none';
+                    runManifesto();
+                }, 600);
+            } else {
+                alert("ACCESS DENIED: Username required and PIN must be exactly 4 digits.");
+            }
+        }
+
+        // SEQUENCE RUNNER
+        function runManifesto() {
+            const m = document.getElementById('manifesto');
+            m.style.display = 'flex';
+            const show = (id, delay) => setTimeout(() => {
+                const el = document.getElementById(id);
+                el.style.opacity = 1; el.style.filter = 'blur(0)';
+            }, delay);
+
+            show('l1', 500); show('l2', 2000); show('l3', 3500);
+
+            setTimeout(() => {
+                m.style.opacity = '0';
+                setTimeout(() => {
+                    m.style.display = 'none';
+                    const dash = document.getElementById('dashboard');
+                    dash.style.display = 'block';
+                    setTimeout(() => dash.style.opacity = 1, 100);
+                    renderGrid();
+                    startClock();
+                }, 1000);
+            }, 6500);
+        }
+
+        const gradeMap = {
+            12: "University Readiness & Advanced logic integration.",
+            11: "Specialization in Natural or Social Stream logic.",
+            10: "Secondary level mastery and exam prep.",
+            9: "Foundational academic entry and goal setting."
+        };
+
+        function setG(g, btn) {
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('h-title').innerText = `G${g}_LAB`;
+            document.getElementById('h-desc').innerText = gradeMap[g];
+        }
+
+        function renderGrid() {
+            const subs = ['Maths', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economics', 'English'];
+            document.getElementById('subject-grid').innerHTML = subs.map(s => `
+                <div class="subject-card" onclick="openLab('${s}')">
+                    <p style="color:var(--neon); font-size:0.8rem; letter-spacing:2px;">MODULE_v5.0</p>
+                    <h3 style="font-family:'Major Mono Display'; font-size:1.8rem; margin:15px 0;">${s.toUpperCase()}</h3>
+                    <p style="opacity:0.5;">Mastering ${s} logic to achieve the source of genius.</p>
+                </div>
+            `).join('');
+        }
+
+        function openLab(s) {
+            document.getElementById('lab-view').style.display = 'block';
+            document.getElementById('lab-title').innerText = s;
+            document.getElementById('quiz-q').innerText = `In ${s}, how does logical reasoning impact national development?`;
+            document.getElementById('quiz-opts').innerHTML = `
+                <button class="btn-auth" style="background:var(--glass); color:white; border:1px solid var(--glass-border); margin-bottom:15px; text-align:left;">By providing systemic solutions</button>
+                <button class="btn-auth" style="background:var(--glass); color:white; border:1px solid var(--glass-border); text-align:left;">By following traditional methods</button>
+            `;
+        }
+
+        function startClock() {
+            setInterval(() => {
+                const now = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
+                document.getElementById('lab-clock').innerText = now.toISOString().substr(11, 8);
+            }, 1000);
+        }
+
+        function closeLab() { document.getElementById('lab-view').style.display = 'none'; }
+    </script>
+</body>
+</html>
