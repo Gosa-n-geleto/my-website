@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodola Lab | The Source of Genus</title>
-    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>Dodola Lab | International Academic Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon: #23d5ab;
@@ -15,318 +15,127 @@
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        body { 
-            background: var(--bg); 
-            color: #e2e8f0; 
-            font-family: 'Space Grotesk', sans-serif; 
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: #e2e8f0; font-family: 'Space Grotesk', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* --- THE CINEMATIC ENTRANCE --- */
-        #gate-overlay {
-            position: fixed; inset: 0; z-index: 9999;
-            background: radial-gradient(circle at center, rgba(1, 4, 10, 0.7), var(--bg)),
+        /* --- AUTH PORTAL --- */
+        #auth-portal {
+            position: fixed; inset: 0; z-index: 10000;
+            background: linear-gradient(rgba(1,4,10,0.85), rgba(1,4,10,0.85)), 
                         url('https://gosa-n-geleto.github.io/my-website/image_0e63d9.jpg') center/cover;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .gate-content { text-align: center; opacity: 0; transform: translateY(30px); animation: fadeInUp 1s forwards 0.5s; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-        .lab-title-main {
-            font-family: 'Major Mono Display'; font-size: 4rem; letter-spacing: 15px;
-            background: linear-gradient(to right, #fff, var(--neon));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+        .auth-container {
+            background: rgba(1, 4, 10, 0.95); backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border); border-radius: 40px;
+            width: 100%; max-width: 480px; padding: 60px; text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
-        .enter-btn {
-            background: transparent; border: 1px solid var(--neon); color: var(--neon);
-            padding: 20px 60px; font-family: 'Major Mono Display'; font-size: 1.2rem;
-            border-radius: 100px; cursor: pointer; transition: var(--transition);
-            box-shadow: 0 0 20px var(--neon-glow); position: relative; overflow: hidden;
+        .input-box {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 15px; padding: 18px 25px; width: 100%; color: white;
+            font-size: 1.1rem; margin-bottom: 20px; transition: 0.3s;
         }
+        .input-box:focus { border-color: var(--neon); box-shadow: 0 0 20px var(--neon-glow); }
 
-        .enter-btn:hover { background: var(--neon); color: var(--bg); box-shadow: 0 0 50px var(--neon); transform: scale(1.05); }
+        .pin-hint { font-size: 0.75rem; color: var(--neon); opacity: 0.6; margin-top: -15px; margin-bottom: 25px; text-align: left; }
 
-        /* --- THE MANIFESTO SEQUENCE --- */
-        #manifesto-sequence {
+        .btn-auth {
+            width: 100%; background: var(--neon); color: var(--bg); border: none;
+            padding: 20px; border-radius: 15px; font-weight: 700; font-family: 'Major Mono Display';
+            cursor: pointer; font-size: 1.2rem; transition: var(--transition);
+        }
+        .btn-auth:hover { transform: translateY(-5px); box-shadow: 0 0 40px var(--neon); }
+
+        /* --- MANIFESTO --- */
+        #manifesto {
             display: none; position: fixed; inset: 0; z-index: 9000; background: var(--bg);
-            flex-direction: column; justify-content: center; align-items: center;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        .manifesto-line { 
-            font-family: 'Major Mono Display'; font-size: 2.2rem; color: var(--neon);
-            margin: 15px 0; opacity: 0; filter: blur(10px); transition: 1.5s;
-        }
+        .m-line { font-family: 'Major Mono Display'; color: var(--neon); font-size: 2.5rem; opacity: 0; filter: blur(10px); transition: 1.5s; margin: 15px; }
 
-        /* --- THE DASHBOARD HUB --- */
-        #main-hub { display: none; opacity: 0; padding-bottom: 100px; }
+        /* --- DASHBOARD HUB --- */
+        #dashboard { display: none; height: 100vh; overflow-y: auto; padding-bottom: 100px; opacity: 0; transition: 2s; }
         
-        header {
-            padding: 40px 8%; display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(to bottom, rgba(1,4,10,1), transparent);
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+        .header {
+            display: flex; justify-content: space-between; align-items: center; padding: 40px 8%;
+            background: linear-gradient(to bottom, var(--bg), transparent); position: sticky; top: 0; z-index: 100;
         }
 
-        .nav-pills { display: flex; gap: 12px; background: var(--glass); padding: 8px; border-radius: 100px; border: 1px solid var(--glass-border); }
+        .pill-group { display: flex; gap: 15px; background: var(--glass); padding: 8px; border-radius: 50px; border: 1px solid var(--glass-border); }
         .pill { 
-            padding: 12px 30px; border-radius: 100px; border: none; background: transparent; 
+            padding: 12px 35px; border-radius: 50px; border: none; background: transparent; 
             color: #94a3b8; font-family: 'Major Mono Display'; cursor: pointer; transition: 0.3s;
         }
-        .pill.active { background: var(--neon); color: var(--bg); font-weight: bold; box-shadow: 0 0 20px var(--neon-glow); }
+        .pill.active { background: var(--neon); color: var(--bg); font-weight: bold; }
 
-        /* --- THE DOSSIER CARD --- */
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
-        
-        .dossier-hero {
-            background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 40px; padding: 60px; margin: 40px 0;
-            display: grid; grid-template-columns: 1.5fr 1fr; align-items: center;
-            position: relative; overflow: hidden;
+        .hero-section {
+            margin: 40px 8%; background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 40px; padding: 70px; display: flex; justify-content: space-between; align-items: center;
         }
 
-        .dossier-hero::after {
-            content: ''; position: absolute; top: -50%; right: -20%; width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--neon-glow) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        .record-score { font-size: 8rem; font-weight: 700; line-height: 1; text-align: right; }
-        .record-label { font-family: 'Major Mono Display'; opacity: 0.5; letter-spacing: 4px; text-align: right; }
-
-        /* --- SUBJECT GRID --- */
-        .wing-title { font-family: 'Major Mono Display'; color: var(--neon); margin: 60px 0 30px; font-size: 1.5rem; letter-spacing: 5px; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; padding: 0 8%; }
         .subject-card {
-            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 35px; cursor: pointer; transition: var(--transition); position: relative;
+            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 45px; cursor: pointer; transition: var(--transition);
         }
-
-        .subject-card:hover { 
-            border-color: var(--neon); background: rgba(35, 213, 171, 0.05); 
-            transform: translateY(-10px) scale(1.02); 
-        }
-
-        .subject-card h3 { font-family: 'Major Mono Display'; font-size: 1.4rem; margin-bottom: 10px; }
-        .module-tag { font-size: 0.75rem; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; }
+        .subject-card:hover { border-color: var(--neon); background: rgba(35,213,171,0.05); transform: translateY(-10px); }
 
         /* --- THE LAB (QUIZ ENGINE) --- */
         #lab-view {
-            display: none; position: fixed; inset: 0; z-index: 10000; background: var(--bg);
-            padding: 60px 10%; overflow-y: auto;
+            display: none; position: fixed; inset: 0; z-index: 11000; background: var(--bg);
+            padding: 80px 10%; overflow-y: auto;
         }
+        .clock-large { font-family: 'JetBrains Mono'; font-size: 4rem; color: var(--neon); text-shadow: 0 0 30px var(--neon-glow); margin-bottom: 20px; }
 
-        .lab-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 80px; }
-        .timer-display { font-family: 'JetBrains Mono'; font-size: 3rem; color: var(--neon); text-shadow: 0 0 20px var(--neon-glow); }
-
-        .quiz-container { max-width: 900px; margin: 0 auto; }
-        .question-text { font-size: 2.5rem; font-weight: 300; margin-bottom: 50px; line-height: 1.3; }
-
-        .option-pro {
-            width: 100%; text-align: left; padding: 25px 40px; margin-bottom: 20px;
-            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px;
-            color: white; font-size: 1.1rem; cursor: pointer; transition: 0.3s;
-        }
-        .option-pro:hover { border-color: var(--neon); background: rgba(35,213,171,0.1); padding-left: 50px; }
-
-        #feedback-box {
-            display: none; margin-top: 50px; padding: 40px; border-radius: 30px;
-            border: 1px solid var(--neon); background: rgba(35,213,171,0.05);
-        }
-
-        /* --- RESPONSIVE OPTIMIZATION --- */
-        @media (max-width: 900px) {
-            .dossier-hero { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .record-score { font-size: 5rem; text-align: center; }
-            .record-label { text-align: center; }
-            .lab-title-main { font-size: 2rem; }
-        }
     </style>
 </head>
 <body>
 
-    <section id="gate-overlay">
-        <div class="gate-content">
-            <h1 class="lab-title-main">DODOLA_LAB</h1>
-            <p style="letter-spacing: 5px; opacity: 0.6; margin-bottom: 40px;">THE SOURCE OF GENIUS</p>
-            <button class="enter-btn" onclick="initializeSequence()">INITIALIZE_ACCESS</button>
+    <div id="auth-portal">
+        <div class="auth-container" id="login-box">
+            <h1 style="font-family:'Major Mono Display'; margin-bottom: 10px; font-size: 2.5rem;">DODOLA_ACCESS</h1>
+            <p style="opacity:0.4; letter-spacing: 5px; margin-bottom: 50px;">BGC_VERIFICATION_REQUIRED</p>
+            
+            <input type="text" id="user" class="input-box" placeholder="USERNAME">
+            <input type="password" id="pin" class="input-box" placeholder="4-DIGIT PIN" maxlength="4">
+            <p class="pin-hint">Enter your assigned 4-digit security logic key.</p>
+            
+            <button class="btn-auth" onclick="verifyLogic()">INITIALIZE</button>
         </div>
-    </section>
-
-    <div id="manifesto-sequence">
-        <h2 class="manifesto-line" id="line1">WE ARE RESPONSIBLE CITIZENS</h2>
-        <h2 class="manifesto-line" id="line2">MISSION: OROMIA THE SOURCE OF GENIUS</h2>
-        <h2 class="manifesto-line" id="line3">VISION: IMPACT. INNOVATE. LEAD.</h2>
     </div>
 
-    <main id="main-hub">
-        <header>
-            <h2 style="font-family:'Major Mono Display'; font-size: 1.2rem;">LAB_v4.0</h2>
-            <div class="nav-pills">
-                <button class="pill active" onclick="switchGrade(12, this)">G12</button>
-                <button class="pill" onclick="switchGrade(11, this)">G11</button>
-                <button class="pill" onclick="switchGrade(10, this)">G10</button>
-                <button class="pill" onclick="switchGrade(9, this)">G9</button>
+    <div id="manifesto">
+        <h2 class="m-line" id="l1">WE ARE RESPONSIBLE CITIZENS</h2>
+        <h2 class="m-line" id="l2">MISSION: OROMIA THE SOURCE OF GENIUS</h2>
+        <h2 class="m-line" id="l3">VISION: IMPACT. INNOVATE. LEAD.</h2>
+    </div>
+
+    <div id="dashboard">
+        <div class="header">
+            <h2 style="font-family:'Major Mono Display'; color:var(--neon);">DODOLA_LAB_v5</h2>
+            <div class="pill-group">
+                <button class="pill active" onclick="setG(12, this)">G12</button>
+                <button class="pill" onclick="setG(11, this)">G11</button>
+                <button class="pill" onclick="setG(10, this)">G10</button>
+                <button class="pill" onclick="setG(9, this)">G9</button>
             </div>
-            <div id="oromia-clock" style="font-family:'JetBrains Mono'; color:var(--neon); font-weight:bold;">00:00:00</div>
-        </header>
-
-        <div class="container">
-            <section class="dossier-hero">
-                <div>
-                    <h1 id="dos-grade" style="font-family:'Major Mono Display'; font-size: 4rem; color:var(--neon);">G12_HUB</h1>
-                    <p id="dos-desc" style="font-size: 1.2rem; opacity: 0.7; margin-top: 20px; max-width: 500px;">
-                        University Readiness & Advanced Logic Integration. Empowering students with the logic that achieved the 590/600 national record.
-                    </p>
-                </div>
-                <div>
-                    <p class="record-label">NATIONAL_RECORD</p>
-                    <h1 class="record-score">590<span style="font-size: 2rem; opacity:0.3;">/600</span></h1>
-                </div>
-            </section>
-
-            <h3 class="wing-title">NATURAL_SCIENCE_STREAM</h3>
-            <div class="grid-container" id="nat-grid"></div>
-
-            <h3 class="wing-title">SOCIAL_SCIENCE_STREAM</h3>
-            <div class="grid-container" id="soc-grid"></div>
+            <button class="pill" style="border:1px solid var(--neon); color:var(--neon);" onclick="location.reload()">LOGOUT</button>
         </div>
-    </main>
 
-    <div id="lab-view">
-        <div class="lab-nav">
+        <div class="hero-section">
             <div>
-                <h1 id="lab-subject-title" style="font-family:'Major Mono Display'; color:var(--neon); letter-spacing: 5px;">SUBJECT</h1>
-                <p style="opacity: 0.4;">LOGIC_MODULE_v1.2 // EXAM_PREP_ACTIVE</p>
+                <h1 id="h-title" style="font-family:'Major Mono Display'; font-size: 5rem; color:var(--neon);">G12_LAB</h1>
+                <p id="h-desc" style="font-size: 1.4rem; opacity: 0.7; margin-top: 20px; max-width: 600px;">
+                    Focusing on advanced STEM logic to prepare for the National Exam and beyond.
+                </p>
             </div>
-            <div class="timer-display" id="lab-timer">00:00:00</div>
-        </div>
-
-        <div class="quiz-container">
-            <h2 class="question-text" id="q-text">Is the system stable?</h2>
-            <div id="options-grid"></div>
-
-            <div id="feedback-box">
-                <h3 id="feedback-status" style="font-family:'Major Mono Display'; margin-bottom: 10px;"></h3>
-                <p id="feedback-explain" style="opacity: 0.8; font-size: 1.2rem; margin-bottom: 30px;"></p>
-                <button class="enter-btn" style="font-size: 0.8rem; padding: 15px 40px;" onclick="nextQuestion()">NEXT_SEQUENCE</button>
+            <div style="text-align: right;">
+                <p style="opacity:0.4; font-family:'Major Mono Display'; letter-spacing: 5px;">RECORD_EXCELLENCE</p>
+                <h1 style="font-size: 9rem; font-weight: 700; line-height: 1;">590<span style="font-size: 2rem; opacity:0.3;">/600</span></h1>
             </div>
         </div>
 
-        <button class="pill" style="position:fixed; bottom:50px; right:50px; border:1px solid var(--neon);" onclick="exitLab()">EXIT_LAB</button>
-    </div>
-
-    <script>
-        const gradeData = {
-            12: { desc: "University Readiness & Advanced Logic Integration. Covering 4 years in 1 for National Exams.", score: "590/600" },
-            11: { desc: "Core Stream Specialization. Building the fundamental logic for Senior Year entry.", score: "575/600" },
-            10: { desc: "Secondary Synthesis. Mapping the transition between general and specialized science.", score: "582/600" },
-            9: { desc: "Entry-Level Mastery. Establishing the standard of excellence from day one.", score: "595/600" }
-        };
-
-        const subjects = {
-            nat: ['Maths', 'Physics', 'Chemistry', 'Biology'],
-            soc: ['Geography', 'History', 'Economics', 'English']
-        };
-
-        const logicDB = {
-            'Maths': [{ q: "Find the derivative of f(x) = x² + 5x.", a: "2x + 5", opts: ["2x + 5", "x + 5", "2x", "5x"], e: "Using Power Rule: (x²)' = 2x and (5x)' = 5. Logic is the tool for systemic inequality." }],
-            'Biology': [{ q: "What organelle is known as the powerhouse of the cell?", a: "Mitochondria", opts: ["Ribosome", "Mitochondria", "Nucleus"], e: "Mitochondria creates ATP through respiration." }],
-            'History': [{ q: "In what year did the Battle of Adwa take place?", a: "1896", opts: ["1880", "1896", "1902"], e: "A landmark victory for Ethiopian sovereignty and African independence." }]
-        };
-
-        let currentSubject = '';
-        let qIndex = 0;
-
-        function initializeSequence() {
-            document.getElementById('gate-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('gate-overlay').style.display = 'none';
-                const manifesto = document.getElementById('manifesto-sequence');
-                manifesto.style.display = 'flex';
-                
-                const showLine = (id, time) => setTimeout(() => {
-                    const el = document.getElementById(id);
-                    el.style.opacity = '1'; el.style.filter = 'blur(0)';
-                }, time);
-
-                showLine('line1', 500); showLine('line2', 2000); showLine('line3', 3500);
-
-                setTimeout(() => {
-                    manifesto.style.opacity = '0';
-                    setTimeout(() => {
-                        manifesto.style.display = 'none';
-                        const hub = document.getElementById('main-hub');
-                        hub.style.display = 'block';
-                        setTimeout(() => hub.style.opacity = '1', 100);
-                        renderGrids();
-                        startClocks();
-                    }, 1000);
-                }, 6000);
-            }, 600);
-        }
-
-        function switchGrade(g, btn) {
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('dos-grade').innerText = `G${g}_HUB`;
-            document.getElementById('dos-desc').innerText = gradeData[g].desc;
-            document.querySelector('.record-score').innerHTML = `${gradeData[g].score.split('/')[0]}<span style="font-size: 2rem; opacity:0.3;">/600</span>`;
-        }
-
-        function renderGrids() {
-            const createCard = (s) => `
-                <div class="subject-card" onclick="enterLab('${s}')">
-                    <p class="module-tag">Logic_Module_v1.0</p>
-                    <h3>${s.toUpperCase()}</h3>
-                    <p style="opacity:0.5; font-size:0.9rem;">Interactive STEM logic for your academic level.</p>
-                </div>
-            `;
-            document.getElementById('nat-grid').innerHTML = subjects.nat.map(createCard).join('');
-            document.getElementById('soc-grid').innerHTML = subjects.soc.map(createCard).join('');
-        }
-
-        function startClocks() {
-            setInterval(() => {
-                const now = new Date(new Date().getTime() + (3 * 60 * 60 * 1000));
-                const time = now.toISOString().substr(11, 8);
-                document.getElementById('oromia-clock').innerText = time;
-                document.getElementById('lab-timer').innerText = time;
-            }, 1000);
-        }
-
-        function enterLab(s) {
-            currentSubject = s; qIndex = 0;
-            document.getElementById('lab-view').style.display = 'block';
-            document.getElementById('lab-subject-title').innerText = s;
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const data = logicDB[currentSubject] || logicDB['Maths'];
-            const q = data[qIndex % data.length];
-            document.getElementById('q-text').innerText = q.q;
-            document.getElementById('feedback-box').style.display = 'none';
-            document.getElementById('options-grid').innerHTML = q.opts.map(o => `
-                <button class="option-pro" onclick="validate('${o}', '${q.a}', '${q.e}')">${o}</button>
-            `).join('');
-        }
-
-        function validate(sel, ans, exp) {
-            const f = document.getElementById('feedback-box');
-            f.style.display = 'block';
-            const status = document.getElementById('feedback-status');
-            status.innerText = sel === ans ? "EXCELLENT_LOGIC" : "ANALYSIS_REQUIRED";
-            status.style.color = sel === ans ? "var(--neon)" : "#ff4d4d";
-            document.getElementById('feedback-explain').innerText = exp;
-        }
-
-        function nextQuestion() { qIndex++; loadQuestion(); }
-        function exitLab() { document.getElementById('lab-view').style.display = 'none'; }
-    </script>
-</body>
-</html>
+        <div class="grid-layout"
