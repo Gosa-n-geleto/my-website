@@ -224,35 +224,53 @@
     </div>
 
     <script>
+        let currentGrade = 12; // Default to Grade 12
+let currentSubject = "";
         const appData = {
-            subjects: {
-                12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
-                11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
-                10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
-                9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
-            },
-            scorers: [
-                { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
-                { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" },
-                { name: "Genet Merga Gishu", score: 580, rank: "#2 Female Nat", stream: "Natural" },
-                { name: "Elisabet Teku", score: 542, rank: "#2 Female Soc", stream: "Social" },
-                { name: "ISA Dedefo", score: 558, rank: "#4 National Soc", stream: "Social" }
-            ],
-            clubs: [
-                "ICT Club", "Innovation Hub", "Next Horizon STEM", "Brightest Generation Club", 
-                "Cyber Talent", "Oromo Culture", "Mini-media", "First Aid", "Charity Club", 
-                "Visual Communication", "English Club", "Library Club", "Athletics", "Innovation Lab"
-            ]
-        };
+    // This library will hold all your short-notes
+    library: {
+        "Maths": {
+            9: ["Further on Sets", "The Number System", "Solving Inequalities", "Trignometry", "Regular Polygons", "Congruencyand similarities", "Vectors in 2D", "statistics and Probability"],
+            10: ["Polynomial Functions", "Exponential & Logarithmic", "Trigonometry", "Circles"],
+            11: ["Vectors", "Complex Numbers", "Sequences & Series", "Matrices"],
+            12: ["Limits & Continuity", "Differentiation", "Integration", "Three Dimensional Geometry"]
+        },
+        "Biology": {
+            9: ["Introduction", "Organisms", "Cell", "Reproduction", "Human Health, Nutrition, and Desease", "Ecology"],
+            10: ["Microbiology", "Genetics", "Evolution", "Human Health"],
+            11: ["Biomolecules", "Enzymes", "Cellular Respiration", "Photosynthesis"],
+            12: ["Ecological Succession", "Environmental Pollution", "Natural Resources", "Biotechnology"]
+        },
+        "Chemistry": {
+            9: ["Chemo's Importance", "Measurements and Scientific Metods", "Structure of Atom", "Periodic Classification", "Chemical Bonding"],
+            10: ["Chemical Reactions", "Acids, Bases & Salts", "Energy Changes", "Electrochemistry"],
+            11: ["Atomic Structure & Periodicity", "Chemical Bonding", "Physical States of Matter", "Chemical Equilibrium"],
+            12: ["Carbon Chemistry", "Polymers", "Industrial Chemistry", "Environmental Chemistry"]
+        }
+    },
+    // Keep your existing scorers, subjects, and clubs below this...
+    subjects: {
+        12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
+        11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
+        10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
+        9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
+    },
+    scorers: [
+        { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
+        { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" }
+    ],
+    clubs: ["ICT Club", "Innovation Hub", "Brightest Generation Club"]
+};
 
         let currentSubject = "";
 
-        function updateUI(grade, btn) {
-            document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
-            renderSubjects(grade);
-        }
+       function updateUI(grade, btn) {
+    currentGrade = grade; // Save the selected grade to memory
+    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
+    renderSubjects(grade);
+}
 
         function renderSubjects(grade) {
             const n = appData.subjects[grade].nat;
@@ -296,28 +314,40 @@
         function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
 
         function launchStudyRoom() {
-            closeModal();
-            document.getElementById('active-study-room').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
-            
-            const sidebar = document.getElementById('study-sidebar-nav');
-            sidebar.innerHTML = `
-                <div class="sidebar-item active">UNIT 01: CORE CONCEPTS</div>
-                <div class="sidebar-item">UNIT 02: EXAM SHORT-NOTES</div>
-                <div class="sidebar-item">UNIT 03: FORMULA SHEET</div>
-            `;
-            
-            const content = document.getElementById('study-main-content');
-            content.innerHTML = `
-                <div class="note-card">
-                    <h3>${currentSubject}: Chapter 1 Analysis</h3>
-                    <p>Focusing on high-yield exam patterns. Research notes are calibrated for top-tier national performance.</p>
-                    <div class="formula-box">// LOGIC_SYNC: ${currentSubject} G12 </div>
-                </div>
-            `;
-        }
+    closeModal();
+    document.getElementById('active-study-room').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
+    
+    // 1. Get the units for the specific Subject and Grade
+    const units = (appData.library[currentSubject] && appData.library[currentSubject][currentGrade]) 
+                  ? appData.library[currentSubject][currentGrade] 
+                  : ["Unit 01: Syllabus Overview", "Unit 02: Resource Loading..."];
 
+    // 2. Inject Sidebar Units (Non-linear navigation)
+    const sidebar = document.getElementById('study-sidebar-nav');
+    sidebar.innerHTML = units.map((unit, index) => `
+        <div class="sidebar-item ${index === 0 ? 'active' : ''}" onclick="loadNoteContent('${unit}')">
+            UNIT 0${index + 1}: ${unit.toUpperCase()}
+        </div>
+    `).join('');
+    
+    // 3. Inject Initial Content
+    loadNoteContent(units[0]);
+}
+
+// New helper function to load specific unit content
+function loadNoteContent(unitTitle) {
+    const content = document.getElementById('study-main-content');
+    content.innerHTML = `
+        <div class="note-card">
+            <h3>${currentSubject}: ${unitTitle}</h3>
+            <p>Targeting 590+ excellence. Analysis of key national exam concepts for ${unitTitle}.</p>
+            <div class="formula-box">// SYSTEM_SYNC: Grade ${currentGrade} ${currentSubject} Logic Active </div>
+        </div>
+        <button class="grade-btn" onclick="launchExamRoom()">START ${unitTitle.toUpperCase()} EXAM →</button>
+    `;
+}
         function closeStudyRoom() {
             document.getElementById('active-study-room').style.display = 'none';
             document.body.style.overflow = 'auto';
