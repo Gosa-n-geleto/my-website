@@ -3,828 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#050508">
-    <title>LAUREATE_OS v4.0 | COMPETITION_EDITION</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>LAUREATE_OS v4.0 | STABLE_RELEASE</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        /* REFACTORED SYSTEM VARIABLES */
         :root {
             --neon: #23d5ab;
-            --neon-glow: rgba(35, 213, 171, 0.3);
-            --neon-dark: #1a9d7e;
-            --bg-primary: #050508;
-            --bg-secondary: #0a0a10;
-            --bg-tertiary: #0f0f18;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0b0;
-            --text-muted: #505060;
+            --bg-dark: #050508;
+            --panel: #0a0a10;
             --border: rgba(255, 255, 255, 0.08);
-            --danger: #ff4757;
-            --danger-glow: rgba(255, 71, 87, 0.3);
-            --success: #23d5ab;
-            --warning: #ffa502;
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* GLASS EFFECTS */
-        .glass {
-            background: rgba(10, 10, 16, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-        }
-
-        /* APP CONTAINER */
-        .app {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* SIDEBAR */
+        /* HIGH-PERFORMANCE GLASS UI */
         .sidebar {
             width: 280px;
-            background: var(--bg-secondary);
+            background: var(--panel);
             border-right: 1px solid var(--border);
-            padding: 32px 24px;
-            position: fixed;
             height: 100vh;
-            overflow-y: auto;
-            z-index: 10;
-        }
-
-        .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--neon);
-            letter-spacing: 2px;
-            margin-bottom: 48px;
-            border-left: 3px solid var(--neon);
-            padding-left: 12px;
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff, var(--neon));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .user-card {
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 32px;
-            border: 1px solid var(--border);
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 12px 0;
-            font-size: 0.85rem;
-        }
-
-        .nav-item {
-            padding: 12px 16px;
-            margin: 4px 0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .nav-item:hover {
-            background: var(--bg-tertiary);
-            color: var(--neon);
-        }
-
-        .nav-item.active {
-            background: var(--neon);
-            color: #000;
-            font-weight: 700;
-        }
-
-        /* MAIN CONTENT */
-        .main {
-            flex: 1;
-            margin-left: 280px;
-            padding: 32px 48px;
-            min-height: 100vh;
-        }
-
-        /* EXAM MODAL */
-        .exam-modal {
-            display: none;
             position: fixed;
-            inset: 0;
-            background: var(--bg-primary);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .exam-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 32px;
-        }
-
-        .exam-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            margin-bottom: 32px;
-            border: 1px solid var(--border);
-            position: sticky;
-            top: 16px;
+            padding: 30px;
             z-index: 100;
         }
 
-        .timer {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--neon);
-            text-shadow: 0 0 20px var(--neon-glow);
-        }
-
-        .question-area {
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 48px;
-            margin-bottom: 32px;
-            border: 1px solid var(--border);
-        }
-
-        .question-text {
-            font-size: 1.75rem;
-            line-height: 1.4;
-            margin-bottom: 40px;
-            font-weight: 600;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-
-        .option {
-            padding: 20px 24px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .option:hover {
-            border-color: var(--neon);
-            transform: translateX(4px);
-        }
-
-        .option.selected {
-            border-color: var(--neon);
-            background: var(--neon-glow);
-            box-shadow: 0 0 20px var(--neon-glow);
-        }
-
-        .option-letter {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            color: var(--neon);
-            font-size: 1.25rem;
-        }
-
-        .nav-controls {
-            display: flex;
-            gap: 16px;
-            margin-top: 32px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-primary {
-            background: var(--neon);
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--neon-glow);
-        }
-
-        .btn-secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: #fff;
-        }
-
-        .progress-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 8px;
-            margin-top: 24px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 16px;
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-        }
-
-        .progress-dot {
-            aspect-ratio: 1;
-            border-radius: 8px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .progress-dot.answered {
-            background: var(--neon);
-            border-color: var(--neon);
-            color: #000;
-        }
-
-        .progress-dot.current {
-            border: 2px solid var(--neon);
-            transform: scale(1.1);
-        }
-
-        .stats-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
+        .main-content { margin-left: 280px; padding: 40px; }
 
         .stat-card {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 24px;
+            background: rgba(255,255,255,0.02);
             border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: var(--trans);
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                position: fixed;
-                transition: var(--transition);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main {
-                margin-left: 0;
-                padding: 20px;
-            }
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-            .question-text {
-                font-size: 1.25rem;
-            }
-            .timer {
-                font-size: 2rem;
-            }
+        .stat-card:hover { border-color: var(--neon); background: rgba(35, 213, 171, 0.05); }
+
+        /* EXAM ENGINE STYLES */
+        .exam-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 2000;
+            padding: 40px;
+            overflow-y: auto;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .option-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--trans);
         }
 
-        .warning {
-            animation: pulse 1s infinite;
+        .option-btn.selected { border-color: var(--neon); background: rgba(35, 213, 171, 0.15); }
+
+        /* MOBILE ADAPTATION */
+        @media (max-width: 900px) {
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="app">
-    <aside class="sidebar" id="sidebar">
-        <div class="logo">
-            <h1>LAUREATE_OS</h1>
-            <div>v4.0_COMPETITION</div>
-        </div>
-
-        <div class="user-card">
-            <div style="font-weight: 800; font-size: 1.25rem;">GOSA NEGESO</div>
-            <div style="color: var(--text-muted); font-size: 0.8rem;">National Youth Laureate</div>
-            <div style="margin-top: 16px;">
-                <div class="stat-item">
-                    <span>🏆 Rank</span>
-                    <span style="color: var(--neon); font-weight: 800;">#1 / 50,000</span>
-                </div>
-                <div class="stat-item">
-                    <span>📊 Accuracy</span>
-                    <span id="profile-accuracy">94%</span>
-                </div>
-                <div class="stat-item">
-                    <span>⚡ Streak</span>
-                    <span id="profile-streak">0</span>
-                </div>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <h2 style="font-family: 'JetBrains Mono'; color: var(--neon); margin-bottom: 40px;">LAUREATE_OS</h2>
+            <div class="stat-card">
+                <p style="font-size: 0.7rem; color: #555;">USER_PROFILE</p>
+                <h3 style="margin: 5px 0;">GOSA NEGESO</h3>
+                <div style="font-size: 0.8rem; color: var(--neon);">National Rank: #1</div>
             </div>
-        </div>
+            
+            <nav style="margin-top: 40px;">
+                <button onclick="toggleExam(true)" style="width: 100%; padding: 15px; background: var(--neon); color: #000; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">START_NEW_EXAM</button>
+            </nav>
+        </aside>
 
-        <nav>
-            <div class="nav-item active" onclick="showDashboard()">📊 Dashboard</div>
-            <div class="nav-item" onclick="startExam()">🎯 Start Exam</div>
-            <div class="nav-item" onclick="showAnalytics()">📈 Analytics</div>
-            <div class="nav-item" onclick="showLeaderboard()">🏅 Leaderboard</div>
-        </nav>
-    </aside>
-
-    <main class="main" id="main">
-        <!-- Dashboard View -->
-        <div id="dashboard-view">
-            <h1 style="font-size: 2.5rem; margin-bottom: 8px;">Welcome back, Gosa</h1>
-            <p style="color: var(--text-muted); margin-bottom: 40px;">Your journey to excellence continues</p>
-
-            <div class="stats-dashboard">
-                <div class="stat-card">
-                    <div style="color: var(--text-muted); font-size: 0.85rem;">TOTAL QUESTIONS</div>
-                    <div style="font-size: 2.5rem; font-weight: 800;" id="total-q">500</div>
-                </div>
-                <div class="stat-card">
-                    <div style="color: var(--text-muted); font-size: 0.85rem;">COMPLETED</div>
-                    <div style="font-size: 2.5rem; font-weight: 800;" id="completed-q">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="color: var(--text-muted); font-size: 0.85rem;">ACCURACY</div>
-                    <div style="font-size: 2.5rem; font-weight: 800;" id="accuracy-display">0%</div>
-                </div>
-                <div class="stat-card">
-                    <div style="color: var(--text-muted); font-size: 0.85rem;">STUDY TIME</div>
-                    <div style="font-size: 2.5rem; font-weight: 800;" id="study-time">0h</div>
-                </div>
+        <main class="main-content">
+            <h1 style="font-size: 2.5rem; margin-bottom: 30px;">System_Dashboard</h1>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div class="stat-card"><h3>94%</h3><p>Avg Accuracy</p></div>
+                <div class="stat-card"><h3>12</h3><p>Day Streak</p></div>
+                <div class="stat-card"><h3>500+</h3><p>Q_Bank Size</p></div>
             </div>
-
-            <div class="stat-card" style="margin-top: 32px;">
-                <h3>Recent Performance</h3>
-                <canvas id="performance-chart" style="width: 100%; max-height: 300px; margin-top: 20px;"></canvas>
-            </div>
-        </div>
-
-        <!-- Analytics View -->
-        <div id="analytics-view" style="display: none;">
-            <h1>Performance Analytics</h1>
-            <div class="stats-dashboard" id="analytics-container"></div>
-        </div>
-
-        <!-- Leaderboard View -->
-        <div id="leaderboard-view" style="display: none;">
-            <h1>Global Leaderboard</h1>
-            <div class="stat-card" id="leaderboard-container" style="margin-top: 24px;"></div>
-        </div>
-    </main>
-</div>
-
-<!-- Exam Modal -->
-<div id="exam-modal" class="exam-modal">
-    <div class="exam-container">
-        <div class="exam-header">
-            <div>
-                <div style="font-size: 0.75rem; color: var(--text-muted);">ETHIOPIAN NATIONAL EXAM SIMULATOR</div>
-                <div style="font-weight: 800;">Natural Science Stream</div>
-            </div>
-            <div class="timer" id="exam-timer">90:00</div>
-            <button class="btn btn-secondary" onclick="exitExam()">✕ Exit</button>
-        </div>
-
-        <div class="question-area">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
-                <span style="color: var(--neon); font-family: monospace;" id="q-counter">Question 1 / 500</span>
-                <span id="difficulty-badge" style="padding: 4px 12px; background: var(--bg-tertiary); border-radius: 20px; font-size: 0.75rem;">Medium</span>
-            </div>
-            <div class="question-text" id="question-text">Loading...</div>
-            <div class="options-grid" id="options-container"></div>
-        </div>
-
-        <div class="nav-controls">
-            <button class="btn btn-secondary" onclick="previousQuestion()">← Previous</button>
-            <button class="btn btn-primary" onclick="nextQuestion()">Next →</button>
-            <button class="btn btn-danger" onclick="submitExam()">Submit Exam</button>
-        </div>
-
-        <div class="progress-grid" id="progress-grid"></div>
+        </main>
     </div>
-</div>
 
-<script>
-    // ============================================
-    // COMPETITION GRADE: QUESTION GENERATOR (500+ DYNAMIC)
-    // ============================================
-    
-    const SUBJECTS = ['Mathematics', 'Physics', 'Chemistry', 'Biology'];
-    const TOPICS = {
-        Mathematics: ['Calculus', 'Algebra', 'Trigonometry', 'Statistics', 'Geometry'],
-        Physics: ['Mechanics', 'Thermodynamics', 'Electromagnetism', 'Quantum', 'Optics'],
-        Chemistry: ['Organic', 'Inorganic', 'Physical', 'Biochemistry', 'Analytical'],
-        Biology: ['Cell Biology', 'Genetics', 'Ecology', 'Human Anatomy', 'Evolution']
-    };
-    
-    function generateQuestionBank(count = 500) {
-        const bank = [];
-        for (let i = 0; i < count; i++) {
-            const subject = SUBJECTS[i % SUBJECTS.length];
-            const topic = TOPICS[subject][i % TOPICS[subject].length];
-            const difficulty = ['Easy', 'Medium', 'Hard'][Math.floor(Math.random() * 3)];
-            const points = difficulty === 'Easy' ? 1 : difficulty === 'Medium' ? 2 : 3;
-            
-            let question = '';
-            let options = [];
-            let correct = 0;
-            
-            // Generate subject-specific questions dynamically
-            switch(subject) {
-                case 'Mathematics':
-                    const x = Math.floor(Math.random() * 20) - 10;
-                    const a = Math.floor(Math.random() * 10) + 1;
-                    const b = Math.floor(Math.random() * 10) + 1;
-                    const mathTemplates = [
-                        {q: `Solve for x: ${a}x + ${b} = ${a*b + b}`, o: [`${b}`, `${a}`, `${x || 5}`, `${a+b}`], c: 2},
-                        {q: `What is the derivative of ${a}x² + ${b}x?`, o: [`${2*a}x + ${b}`, `${a}x + ${b}`, `2${a}x`, `${b}x + ${a}`], c: 0},
-                        {q: `∫ ${a}x dx = ?`, o: [`${a/2}x² + C`, `${a}x² + C`, `${a}x + C`, `${a/2}x + C`], c: 0},
-                        {q: `Simplify: (${a+b}²) / (${a+b})`, o: [`${a+b}`, `1`, `${(a+b)**2}`, `${a+b}²`], c: 0}
-                    ];
-                    const tmpl = mathTemplates[i % mathTemplates.length];
-                    question = tmpl.q;
-                    options = tmpl.o;
-                    correct = tmpl.c;
-                    break;
-                    
-                case 'Physics':
-                    const g = 9.8;
-                    const m = Math.floor(Math.random() * 10) + 1;
-                    const v = Math.floor(Math.random() * 20) + 5;
-                    const physicsTemplates = [
-                        {q: `A body of mass ${m}kg is moving with velocity ${v}m/s. Calculate its kinetic energy.`, o: [`${0.5*m*v*v} J`, `${m*v} J`, `${m*v*v} J`, `${0.5*m*v} J`], c: 0},
-                        {q: `What is the SI unit of force?`, o: [`Newton`, `Joule`, `Watt`, `Pascal`], c: 0},
-                        {q: `Ohm's law states that V = ?`, o: [`IR`, `I/R`, `R/I`, `I+R`], c: 0},
-                        {q: `The acceleration due to gravity on Earth is approximately:`, o: [`9.8 m/s²`, `9.8 m/s`, `9.8 km/s²`, `98 m/s²`], c: 0}
-                    ];
-                    const tmpl = physicsTemplates[i % physicsTemplates.length];
-                    question = tmpl.q;
-                    options = tmpl.o;
-                    correct = tmpl.c;
-                    break;
-                    
-                case 'Chemistry':
-                    const chemistryTemplates = [
-                        {q: `What is the chemical symbol for Gold?`, o: [`Au`, `Ag`, `Fe`, `Pb`], c: 0},
-                        {q: `What is the pH of pure water?`, o: [`7`, `0`, `14`, `1`], c: 0},
-                        {q: `Which element has the atomic number 1?`, o: [`Hydrogen`, `Helium`, `Lithium`, `Oxygen`], c: 0},
-                        {q: `What is the formula for water?`, o: [`H₂O`, `CO₂`, `NaCl`, `CH₄`], c: 0}
-                    ];
-                    const tmpl = chemistryTemplates[i % chemistryTemplates.length];
-                    question = tmpl.q;
-                    options = tmpl.o;
-                    correct = tmpl.c;
-                    break;
-                    
-                default: // Biology
-                    const biologyTemplates = [
-                        {q: `What is the powerhouse of the cell?`, o: [`Mitochondria`, `Nucleus`, `Ribosome`, `Golgi`], c: 0},
-                        {q: `What is the largest organ in the human body?`, o: [`Skin`, `Heart`, `Liver`, `Brain`], c: 0},
-                        {q: `Which gas do plants absorb during photosynthesis?`, o: [`CO₂`, `O₂`, `N₂`, `H₂`], c: 0},
-                        {q: `What is the normal human body temperature in Celsius?`, o: [`37°C`, `36°C`, `38°C`, `39°C`], c: 0}
-                    ];
-                    const tmpl = biologyTemplates[i % biologyTemplates.length];
-                    question = tmpl.q;
-                    options = tmpl.o;
-                    correct = tmpl.c;
-                    break;
-            }
-            
-            bank.push({
-                id: i,
-                subject,
-                topic,
-                difficulty,
-                points,
-                question,
-                options,
-                correct,
-                explanation: `The correct answer is ${options[correct]}. This is based on standard ${subject} principles.`
-            });
-        }
-        return bank;
-    }
-    
-    // Initialize question bank
-    const QUESTION_BANK = generateQuestionBank(500);
-    let currentExam = null;
-    let examInterval = null;
-    
-    // Load saved data
-    let userProgress = JSON.parse(localStorage.getItem('laureate_progress')) || {
-        completed: [],
-        answers: {},
-        streak: 0,
-        totalTime: 0,
-        examHistory: []
-    };
-    
-    function startExam() {
-        const modal = document.getElementById('exam-modal');
-        modal.style.display = 'block';
-        
-        currentExam = {
-            questions: [...QUESTION_BANK],
-            answers: new Array(QUESTION_BANK.length).fill(null),
-            currentIndex: 0,
-            startTime: Date.now(),
-            timeRemaining: 5400 // 90 minutes in seconds
-        };
-        
-        startExamTimer();
-        renderCurrentQuestion();
-        renderProgressGrid();
-        updateStats();
-    }
-    
-    function startExamTimer() {
-        if (examInterval) clearInterval(examInterval);
-        
-        examInterval = setInterval(() => {
-            if (currentExam.timeRemaining <= 0) {
-                clearInterval(examInterval);
-                submitExam();
-            } else {
-                currentExam.timeRemaining--;
-                updateTimerDisplay();
-            }
-        }, 1000);
-    }
-    
-    function updateTimerDisplay() {
-        const minutes = Math.floor(currentExam.timeRemaining / 60);
-        const seconds = currentExam.timeRemaining % 60;
-        document.getElementById('exam-timer').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        if (currentExam.timeRemaining < 300) {
-            document.getElementById('exam-timer').classList.add('warning');
-        }
-    }
-    
-    function renderCurrentQuestion() {
-        const q = currentExam.questions[currentExam.currentIndex];
-        document.getElementById('question-text').innerHTML = q.question;
-        document.getElementById('q-counter').innerHTML = `Question ${currentExam.currentIndex + 1} / ${currentExam.questions.length}`;
-        document.getElementById('difficulty-badge').innerHTML = q.difficulty;
-        document.getElementById('difficulty-badge').style.color = 
-            q.difficulty === 'Easy' ? 'var(--success)' : 
-            q.difficulty === 'Medium' ? 'var(--warning)' : 'var(--danger)';
-        
-        const container = document.getElementById('options-container');
-        const letters = ['A', 'B', 'C', 'D'];
-        container.innerHTML = q.options.map((opt, idx) => `
-            <div class="option ${currentExam.answers[currentExam.currentIndex] === idx ? 'selected' : ''}" onclick="selectAnswer(${idx})">
-                <div class="option-letter">${letters[idx]}</div>
-                <div>${opt}</div>
+    <div id="exam-room" class="exam-overlay">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div id="timer" style="font-family: 'JetBrains Mono'; font-size: 2.5rem; color: var(--neon);">90:00</div>
+                <button onclick="toggleExam(false)" style="background: #222; color: #fff; border: none; padding: 10px 20px; border-radius: 5px;">EXIT</button>
             </div>
-        `).join('');
-    }
-    
-    function selectAnswer(idx) {
-        currentExam.answers[currentExam.currentIndex] = idx;
-        renderCurrentQuestion();
-        renderProgressGrid();
-        
-        // Auto-save to localStorage
-        userProgress.answers[currentExam.questions[currentExam.currentIndex].id] = idx;
-        localStorage.setItem('laureate_progress', JSON.stringify(userProgress));
-    }
-    
-    function nextQuestion() {
-        if (currentExam.currentIndex < currentExam.questions.length - 1) {
-            currentExam.currentIndex++;
-            renderCurrentQuestion();
-            renderProgressGrid();
-        }
-    }
-    
-    function previousQuestion() {
-        if (currentExam.currentIndex > 0) {
-            currentExam.currentIndex--;
-            renderCurrentQuestion();
-            renderProgressGrid();
-        }
-    }
-    
-    function renderProgressGrid() {
-        const container = document.getElementById('progress-grid');
-        container.innerHTML = currentExam.answers.map((ans, idx) => `
-            <div class="progress-dot ${ans !== null ? 'answered' : ''} ${idx === currentExam.currentIndex ? 'current' : ''}" 
-                 onclick="jumpToQuestion(${idx})">
-                ${idx + 1}
+
+            <div class="stat-card" style="min-height: 400px; padding: 40px;">
+                <h2 id="q-text" style="font-size: 1.8rem; margin-bottom: 40px;"></h2>
+                <div id="options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;"></div>
             </div>
-        `).join('');
-    }
-    
-    function jumpToQuestion(idx) {
-        currentExam.currentIndex = idx;
-        renderCurrentQuestion();
-        renderProgressGrid();
-    }
-    
-    function submitExam() {
-        clearInterval(examInterval);
-        
-        // Calculate score
-        let correct = 0;
-        let totalPoints = 0;
-        let earnedPoints = 0;
-        
-        currentExam.answers.forEach((ans, idx) => {
-            const q = currentExam.questions[idx];
-            totalPoints += q.points;
-            if (ans !== null && ans === q.correct) {
-                correct++;
-                earnedPoints += q.points;
-            }
-        });
-        
-        const percentage = (correct / currentExam.questions.length) * 100;
-        const timeSpent = Math.floor((Date.now() - currentExam.startTime) / 1000 / 60);
-        
-        // Update user progress
-        userProgress.completed = [...new Set([...userProgress.completed, ...currentExam.answers.map((a, i) => a !== null ? currentExam.questions[i].id : null).filter(id => id !== null)])];
-        userProgress.totalTime += timeSpent;
-        userProgress.examHistory.push({
-            date: new Date().toISOString(),
-            score: percentage,
-            correct,
-            total: currentExam.questions.length,
-            timeSpent
-        });
-        
-        // Update streak based on performance
-        if (percentage >= 70) {
-            userProgress.streak++;
-        } else {
-            userProgress.streak = 0;
-        }
-        
-        localStorage.setItem('laureate_progress', JSON.stringify(userProgress));
-        
-        alert(`📊 EXAM COMPLETE!\n\nScore: ${correct}/${currentExam.questions.length} (${percentage.toFixed(1)}%)\nPoints: ${earnedPoints}/${totalPoints}\nTime: ${timeSpent} minutes\nStreak: ${userProgress.streak}\n\n${percentage >= 90 ? '🏆 EXCELLENT! National Laureate material!' : percentage >= 70 ? '👍 Good! Keep pushing!' : '📚 Review and try again!'}`);
-        
-        exitExam();
-        updateStats();
-        showDashboard();
-    }
-    
-    function exitExam() {
-        clearInterval(examInterval);
-        document.getElementById('exam-modal').style.display = 'none';
-        currentExam = null;
-    }
-    
-    function updateStats() {
-        const completedCount = userProgress.completed.length;
-        const accuracy = completedCount > 0 ? 
-            Object.values(userProgress.answers).filter(a => a !== null).length / completedCount * 100 : 0;
-        
-        document.getElementById('profile-accuracy').innerText = `${Math.round(accuracy)}%`;
-        document.getElementById('profile-streak').innerText = userProgress.streak;
-        document.getElementById('completed-q').innerText = completedCount;
-        document.getElementById('accuracy-display').innerText = `${Math.round(accuracy)}%`;
-        document.getElementById('study-time').innerText = `${Math.floor(userProgress.totalTime)}h`;
-    }
-    
-    function showDashboard() {
-        document.getElementById('dashboard-view').style.display = 'block';
-        document.getElementById('analytics-view').style.display = 'none';
-        document.getElementById('leaderboard-view').style.display = 'none';
-        updateStats();
-    }
-    
-    function showAnalytics() {
-        document.getElementById('dashboard-view').style.display = 'none';
-        document.getElementById('analytics-view').style.display = 'block';
-        document.getElementById('leaderboard-view').style.display = 'none';
-        
-        const container = document.getElementById('analytics-container');
-        const history = userProgress.examHistory.slice(-10);
-        
-        container.innerHTML = `
-            <div class="stat-card">
-                <h3>Last 10 Exams</h3>
-                ${history.map((exam, i) => `
-                    <div style="margin: 12px 0; padding: 12px; background: var(--bg-tertiary); border-radius: 12px;">
-                        <div>📅 ${new Date(exam.date).toLocaleDateString()}</div>
-                        <div>Score: ${exam.score.toFixed(1)}% (${exam.correct}/${exam.total})</div>
-                        <div>⏱️ ${exam.timeSpent} minutes</div>
-                        <div style="height: 4px; background: var(--border); margin-top: 8px; border-radius: 2px;">
-                            <div style="width: ${exam.score}%; height: 100%; background: var(--neon); border-radius: 2px;"></div>
-                        </div>
-                    </div>
-                `).join('') || '<div>No exams completed yet. Start your first exam!</div>'}
+
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+                <button onclick="moveQ(-1)" id="prevBtn" class="option-btn">BACK</button>
+                <button onclick="moveQ(1)" id="nextBtn" class="option-btn" style="background: var(--neon); color: #000;">NEXT</button>
             </div>
-            <div class="stat-card">
-                <h3>Subject Mastery</h3>
-                <div id="subject-chart"></div>
-            </div>
-        `;
-    }
-    
-    function showLeaderboard() {
-        document.getElementById('dashboard-view').style.display = 'none';
-        document.getElementById('analytics-view').style.display = 'none';
-        document.getElementById('leaderboard-view').style.display = 'block';
-        
-        // Generate mock leaderboard
-        const leaderboard = [
-            { name: 'GOSA NEGESO', score: 98.5, rank: 1, country: 'ETHIOPIA' },
-            { name: 'Abebech B.', score: 96.2, rank: 2, country: 'ETHIOPIA' },
-            { name: 'Meron T.', score: 95.1, rank: 3, country: 'ETHIOPIA' },
-            { name: 'Dawit K.', score: 94.3, rank: 4, country: 'ETHIOPIA' },
-            { name: 'Selamawit G.', score: 93.8, rank: 5, country: 'ETHIOPIA' }
+        </div>
+    </div>
+
+    <script>
+        // DATA MODEL
+        const questions = [
+            {q: "What is the derivative of 3x² + 5x?", o: ["6x + 5", "3x + 5", "6x", "5"], a: 0},
+            {q: "In Physics, what is the SI unit of Force?", o: ["Joule", "Watt", "Newton", "Pascal"], a: 2},
+            {q: "Solve for x: 2x + 10 = 20", o: ["5", "10", "15", "20"], a: 0}
         ];
-        
-        document.getElementById('leaderboard-container').innerHTML = `
-            <div style="margin-bottom: 20px;">
-                <div style="font-size: 0.85rem; color: var(--text-muted);">YOUR RANK</div>
-                <div style="font-size: 3rem; font-weight: 800; color: var(--neon);">#${leaderboard.find(l => l.name === 'GOSA NEGESO').rank}</div>
-            </div>
-            ${leaderboard.map(user => `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; margin: 8px 0; background: var(--bg-tertiary); border-radius: 12px; ${user.name === 'GOSA NEGESO' ? 'border: 2px solid var(--neon);' : ''}">
-                    <div style="display: flex; gap: 16px; align-items: center;">
-                        <div style="font-weight: 800; width: 40px;">#${user.rank}</div>
-                        <div>
-                            <div style="font-weight: 700;">${user.name}</div>
-                            <div style="font-size: 0.7rem; color: var(--text-muted);">${user.country}</div>
-                        </div>
-                    </div>
-                    <div style="font-weight: 800; color: var(--neon);">${user.score}%</div>
-                </div>
-            `).join('')}
-        `;
-    }
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-        if (!currentExam) return;
-        
-        if (e.key >= '1' && e.key <= '4') {
-            const idx = parseInt(e.key) - 1;
-            if (idx < 4) selectAnswer(idx);
-        } else if (e.key === 'ArrowRight') {
-            nextQuestion();
-        } else if (e.key === 'ArrowLeft') {
-            previousQuestion();
+
+        let state = {
+            currentIdx: 0,
+            answers: new Array(questions.length).fill(null),
+            timer: 5400
+        };
+
+        function toggleExam(show) {
+            document.getElementById('exam-room').style.display = show ? 'block' : 'none';
+            if(show) { loadQ(); startTimer(); }
         }
-    });
-    
-    // Initialize
-    updateStats();
-    console.log('LAUREATE_OS v4.0 LOADED | 500 Questions | Competition Ready');
-</script>
+
+        function loadQ() {
+            const q = questions[state.currentIdx];
+            document.getElementById('q-text').innerText = `${state.currentIdx + 1}. ${q.q}`;
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = q.o.map((opt, i) => `
+                <div class="option-btn ${state.answers[state.currentIdx] === i ? 'selected' : ''}" onclick="selectAnswer(${i})">
+                    <strong>${String.fromCharCode(65+i)}</strong> ${opt}
+                </div>
+            `).join('');
+            
+            document.getElementById('prevBtn').disabled = state.currentIdx === 0;
+            document.getElementById('nextBtn').innerText = state.currentIdx === questions.length - 1 ? 'FINISH' : 'NEXT';
+        }
+
+        function selectAnswer(i) {
+            state.answers[state.currentIdx] = i;
+            loadQ();
+        }
+
+        function moveQ(dir) {
+            if(state.currentIdx === questions.length -1 && dir === 1) { submitExam(); return; }
+            state.currentIdx += dir;
+            loadQ();
+        }
+
+        function startTimer() {
+            const timerEl = document.getElementById('timer');
+            const itv = setInterval(() => {
+                state.timer--;
+                let m = Math.floor(state.timer / 60);
+                let s = state.timer % 60;
+                timerEl.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if(state.timer <= 0) { clearInterval(itv); submitExam(); }
+            }, 1000);
+        }
+
+        function submitExam() {
+            const score = state.answers.filter((a, i) => a === questions[i].a).length;
+            alert(`EXAM COMPLETE. Score: ${score}/${questions.length}`);
+            location.reload();
+        }
+    </script>
 </body>
 </html>
