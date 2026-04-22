@@ -1,107 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>LAUREATE_ACADEMY | ETHIOPIA</title>
-    <style>
-        :root {
-            --natural: #23d5ab; /* Green for Nature */
-            --social: #ff7e5f;  /* Warm Orange for Social Sciences */
-            --bg: #050508;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DODOLA_HUB_V3.0 | Source of Genus</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon: #23d5ab;
+            --neon-glow: rgba(35, 213, 171, 0.4);
+            --bg-deep: #01040a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #e2e8f0;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; outline: none; }
+        body { 
+            background: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-        /* STREAM SELECTION */
-        .stream-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            padding: 50px;
-        }
+        /* --- 1. PREMIUM NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000;
+            background: rgba(1, 4, 10, 0.85); backdrop-filter: blur(15px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Major Mono Display'; color: var(--neon); font-size: 1.4rem; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            text-decoration: none; color: white; font-family: var(--font-mono); 
+            font-size: 0.75rem; transition: 0.3s; opacity: 0.7; cursor: pointer;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--neon); }
 
-        .stream-card {
-            width: 300px;
-            padding: 40px;
-            border-radius: 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        /* --- 2. HERO SECTION --- */
+        /* --- 2. HERO SECTION WITH SCHOOL BACKGROUND --- */
+header {
+    padding: 160px 5% 80px;
+    /* This adds a dark overlay so your white text stays readable over the photo */
+    background: linear-gradient(rgba(1, 4, 10, 0.75), rgba(1, 4, 10, 0.75)), url('Screenshot 2026-04-22 100541.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Creates a professional parallax effect */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    min-height: 80vh;
+}
+        .hero-text h1 { font-family: 'Major Mono Display'; font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .stat-box { text-align: right; border-left: 1px solid var(--border); padding-left: 40px; }
+        .stat-value { font-size: 7rem; font-weight: 800; color: white; line-height: 1; }
+        .stat-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon); letter-spacing: 4px; }
 
-        .natural-card:hover { background: var(--natural); color: black; box-shadow: 0 0 30px var(--natural); }
-        .social-card:hover { background: var(--social); color: black; box-shadow: 0 0 30px var(--social); }
+        /* --- 3. DYNAMIC SELECTOR --- */
+        .selector-bar { padding: 40px 5%; display: flex; gap: 15px; background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); }
+        .grade-btn {
+            padding: 12px 30px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: white; font-family: var(--font-mono);
+            cursor: pointer; transition: var(--transition);
+        }
+        .grade-btn.active { background: var(--neon); color: var(--bg-deep); border-color: var(--neon); font-weight: bold; }
 
-        /* STUDY ROOM DRAWER */
-        .study-room {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Grade 9, 10, 11, 12 */
-            gap: 15px;
-            padding: 40px;
-        }
+        /* --- 4. STREAM ARCHITECTURE --- */
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 5%; }
+        .stream-container { 
+            background: rgba(255,255,255,0.01); border: 1px solid var(--border); 
+            border-radius: 40px; padding: 50px; 
+        }
+        .stream-tag { 
+            font-family: 'Major Mono Display'; color: var(--neon); 
+            margin-bottom: 40px; border-bottom: 1px solid var(--neon); 
+            display: inline-block; padding-bottom: 8px; font-size: 1.2rem;
+        }
+        .subject-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 30px; border-radius: 20px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: var(--transition); cursor: pointer;
+        }
+        .subject-card:hover { transform: scale(1.02); border-color: var(--neon); }
 
-        .grade-box {
-            background: var(--glass);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        /* --- 5. NATIONAL RANKINGS --- */
+        .ranking-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 30px; }
+        .ranking-row { background: var(--bg-card); border: 1px solid var(--border); transition: 0.3s; }
+        .ranking-row td { padding: 25px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .rank-num { color: var(--neon); font-family: var(--font-mono); font-size: 1.2rem; width: 80px; }
+        .score-badge { background: var(--neon); color: var(--bg-deep); padding: 5px 15px; border-radius: 6px; font-weight: 900; font-family: var(--font-mono); }
 
-        .achievement-banner {
-            background: linear-gradient(90deg, #ffd700, #ff8c00);
-            color: black;
-            padding: 20px;
-            text-align: center;
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-    </style>
+        /* --- 6. EXTRACURRICULAR CHIPS --- */
+        .club-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 40px; }
+        .club-chip {
+            padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--bg-card); font-family: var(--font-mono); font-size: 0.75rem;
+            cursor: pointer; transition: 0.3s;
+        }
+        .club-chip:hover { border-color: var(--neon); color: var(--neon); transform: translateY(-5px); }
+
+        /* --- 7. THE LOGIC GATEWAY (MODAL) --- */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(1, 4, 10, 0.98);
+            z-index: 5000; backdrop-filter: blur(30px); align-items: center; justify-content: center;
+        }
+        .room-wrapper { display: flex; gap: 40px; width: 90%; max-width: 1000px; }
+        .room-card {
+            flex: 1; padding: 100px 40px; border-radius: 35px; border: 1px solid var(--border);
+            background: var(--bg-card); text-align: center; cursor: pointer; transition: var(--transition);
+        }
+        .room-card:hover { border-color: var(--neon); transform: translateY(-20px); background: rgba(35, 213, 171, 0.05); }
+
+        /* --- 8. FOOTER --- */
+        footer { padding: 100px 5%; border-top: 1px solid var(--border); text-align: center; opacity: 0.5; font-size: 0.8rem; }
+        /* --- PASTE THIS PART --- */
+
+/* --- ACADEMIC ROOM STYLING --- */
+.academic-room {
+    display: none; 
+    position: fixed; 
+    inset: 0; 
+    background: #01040a; /* Matches your dashboard deep black */
+    z-index: 6000;
+    padding: 80px 5%; 
+    overflow-y: auto;
+}
+.module-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; 
+    margin-top: 40px;
+}
+
+.module-card {
+    background: var(--bg-card); 
+    border: 1px solid var(--border);
+    padding: 40px; 
+    border-radius: 25px; 
+    transition: var(--transition);
+}
+
+.module-card:hover { 
+    border-color: var(--neon); 
+    background: rgba(35, 213, 171, 0.05); 
+}
+
+.module-title { 
+    font-family: var(--font-mono); 
+    color: var(--neon); 
+    margin-bottom: 15px; 
+    font-size: 0.9rem; 
+}
+
+.formula-box { 
+    background: #000; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-family: var(--font-mono); 
+    font-size: 0.85rem; 
+    color: #888; 
+    border-left: 3px solid var(--neon);
+}
+        /* --- ENHANCED STUDY ROOM (THE RESEARCH LAB) --- */
+.study-room-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* Creates the Progress Sidebar on the left */
+    gap: 40px;
+    margin-top: 50px;
+    height: 80vh;
+}
+
+/* The Sidebar for Navigation through Calculus/Physics modules */
+.study-sidebar {
+    border-right: 1px solid var(--border);
+    padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #666;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+.sidebar-item:hover, .sidebar-item.active {
+    background: rgba(35, 213, 171, 0.05);
+    color: var(--neon);
+    border-color: var(--neon);
+}
+
+/* The Main Content Area for your Advanced Notes */
+.study-content-area {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 60px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Interactive Note Cards */
+.note-card {
+    background: var(--bg-card);
+    border-left: 4px solid var(--neon);
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 0 20px 20px 0;
+}
+
+.note-card h3 {
+    font-family: 'Major Mono Display';
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+    </style>
 </head>
 <body>
 
-    <div class="achievement-banner">
-        🏆 DODOLA SPECIAL BOARDING SCHOOL ACHIEVEMENTS: GOSA NEGESO (590/600) | FELLOW LAUREATES (592/600)
-    </div>
+    <nav>
+        <div class="logo">DODOLA_LAB</div>
+        <div class="nav-links">
+            <a onclick="scrollWin('home')">DASHBOARD</a>
+            <a onclick="scrollWin('academics')">ACADEMICS</a>
+            <a onclick="scrollWin('rankings')">RANKINGS</a>
+            <a onclick="scrollWin('clubs')">STUDENT_LIFE</a>
+        </div>
+    </nav>
 
-    <header style="text-align:center; padding-top: 50px;">
-        <h1>LAUREATE ACADEMY</h1>
-        <p>Your Journey to 600 Starts Here</p>
-    </header>
+    <header id="home">
+        <div class="hero-text">
+            <p style="color: var(--neon); font-family: var(--font-mono); letter-spacing: 5px;">[ SOURCE OF GENUS ]</p>
+            <h1 id="portal-title">G12_PORTAL</h1>
+            <p style="max-width: 600px; line-height: 1.8; opacity: 0.7;">Impact. Innovate. Lead. The premier academic portal for the Brightest Generation.</p>
+        </div>
+        <div class="stat-box">
+            <p class="stat-label">NAT_EXAM_AVG</p>
+            <div class="stat-value">590<span style="font-size: 2rem; opacity: 0.2;">/600</span></div>
+        </div>
+    </header>
 
-    <div class="stream-container">
-        <div class="stream-card natural-card">
-            <h2>NATURAL SCIENCE</h2>
-            <ul style="list-style:none; padding:0; margin-top:20px;">
-                <li>Mathematics</li>
-                <li>Physics</li>
-                <li>Chemistry</li>
-                <li>Biology</li>
-                <li>English</li>
-            </ul>
-        </div>
-        <div class="stream-card social-card">
-            <h2>SOCIAL SCIENCE</h2>
-            <ul style="list-style:none; padding:0; margin-top:20px;">
-                <li>Civics</li>
-                <li>Economics</li>
-                <li>Geography</li>
-                <li>Mathematics</li>
-                <li>English</li>
-            </ul>
-        </div>
-    </div>
+    <div class="selector-bar">
+        <button class="grade-btn active" onclick="updateUI(12, this)">GRADE_12</button>
+        <button class="grade-btn" onclick="updateUI(11, this)">GRADE_11</button>
+        <button class="grade-btn" onclick="updateUI(10, this)">GRADE_10</button>
+        <button class="grade-btn" onclick="updateUI(9, this)">GRADE_09</button>
+    </div>
 
-    <section style="padding: 0 50px;">
-        <h3>📖 THE STUDY ROOM (GRADES 9-12)</h3>
-        <div class="study-room">
-            <div class="grade-box"><h4>GRADE 9</h4><small>15 Books / Formulas</small></div>
-            <div class="grade-box"><h4>GRADE 10</h4><small>15 Books / Formulas</small></div>
-            <div class="grade-box"><h4>GRADE 11</h4><small>15 Books / Formulas</small></div>
-            <div class="grade-box"><h4>GRADE 12</h4><small>15 Books / Formulas</small></div>
-        </div>
-    </section>
+    <section id="academics" class="main-grid">
+        <div class="stream-container">
+            <div class="stream-tag">NATURAL_SCIENCE</div>
+            <div id="nat-list"></div>
+        </div>
+        <div class="stream-container">
+            <div class="stream-tag">SOCIAL_SCIENCE</div>
+            <div id="soc-list"></div>
+        </div>
+    </section>
 
+    <section id="rankings" style="padding: 100px 5%;">
+        <div class="stream-tag">2025_NATIONAL_SCORERS</div>
+        <table class="ranking-table" id="ranking-body"></table>
+        <p style="margin-top: 30px; opacity: 0.4; font-size: 0.8rem;">*Only school in Ethiopia with 100% scores above 480.</p>
+    </section>
+
+    <section id="clubs" style="padding: 100px 5%; background: rgba(35, 213, 171, 0.02);">
+        <div class="stream-tag">EXTRACURRICULAR_ACTIVITIES</div>
+        <div class="club-grid" id="club-list"></div>
+    </section>
+
+    <footer>
+        <p>Dodola Ifa Boru Special Boarding Secondary School | © 2026</p>
+        <p style="margin-top: 10px;">Created for the National Youth Laureate</p>
+    </footer>
+
+    <div id="room-modal" class="modal">
+        <div class="room-wrapper">
+            <div class="room-card" onclick="alert('Opening Study Room...')">
+                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">STUDY_ROOM</h1>
+                <p style="margin-top: 20px; opacity: 0.5;">Advanced notes and conceptual logic.</p>
+            </div>
+            <div class="room-card" onclick="alert('Opening Exam Room...')">
+                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_ROOM</h1>
+                <p style="margin-top: 20px; opacity: 0.5;">National exam simulation logic.</p>
+            </div>
+        </div>
+        <button class="grade-btn" style="position:fixed; bottom:60px;" onclick="closeModal()">BACK_TO_HUB</button>
+    </div>
+
+    <script>
+        const appData = {
+            subjects: {
+                12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
+                11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
+                10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
+                9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
+            },
+            scorers: [
+                { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
+                { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" },
+                { name: "Genet Merga Gishu", score: 580, rank: "#2 Female Nat", stream: "Natural" },
+                { name: "Elisabet Teku", score: 542, rank: "#2 Female Soc", stream: "Social" },
+                { name: "ISA Dedefo", score: 558, rank: "#4 National Soc", stream: "Social" }
+            ],
+            clubs: [
+                "ICT Club", "Innovation Hub", "Next Horizon STEM", "Brightest Generation Club", 
+                "Cyber Talent", "Oromo Culture", "Mini-media", "First Aid", "Charity Club", 
+                "Visual Communication", "English Club", "Library Club", "Athletics", "Innovation Lab"
+            ]
+        };
+
+        function updateUI(grade, btn) {
+            document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
+            renderSubjects(grade);
+        }
+
+        function renderSubjects(grade) {
+            const n = appData.subjects[grade].nat;
+            const s = appData.subjects[grade].soc;
+            
+            document.getElementById('nat-list').innerHTML = n.map(sub => `
+                <div class="subject-card" onclick="openGate()">
+                    <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
+                    <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+                </div>`).join('');
+                
+            document.getElementById('soc-list').innerHTML = s.map(sub => `
+                <div class="subject-card" onclick="openGate()">
+                    <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
+                    <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+                </div>`).join('');
+        }
+
+        function renderRankings() {
+            document.getElementById('ranking-body').innerHTML = appData.scorers.map((sc, i) => `
+                <tr class="ranking-row">
+                    <td class="rank-num">${(i+1).toString().padStart(2, '0')}</td>
+                    <td><strong>${sc.name}</strong><br><small>${sc.stream} Science</small></td>
+                    <td><span class="score-badge">${sc.score}</span></td>
+                    <td style="text-align:right; font-family:var(--font-mono); font-size:0.7rem;">${sc.rank}</td>
+                </tr>`).join('');
+        }
+
+        function renderClubs() {
+            document.getElementById('club-list').innerHTML = appData.clubs.map(c => `
+                <div class="club-chip" onclick="alert('Viewing ${c} dashboard...')">${c.toUpperCase()}</div>`).join('');
+        }
+
+        function openGate() { document.getElementById('room-modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
+        function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
+
+        // Initial Load
+        window.onload = () => {
+            renderSubjects(12);
+            renderRankings();
+            renderClubs();
+        };
+        // --- ACADEMIC ROOM CONTROL LOGIC ---
+
+// Function to open a specific room
+function openRoom(roomId) {
+    const room = document.getElementById(roomId);
+    if (room) {
+        room.style.display = 'block';
+        // This prevents the background from scrolling while you study
+        document.body.style.overflow = 'hidden'; 
+    }
+}
+
+// Function to close the room and return to dashboard
+function closeRoom(roomId) {
+    const room = document.getElementById(roomId);
+    if (room) {
+        room.style.display = 'none';
+        // This allows the background to scroll again
+        document.body.style.overflow = 'auto';
+    }
+}
+    </script>
 </body>
 </html>
