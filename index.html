@@ -119,6 +119,55 @@ header {
 
         /* --- 8. FOOTER --- */
         footer { padding: 100px 5%; border-top: 1px solid var(--border); text-align: center; opacity: 0.5; font-size: 0.8rem; }
+        /* --- PASTE THIS PART --- */
+
+/* --- ACADEMIC ROOM STYLING --- */
+.academic-room {
+    display: none; 
+    position: fixed; 
+    inset: 0; 
+    background: var(--bg-deep); 
+    z-index: 6000;
+    padding: 80px 5%; 
+    overflow-y: auto;
+}
+
+.module-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; 
+    margin-top: 40px;
+}
+
+.module-card {
+    background: var(--bg-card); 
+    border: 1px solid var(--border);
+    padding: 40px; 
+    border-radius: 25px; 
+    transition: var(--transition);
+}
+
+.module-card:hover { 
+    border-color: var(--neon); 
+    background: rgba(35, 213, 171, 0.05); 
+}
+
+.module-title { 
+    font-family: var(--font-mono); 
+    color: var(--neon); 
+    margin-bottom: 15px; 
+    font-size: 0.9rem; 
+}
+
+.formula-box { 
+    background: #000; 
+    padding: 20px; 
+    border-radius: 10px; 
+    font-family: var(--font-mono); 
+    font-size: 0.85rem; 
+    color: #888; 
+    border-left: 3px solid var(--neon);
+}
     </style>
 </head>
 <body>
