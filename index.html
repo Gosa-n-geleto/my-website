@@ -3,287 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAUREATE_OS // GOSA_NEGESO_CORE</title>
+    <title>LAUREATE_OS_ULTIMA // GOSA_NEGESO</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Major+Mono+Display&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Major+Mono+Display&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --neon-primary: #23d5ab;
-            --neon-secondary: #23a6d5;
-            --neon-danger: #ee7752;
-            --bg-ultra-black: #050505;
-            --bg-panel: rgba(10, 10, 10, 0.8);
-            --border-glow: rgba(35, 213, 171, 0.2);
-            --font-main: 'Space Grotesk', sans-serif;
+            --neon: #23d5ab;
+            --neon-bg: rgba(35, 213, 171, 0.05);
+            --danger: #ff4757;
+            --bg-obsidian: #020204;
+            --panel-glass: rgba(10, 10, 15, 0.95);
+            --border-tech: rgba(255, 255, 255, 0.07);
             --font-code: 'JetBrains Mono', monospace;
-            --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* --- 0. GLOBAL RESET & SCROLL --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--neon-primary); border-radius: 10px; }
-
+        /* --- 1. CORE OS STYLING --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            background: var(--bg-ultra-black); 
-            color: #fff; 
-            font-family: var(--font-main); 
-            overflow: hidden; /* Locked for OS feel */
+            background: var(--bg-obsidian); 
+            color: #ececec; 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+            cursor: cell;
         }
 
-        /* --- 1. DYNAMIC BACKGROUND ENGINE --- */
-        #school-matrix {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), url('school_bg.png');
+        #bg-canvas {
+            position: fixed; inset: 0;
+            background: linear-gradient(rgba(2,2,4,0.92), rgba(2,2,4,0.98)), url('school_bg.png');
             background-size: cover; background-position: center;
-            z-index: -1; transform: scale(1.1); filter: grayscale(50%) blur(2px);
-            transition: var(--transition-smooth);
+            z-index: -1; filter: contrast(110%);
         }
 
-        /* --- 2. THE TERMINAL HUD (HEADER) --- */
-        header {
-            height: 60px; background: rgba(0,0,0,0.9);
-            border-bottom: 1px solid var(--border-glow);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 20px; z-index: 100; position: relative;
-        }
-        .sys-identity { font-family: 'Major Mono Display'; color: var(--neon-primary); font-size: 1.2rem; }
-        .sys-stats { display: flex; gap: 40px; font-family: var(--font-code); font-size: 0.7rem; color: #555; }
-        .sys-stats b { color: var(--neon-primary); }
-
-        /* --- 3. THE WORKSPACE GRID --- */
-        .desktop-env {
-            display: grid; grid-template-columns: 280px 1fr 320px;
-            height: calc(100vh - 60px); gap: 10px; padding: 10px;
+        /* --- 2. LAYERED ARCHITECTURE --- */
+        .os-container {
+            display: grid;
+            grid-template-columns: 70px 320px 1fr 380px;
+            height: 100vh;
         }
 
-        /* SIDEBAR: MODULES */
-        .module-dock {
-            background: var(--bg-panel); border: 1px solid var(--border-glow);
-            border-radius: 12px; padding: 20px; backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .dock-header { font-size: 0.6rem; letter-spacing: 3px; color: #444; margin-bottom: 10px; }
-        .dock-item {
-            padding: 15px; border-radius: 8px; border: 1px solid transparent;
-            font-family: var(--font-code); font-size: 0.8rem; transition: 0.3s;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .dock-item:hover { border-color: var(--neon-primary); background: rgba(35, 213, 171, 0.05); }
-        .dock-item.active { background: var(--neon-primary); color: #000; font-weight: bold; }
+        /* TOOLBAR (LEFT) */
+        .sidebar-icons { border-right: 1px solid var(--border-tech); display: flex; flex-direction: column; align-items: center; padding: 25px 0; gap: 30px; background: rgba(0,0,0,0.4); }
+        .icon-btn { width: 44px; height: 44px; border: 1px solid var(--border-tech); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s; font-size: 0.7rem; font-family: var(--font-code); color: #555; }
+        .icon-btn:hover, .icon-btn.active { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 20px var(--neon-bg); background: var(--neon-bg); }
 
-        /* MAIN: CONTENT ENGINE */
-        .main-viewport {
-            background: rgba(255, 255, 255, 0.02); border-radius: 12px;
-            border: 1px solid var(--border-glow); overflow-y: auto;
-            position: relative; padding: 40px;
-        }
-        .glass-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            padding: 30px; border-radius: 20px; margin-bottom: 30px; position: relative;
-        }
-        .glass-card::after {
-            content: 'SECURE_DATA'; position: absolute; top: 10px; right: 20px;
-            font-size: 0.5rem; font-family: var(--font-code); color: var(--neon-primary); opacity: 0.3;
-        }
+        /* DIRECTORY (INNER LEFT) */
+        .resource-tree { background: var(--panel-glass); border-right: 1px solid var(--border-tech); padding: 40px 25px; overflow-y: auto; backdrop-filter: blur(20px); }
+        .tree-group { margin-bottom: 35px; }
+        .tree-header { font-family: var(--font-code); font-size: 0.65rem; color: #444; letter-spacing: 3px; margin-bottom: 15px; }
+        .tree-node { padding: 12px 18px; border-radius: 8px; font-family: var(--font-code); font-size: 0.75rem; margin-bottom: 6px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; color: #888; }
+        .tree-node:hover { background: rgba(255,255,255,0.03); color: #fff; }
+        .tree-node.active { background: var(--neon-bg); color: var(--neon); border-left: 3px solid var(--neon); }
 
-        /* --- 4. RESEARCH TOOLS --- */
-        .code-block {
-            background: #000; padding: 25px; border-radius: 10px;
-            font-family: var(--font-code); color: #00ffaa; line-height: 1.8;
-            margin: 20px 0; border-left: 3px solid var(--neon-primary);
-            font-size: 0.9rem; position: relative;
-        }
+        /* MAIN VIEWPORT (CENTER) */
+        .viewport { padding: 80px 60px; overflow-y: auto; scroll-behavior: smooth; position: relative; }
+        .module-header { margin-bottom: 60px; border-bottom: 1px solid var(--border-tech); padding-bottom: 30px; }
+        .module-title { font-family: 'Major Mono Display'; font-size: 3.5rem; letter-spacing: -2px; color: #fff; }
+        
+        .study-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border-tech); border-radius: 24px; padding: 45px; margin-bottom: 40px; position: relative; overflow: hidden; transition: 0.5s; }
+        .study-block:hover { background: rgba(255,255,255,0.02); border-color: rgba(35, 213, 171, 0.3); }
+        .study-block::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); opacity: 0.4; }
 
-        /* --- 5. EXAM ENGINE OVERLAY --- */
-        #exam-overlay {
-            display: none; position: fixed; inset: 0; background: #000;
-            z-index: 5000; padding: 80px 10%; overflow-y: auto;
-        }
-        .exam-header { border-bottom: 1px solid #222; margin-bottom: 50px; padding-bottom: 20px; }
-        .question-box { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 50px; border-radius: 30px; }
-        .ans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
-        .ans-opt {
-            padding: 25px; background: #111; border: 1px solid #222;
-            border-radius: 15px; transition: 0.3s; font-family: var(--font-code);
-        }
-        .ans-opt:hover { border-color: var(--neon-primary); background: #001a14; }
+        .latex-render { background: #000; padding: 30px; border-radius: 12px; font-family: var(--font-code); color: var(--neon); border: 1px solid #111; margin: 25px 0; font-size: 0.95rem; line-height: 1.6; position: relative; }
+        .latex-render::after { content: 'RENDERED_VIA_LAUREATE_CORE'; position: absolute; bottom: 8px; right: 12px; font-size: 0.5rem; opacity: 0.3; }
 
-        /* --- 6. ANIMATIONS & UI --- */
-        .btn-launch {
-            background: var(--neon-primary); color: #000; border: none;
-            padding: 12px 30px; border-radius: 50px; font-weight: bold;
-            font-family: var(--font-code); text-transform: uppercase;
+        /* KNOWLEDGE SIDEBAR (RIGHT) */
+        .intel-sidebar { background: var(--panel-glass); border-left: 1px solid var(--border-tech); padding: 40px 30px; display: flex; flex-direction: column; gap: 20px; }
+        .data-card { background: #000; border: 1px solid var(--border-tech); padding: 25px; border-radius: 18px; }
+        .rank-glow { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, #fff, var(--neon)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- 3. THE "MIT" EXAM ROOM --- */
+        #exam-environment {
+            display: none; position: fixed; inset: 0; z-index: 10000;
+            background: radial-gradient(circle at center, #0a0a10 0%, #020204 100%);
+            padding: 80px 10%; overflow-y: auto;
         }
-        .status-dot { width: 8px; height: 8px; background: var(--neon-primary); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--neon-primary); }
+        .exam-hud { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; border-bottom: 1px solid #222; padding-bottom: 20px; }
+        .exam-timer { font-family: var(--font-code); font-size: 2.5rem; color: var(--neon); text-shadow: 0 0 15px var(--neon-bg); }
+        
+        .question-card { background: rgba(255,255,255,0.02); border: 1px solid #1a1a1a; border-radius: 40px; padding: 70px; position: relative; max-width: 1000px; margin: 0 auto; }
+        .question-card h2 { font-size: 2rem; line-height: 1.4; margin-bottom: 40px; }
+        
+        .option-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .opt { padding: 30px; background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 15px; cursor: pointer; transition: 0.3s; font-family: var(--font-code); font-size: 1rem; }
+        .opt:hover { border-color: var(--neon); background: var(--neon-bg); transform: translateY(-5px); }
 
-        /* --- 7. GPA & RANKING WIDGETS --- */
-        .widgets { display: flex; flex-direction: column; gap: 10px; }
-        .widget-box { background: var(--bg-panel); border: 1px solid var(--border-glow); padding: 20px; border-radius: 12px; }
-        .radial-progress { width: 100px; height: 100px; border-radius: 50%; border: 5px solid #222; border-top-color: var(--neon-primary); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
-
+        /* --- 4. UTILITIES --- */
+        .btn-action { background: var(--neon); color: #000; border: none; padding: 15px 35px; border-radius: 12px; font-weight: 800; font-family: var(--font-code); cursor: pointer; text-transform: uppercase; }
+        .terminal-scroll { font-family: var(--font-code); font-size: 0.65rem; color: #444; margin-top: auto; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-    <div id="school-matrix"></div>
+    <div id="bg-canvas"></div>
 
-    <header>
-        <div class="sys-identity">LAUREATE_OS // V4.0</div>
-        <div class="sys-stats">
-            <div>USER: <b>GOSA_NEGESO</b></div>
-            <div>STATUS: <span class="status-dot"></span> <b>ACTIVE</b></div>
-            <div>CPU_LOAD: <b id="cpu-load">12%</b></div>
-            <div>MEM_ALLOC: <b>64.2GB</b></div>
-        </div>
-        <button class="btn-launch" onclick="launchExam()">START_EXAM_SIM</button>
-    </header>
-
-    <div class="desktop-env">
-        
-        <aside class="module-dock">
-            <div class="dock-header">ACADEMIC_SYSTEMS</div>
-            <div class="dock-item active" onclick="showModule('maths')">MATHEMATICS_PRO</div>
-            <div class="dock-item" onclick="showModule('physics')">PHYSICS_QUANTUM</div>
-            <div class="dock-item">BIOLOGY_BIO_SYS</div>
-            <div class="dock-item">CHEMISTRY_ATOMIC</div>
-            <div class="dock-item">ECONOMICS_LOGIC</div>
+    <div class="os-container">
+        <nav class="sidebar-icons">
+            <div class="icon-btn active" title="Study Hub">HUB</div>
+            <div class="icon-btn" onclick="openExam()" title="Exam Simulator">EXE</div>
+            <div class="icon-btn" title="Research Nodes">RES</div>
+            <div class="icon-btn" title="System Settings">SYS</div>
             <div style="margin-top:auto"></div>
-            <div class="dock-header">CORE_RESEARCH</div>
-            <div class="dock-item">NEURO_SYMBOLIC_AI</div>
-            <div class="dock-item">MODEL_PRUNING_LAB</div>
-            <div class="dock-item">AGRO_MESH_CORE</div>
+            <div class="icon-btn" title="User Profile">GN</div>
+        </nav>
+
+        <aside class="resource-tree">
+            <div class="tree-group">
+                <div class="tree-header">NATURAL_SCI_CURRICULUM</div>
+                <div class="tree-node active">01_MATHEMATICS_ADV</div>
+                <div class="tree-node">02_QUANTUM_PHYSICS</div>
+                <div class="tree-node">03_ORGANIC_CHEMISTRY</div>
+                <div class="tree-node">04_MOLECULAR_BIOLOGY</div>
+            </div>
+            
+            <div class="tree-group">
+                <div class="tree-header">LAUREATE_RESEARCH</div>
+                <div class="tree-node">NEURO_SYMBOLIC_AI</div>
+                <div class="tree-node">MODEL_PRUNING_V2</div>
+                <div class="tree-node">AGRO_MESH_NETWORK</div>
+            </div>
+
+            <div class="tree-group">
+                <div class="tree-header">EXTERNAL_SIMS</div>
+                <div class="tree-node">SAT_IVY_PREP</div>
+                <div class="tree-node">DUOLINGO_EN_TEST</div>
+            </div>
         </aside>
 
-        <main class="main-viewport" id="viewport">
-            <div id="maths-content">
-                <h1 style="font-family:'Major Mono Display'; font-size: 3.5rem; margin-bottom: 20px;">MATHEMATICS_ADV</h1>
-                <p style="opacity:0.6; margin-bottom:40px;">Focusing on high-standardized test preparation for MIT/Ivy League admission.</p>
-
-                <div class="glass-card">
-                    <h2>01. CALCULUS_DIFFERENTIAL</h2>
-                    <p>Understanding the rate of change in dynamic systems.</p>
-                    <div class="code-block">
-                        d/dx [sin(x)] = cos(x) <br>
-                        d/dx [ln(x)] = 1/x <br>
-                        d/dx [e^u] = e^u * du/dx
-                    </div>
-                </div>
-
-                <div class="glass-card">
-                    <h2>02. INTEGRATION_TECHNIQUES</h2>
-                    <p>Methods for finding area under curves in complex research models.</p>
-                    <div class="code-block">
-                        ∫ u dv = uv - ∫ v du (Integration by Parts)
-                    </div>
-                </div>
+        <main class="viewport">
+            <div class="module-header">
+                <p style="color:var(--neon); font-family:var(--font-code); font-weight:800;">[ MODULE_01_MATH_ANALYSIS ]</p>
+                <h1 class="module-title">CALCULUS_CORE</h1>
             </div>
+
+            <section class="study-block">
+                <h3 style="font-family:var(--font-code); color:var(--neon); margin-bottom:15px;">01.1 // Integration_by_Parts_Expansion</h3>
+                <p style="opacity:0.7; line-height:1.8;">Essential for derivation of backpropagation in Neuro-symbolic models. Focus on the boundary conditions of the $uv$ term.</p>
+                <div class="latex-render">
+                    ∫ u dv = uv - ∫ v du <br>
+                    Let u = x, dv = e^x dx <br>
+                    Result: e^x(x-1) + C
+                </div>
+                <button class="btn-action" style="padding:10px 20px; font-size:0.7rem;" onclick="openExam()">TEST_LOGIC</button>
+            </section>
+
+            <section class="study-block">
+                <h3 style="font-family:var(--font-code); color:var(--neon); margin-bottom:15px;">01.2 // Taylor_Series_Approximation</h3>
+                <div class="latex-render">
+                    f(x) = f(a) + f'(a)(x-a) + f''(a)/2!(x-a)² + ...
+                </div>
+            </section>
         </main>
 
-        <aside class="widgets">
-            <div class="widget-box" style="text-align:center;">
-                <div class="dock-header">EXAM_READINESS</div>
-                <div class="radial-progress"><h2 style="color:var(--neon-primary)">98%</h2></div>
-                <p style="font-size:0.7rem; color:#555;">NATIONAL_RANK: #01 (Expected)</p>
+        <aside class="intel-sidebar">
+            <div class="data-card">
+                <div class="tree-header">NATIONAL_RANKING_PROJECTION</div>
+                <div class="rank-glow">592<span style="font-size:1rem; -webkit-text-fill-color: #444;">/600</span></div>
+                <p style="font-size:0.6rem; font-family:var(--font-code); color:#555; margin-top:10px;">TOP 0.01% NATIONWIDE</p>
             </div>
-            <div class="widget-box">
-                <div class="dock-header">UPCOMING_DEADLINES</div>
-                <p style="font-size:0.8rem; margin-top:10px;">• SAT Math Practice: <span style="color:var(--neon-primary)">COMPLETED</span></p>
-                <p style="font-size:0.8rem; margin-top:5px;">• AI Model Review: <span style="color:var(--neon-secondary)">IN_PROGRESS</span></p>
-                <p style="font-size:0.8rem; margin-top:5px;">• Agro-Mesh Node 4: <span style="color:var(--neon-danger)">PENDING</span></p>
+
+            <div class="data-card" style="background:var(--neon-bg); border-color:var(--neon);">
+                <div class="tree-header" style="color:var(--neon)">STUDY_MOMENTUM</div>
+                <p style="font-size:1.2rem; font-weight:800;">14.5 Hours / Day</p>
+                <div style="height:4px; background:#111; margin-top:10px; border-radius:10px; overflow:hidden;">
+                    <div style="width:95%; height:100%; background:var(--neon);"></div>
+                </div>
             </div>
-            <div class="widget-box" id="terminal-feed" style="font-family:var(--font-code); font-size:0.6rem; color:#444; height:200px; overflow:hidden;">
-                > SYSTEM_BOOT_SEQUENCE_COMPLETE...<br>
-                > LOADING_G12_RESOURCES...<br>
-                > SYNCING_LAUREATE_DATA...<br>
+
+            <div class="terminal-scroll" id="term-feed">
+                > Initializing GOSA_NEGESO identity...<br>
+                > Loading school_bg.png background...<br>
+                > LaTeX rendering engine: OPTIMAL...<br>
+                > National Exam simulation: READY...<br>
             </div>
         </aside>
-
     </div>
 
-    <div id="exam-overlay">
-        <button class="btn-launch" style="background:#333; color:#fff;" onclick="closeExam()">EXIT_SIM</button>
-        <div class="exam-header">
-            <h1 style="color:var(--neon-primary)">NATIONAL_EXAM_ARENA_V1</h1>
-            <p>Subject: Natural Science Composite</p>
+    <div id="exam-environment">
+        <div class="exam-hud">
+            <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_SIMULATOR_PRO</h1>
+            <div class="exam-timer" id="timer">60:00</div>
+            <button class="btn-action" style="background:#222; color:#fff;" onclick="closeExam()">ABORT</button>
         </div>
-        <div class="question-box">
-            <h2 id="q-txt">In Neuro-symbolic AI, what is the primary benefit of pruning?</h2>
-            <div class="ans-grid" id="a-grid">
+
+        <div class="question-card">
+            <p id="q-category" style="color:var(--neon); font-family:var(--font-code); margin-bottom:10px;">SUBJECT: MATHEMATICS (NATURAL)</p>
+            <h2 id="question-text">Calculating logic gate parameters...</h2>
+            <div class="option-matrix" id="option-box">
                 </div>
         </div>
     </div>
 
     <script>
-        /* --- THE LOGIC CORE --- */
-
-        // 1. Terminal Simulation
-        const terminal = document.getElementById('terminal-feed');
-        const logs = [
-            "CONNECTING TO DODOLA_SPECIAL_BOARDING...",
-            "RETRIEVING SAT_MATH_PREP_DATA...",
-            "OPTIMIZING MODEL_PRUNING_ALGORITHMS...",
-            "AGRO_MESH_NODE_ACTIVE: STATUS_45_PERCENT...",
-            "NEURO_SYMBOLIC_ENGINE_INITIALIZED...",
-            "WELCOMING_NATIONAL_YOUTH_LAUREATE..."
+        // 1. TERMINAL FEED LOGIC
+        const feed = document.getElementById('term-feed');
+        const msgs = [
+            "Syncing with Dodola Special Boarding...",
+            "Analyzing 5% national pass rate metrics...",
+            "Preparing Agro-Mesh data nodes...",
+            "Neuro-symbolic AI modules active.",
+            "Identity Confirmed: National Youth Laureate."
         ];
-        let logIdx = 0;
+        let mIdx = 0;
         setInterval(() => {
-            const p = document.createElement('p');
-            p.innerText = "> " + logs[logIdx % logs.length];
-            terminal.appendChild(p);
-            if(terminal.childNodes.length > 15) terminal.removeChild(terminal.firstChild);
-            logIdx++;
-            document.getElementById('cpu-load').innerText = (10 + Math.random()*5).toFixed(1) + "%";
-        }, 3000);
+            const p = document.createElement('div');
+            p.innerHTML = "> " + msgs[mIdx % msgs.length];
+            feed.appendChild(p);
+            if(feed.childNodes.length > 10) feed.removeChild(feed.firstChild);
+            mIdx++;
+        }, 4000);
 
-        // 2. Exam Engine Data (Expand this to 1000 lines for massive depth)
-        const questionBank = [
-            { q: "What is the result of ∫ x e^x dx?", o: ["(x-1)e^x", "xe^x + e^x", "e^x / x", "ln(x)"], a: 0 },
-            { q: "The National Youth Laureate title was first awarded to a G12 student in which year?", o: ["2024", "2025", "2026", "2027"], a: 2 },
-            { q: "In Physics, what is the dimension of Planck's Constant?", o: ["ML^2T^-1", "MLT^-2", "ML^2T^-2", "M^2L"], a: 0 }
+        // 2. EXAM ENGINE DATA (Expand this for 1500+ line feel)
+        const bank = [
+            { q: "Evaluate the limit of (sin x)/x as x approaches 0.", o: ["0", "1", "Infinity", "Undefined"], a: 1 },
+            { q: "In Neuro-symbolic AI, what does 'Pruning' primarily reduce?", o: ["Learning rate", "Model size/weights", "Data quality", "Input dimensions"], a: 1 },
+            { q: "Which Oromo hero or location is the 'Source of Genius' hub named after?", o: ["Dodola", "Adama", "Bale", "Arsi"], a: 0 }
         ];
 
-        function launchExam() {
-            document.getElementById('exam-overlay').style.display = 'block';
-            loadQuestion(0);
+        let timerInt;
+        function openExam() {
+            document.getElementById('exam-environment').style.display = 'block';
+            startTimer(3600);
+            loadQ(0);
         }
-        function closeExam() { document.getElementById('exam-overlay').style.display = 'none'; }
 
-        function loadQuestion(idx) {
-            const data = questionBank[idx];
-            document.getElementById('q-txt').innerText = data.q;
-            document.getElementById('a-grid').innerHTML = data.o.map((opt, i) => `
-                <div class="ans-opt" onclick="checkAnswer(${i}, ${data.a}, ${idx})">${opt}</div>
+        function closeExam() {
+            document.getElementById('exam-environment').style.display = 'none';
+            clearInterval(timerInt);
+        }
+
+        function startTimer(sec) {
+            timerInt = setInterval(() => {
+                let m = Math.floor(sec / 60);
+                let s = sec % 60;
+                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if(sec-- <= 0) clearInterval(timerInt);
+            }, 1000);
+        }
+
+        function loadQ(i) {
+            const d = bank[i];
+            document.getElementById('question-text').innerText = d.q;
+            document.getElementById('option-box').innerHTML = d.o.map((opt, idx) => `
+                <div class="opt" onclick="check(${idx}, ${d.a}, ${i})">${opt}</div>
             `).join('');
         }
 
-        function checkAnswer(sel, cor, cur) {
+        function check(sel, cor, cur) {
             if(sel === cor) {
-                alert("CORRECT: ACCESS_GRANTED");
-                if(cur + 1 < questionBank.length) loadQuestion(cur + 1);
-                else alert("EXAM_COMPLETE: SCORE_98_PERCENT");
+                alert("LOGIC_VERIFIED");
+                if(cur + 1 < bank.length) loadQ(cur + 1);
+                else alert("EXAM_COMPLETE: RANK_01_CONFIRMED");
             } else {
-                alert("ERROR: LOGIC_FAIL");
+                alert("SYSTEM_REJECT: RE-EVALUATE");
             }
         }
-
-        // 3. Dynamic Module Loader
-        function showModule(m) {
-            const view = document.getElementById('viewport');
-            document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if(m === 'physics') {
-                view.innerHTML = `<h1>PHYSICS_LAB</h1><div class="glass-card"><h3>Quantum Mechanics</h3><p>E = hf</p></div>`;
-            } else {
-                location.reload();
-            }
-        }
-
-        // To truly hit 1,500 lines, you would copy the .glass-card block 
-        // 50 times for every chapter of your G12 curriculum.
     </script>
 </body>
 </html>
