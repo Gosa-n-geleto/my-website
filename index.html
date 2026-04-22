@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodola Hub v2.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono&family=Major+Mono+Display&display=swap" rel="stylesheet">
+    <title>Dodola Hub | The Source of Genus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon: #23d5ab;
@@ -12,95 +12,196 @@
             --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: white; font-family: var(--font-main); overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        body { background: var(--bg); color: #e2e8f0; font-family: var(--font-main); overflow-x: hidden; }
 
-        /* --- STAGE 1: CINEMATIC GATEWAY --- */
-        #gateway {
-            height: 100vh; width: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('your-school-image.jpg') center/cover;
-            display: flex; align-items: center; justify-content: center;
-            transition: 1s ease-in-out;
+        /* --- NAVIGATION MENU --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(1, 4, 10, 0.8); backdrop-filter: blur(20px);
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
         }
+        .menu-links { display: flex; gap: 30px; }
+        .menu-links a { color: white; text-decoration: none; font-size: 0.8rem; font-family: var(--font-mono); letter-spacing: 1px; cursor: pointer; transition: 0.3s; }
+        .menu-links a:hover { color: var(--neon); }
 
-        .enter-btn {
-            padding: 20px 60px; background: var(--neon); color: var(--bg);
-            border-radius: 50px; font-family: 'Major Mono Display'; font-weight: bold;
-            cursor: pointer; border: none; font-size: 1.2rem; box-shadow: 0 0 20px var(--neon);
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 140px 5% 60px; display: flex; justify-content: space-between; align-items: flex-end;
+            background: linear-gradient(to bottom, rgba(35, 213, 171, 0.05), transparent);
         }
-
-        /* --- STAGE 2: THE DUAL HUB --- */
-        #main-ui { display: none; padding: 40px 5%; opacity: 0; transition: 1.5s; }
-
-        .hero-banner {
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 40px; border-radius: 24px; display: flex; 
-            justify-content: space-between; align-items: center; margin-bottom: 40px;
+        .grade-pill-box { display: flex; gap: 10px; margin-top: 20px; }
+        .grade-pill {
+            padding: 10px 25px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--glass); color: white; cursor: pointer; font-family: var(--font-mono);
         }
+        .grade-pill.active { background: var(--neon); color: var(--bg); font-weight: bold; }
 
-        .stream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        /* --- STREAMS SIDE-BY-SIDE --- */
+        .streams-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 5% 100px; }
+        .stream-col { background: rgba(255,255,255,0.01); border-radius: 30px; padding: 40px; border: 1px solid var(--border); }
+        .stream-header { font-family: 'Major Mono Display'; color: var(--neon); margin-bottom: 30px; border-bottom: 1px solid var(--neon); padding-bottom: 10px; }
         
-        .column-title { 
-            font-family: 'Major Mono Display'; color: var(--neon); 
-            letter-spacing: 3px; margin-bottom: 25px; border-bottom: 1px solid var(--neon);
-            display: inline-block; padding-bottom: 5px;
-        }
-
         .subject-card {
             background: var(--glass); border: 1px solid var(--border);
-            padding: 25px; border-radius: 16px; margin-bottom: 15px;
-            cursor: pointer; transition: 0.3s;
+            padding: 25px; border-radius: 15px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        .subject-card:hover { transform: translateX(15px); border-color: var(--neon); background: rgba(35, 213, 171, 0.05); }
 
-        .subject-card:hover { border-color: var(--neon); background: rgba(35, 213, 171, 0.05); }
+        /* --- LOGIC GATEWAY (MODAL) --- */
+        .modal {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(1, 4, 10, 0.98); backdrop-filter: blur(20px);
+            align-items: center; justify-content: center;
+        }
+        .room-choice { display: flex; gap: 30px; width: 90%; max-width: 900px; }
+        .room-box {
+            flex: 1; padding: 60px 40px; border-radius: 25px; border: 1px solid var(--border);
+            background: var(--glass); text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .room-box:hover { border-color: var(--neon); background: rgba(35, 213, 171, 0.08); transform: translateY(-10px); }
 
-        .record-text { font-size: 5rem; font-weight: 700; font-family: var(--font-main); }
+        /* --- SECTIONS --- */
+        .extra-section { padding: 100px 5%; border-top: 1px solid var(--border); }
+        .award-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .award-card { background: var(--glass); padding: 30px; border-radius: 20px; border: 1px solid var(--border); }
+
     </style>
 </head>
 <body>
 
-    <div id="gateway">
-        <button class="enter-btn" onclick="unlockHub()">ENTER_LAB</button>
-    </div>
+    <nav>
+        <h2 style="font-family:'Major Mono Display'; color:var(--neon);">DODOLA_HUB</h2>
+        <div class="menu-links">
+            <a onclick="scrollToSection('home')">HOME</a>
+            <a onclick="scrollToSection('streams')">ACADEMICS</a>
+            <a onclick="scrollToSection('extra')">EXTRACURRICULAR</a>
+            <a onclick="scrollToSection('awards')">AWARDS</a>
+        </div>
+    </nav>
 
-    <div id="main-ui">
-        <div class="hero-banner">
-            <div>
-                <h1 style="font-size: 3rem; font-family: 'Major Mono Display';">G12_LOGIC</h1>
-                <p style="opacity:0.6;">Advanced mathematical logic & university prep.</p>
-            </div>
-            <div style="text-align: right;">
-                <p style="font-size: 0.8rem; opacity: 0.4;">NATIONAL_RECORD</p>
-                <div class="record-text">590/600</div>
+    <section id="home" class="hero">
+        <div>
+            <h1 id="active-grade-label" style="font-family:'Major Mono Display'; font-size: 4rem;">G12_PORTAL</h1>
+            <p style="opacity:0.6; max-width: 500px; margin-top: 15px;">Advanced academic integration for national excellence.</p>
+            <div class="grade-pill-box">
+                <button class="grade-pill active" onclick="setGrade(12, this)">G12</button>
+                <button class="grade-pill" onclick="setGrade(11, this)">G11</button>
+                <button class="grade-pill" onclick="setGrade(10, this)">G10</button>
+                <button class="grade-pill" onclick="setGrade(9, this)">G9</button>
             </div>
         </div>
+        <div style="text-align: right;">
+            <p style="font-family:var(--font-mono); font-size: 0.7rem; letter-spacing: 3px; opacity: 0.4;">MAX_LOGIC_SCORE</p>
+            <h2 style="font-size: 6rem; font-weight: 700; line-height: 1;">590<span style="font-size: 1.5rem; opacity: 0.2;">/600</span></h2>
+        </div>
+    </section>
 
-        <div class="stream-grid">
-            <div class="stream-col">
-                <h3 class="column-title">NATURAL_SCIENCE</h3>
-                <div class="subject-card"><h3>MATHS</h3><p>G12 Logic Hub</p></div>
-                <div class="subject-card"><h3>PHYSICS</h3><p>G12 Logic Hub</p></div>
+    <section id="streams" class="streams-container">
+        <div class="stream-col">
+            <h3 class="stream-header">NATURAL_SCIENCE</h3>
+            <div id="natural-list"></div>
+        </div>
+        <div class="stream-col">
+            <h3 class="stream-header">SOCIAL_SCIENCE</h3>
+            <div id="social-list"></div>
+        </div>
+    </section>
+
+    <section id="extra" class="extra-section">
+        <h3 class="stream-header">EXTRACURRICULAR_ACTIVITIES</h3>
+        <div class="award-grid">
+            <div class="award-card">
+                <h4 style="color:var(--neon);">Agro-Mesh Initiative</h4>
+                <p style="opacity:0.7; margin-top:10px;">Solar-powered mesh networking for local farmers.</p>
             </div>
-            <div class="stream-col">
-                <h3 class="column-title">SOCIAL_SCIENCE</h3>
-                <div class="subject-card"><h3>HISTORY</h3><p>G12 Logic Hub</p></div>
-                <div class="subject-card"><h3>GEOGRAPHY</h3><p>G12 Logic Hub</p></div>
+            <div class="award-card">
+                <h4 style="color:var(--neon);">Brightest Generation Club</h4>
+                <p style="opacity:0.7; margin-top:10px;">Peer-to-peer mentoring and academic leadership.</p>
             </div>
         </div>
+    </section>
+
+    <section id="awards" class="extra-section">
+        <h3 class="stream-header">SCHOOL_AWARDS</h3>
+        <div class="award-grid">
+            <div class="award-card" style="border-color: var(--neon);">
+                <h4 style="color:var(--neon);">National Youth Laureate</h4>
+                <p style="opacity:0.7; margin-top:10px;">First Grade 12 student to receive the Prime Minister’s recognition.</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="room-modal" class="modal">
+        <div class="room-choice">
+            <div class="room-box" onclick="alert('Entering Study Room...')">
+                <h2 style="font-family:'Major Mono Display'; color:var(--neon);">STUDY_ROOM</h2>
+                <p style="opacity:0.6; margin-top:15px;">Logic-based notes and concept blueprints.</p>
+            </div>
+            <div class="room-box" onclick="alert('Entering Exam Room...')">
+                <h2 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_ROOM</h2>
+                <p style="opacity:0.6; margin-top:15px;">High-stakes national exam logic simulations.</p>
+            </div>
+        </div>
+        <button class="grade-pill" style="position:fixed; bottom:50px;" onclick="closeModal()">BACK_TO_HUB</button>
     </div>
 
     <script>
-        function unlockHub() {
-            document.getElementById('gateway').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('gateway').style.display = 'none';
-                const ui = document.getElementById('main-ui');
-                ui.style.display = 'block';
-                setTimeout(() => ui.style.opacity = '1', 100);
-            }, 1000);
+        const subjectData = {
+            12: {
+                nat: ["Maths", "Physics", "Chemistry", "Biology", "English"],
+                soc: ["Geography", "History", "Maths", "English", "Economics"]
+            },
+            11: {
+                nat: ["Maths", "Physics", "Chemistry", "Biology", "English"],
+                soc: ["Geography", "History", "Maths", "English", "Economics"]
+            },
+            10: {
+                nat: ["Maths", "Physics", "Chemistry", "Biology", "English"],
+                soc: ["Civics", "History", "Geography", "English", "Maths"]
+            },
+            9: {
+                nat: ["Maths", "Physics", "Chemistry", "Biology", "English"],
+                soc: ["Civics", "History", "Geography", "English", "Maths"]
+            }
+        };
+
+        function setGrade(grade, btn) {
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('active-grade-label').innerText = `G${grade}_PORTAL`;
+            renderSubjects(grade);
         }
+
+        function renderSubjects(grade) {
+            const natList = document.getElementById('natural-list');
+            const socList = document.getElementById('social-list');
+            
+            natList.innerHTML = subjectData[grade].nat.map(s => `
+                <div class="subject-card" onclick="openRoom('${s}')">
+                    <span>${s.toUpperCase()}</span>
+                    <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--neon);">LOGIC_SYNC</span>
+                </div>`).join('');
+                
+            socList.innerHTML = subjectData[grade].soc.map(s => `
+                <div class="subject-card" onclick="openRoom('${s}')">
+                    <span>${s.toUpperCase()}</span>
+                    <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--neon);">SYSTEM_READY</span>
+                </div>`).join('');
+        }
+
+        function openRoom(s) { document.getElementById('room-modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
+        function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior: 'smooth'}); }
+
+        // Initial Load
+        renderSubjects(12);
     </script>
 </body>
 </html>
