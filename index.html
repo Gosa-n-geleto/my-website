@@ -224,158 +224,151 @@
     </div>
 
     <script>
-        let currentGrade = 12; // Default to Grade 12
-let currentSubject = "";
-        const appData = {
-    // This library will hold all your short-notes
-    library: {
-        "Maths": {
-            9: ["Further on Sets", "The Number System", "Solving Inequalities", "Trignometry", "Regular Polygons", "Congruencyand similarities", "Vectors in 2D", "statistics and Probability"],
-            10: ["Polynomial Functions", "Exponential & Logarithmic", "Trigonometry", "Circles"],
-            11: ["Vectors", "Complex Numbers", "Sequences & Series", "Matrices"],
-            12: ["Limits & Continuity", "Differentiation", "Integration", "Three Dimensional Geometry"]
+    // 1. STATE MANAGEMENT (Defined only once)
+    let currentGrade = 12; 
+    let currentSubject = "";
+
+    // 2. MASTER DATA LIBRARY
+    const appData = {
+        library: {
+            "Maths": {
+                9: ["Further on Sets", "The Number System", "Solving Inequalities", "Trigonometry", "Regular Polygons", "Congruency and Similarities", "Vectors in 2D", "Statistics and Probability"],
+                10: ["Polynomial Functions", "Exponential & Logarithmic", "Trigonometry", "Circles"],
+                11: ["Vectors", "Complex Numbers", "Sequences & Series", "Matrices"],
+                12: ["Limits & Continuity", "Differentiation", "Integration", "Three Dimensional Geometry"]
+            },
+            "Biology": {
+                9: ["Introduction", "Organisms", "Cell", "Reproduction", "Human Health, Nutrition, and Disease", "Ecology"],
+                10: ["Microbiology", "Genetics", "Evolution", "Human Health"],
+                11: ["Biomolecules", "Enzymes", "Cellular Respiration", "Photosynthesis"],
+                12: ["Ecological Succession", "Environmental Pollution", "Natural Resources", "Biotechnology"]
+            },
+            "Chemistry": {
+                9: ["Chemo's Importance", "Measurements and Scientific Methods", "Structure of Atom", "Periodic Classification", "Chemical Bonding"],
+                10: ["Chemical Reactions", "Acids, Bases & Salts", "Energy Changes", "Electrochemistry"],
+                11: ["Atomic Structure & Periodicity", "Chemical Bonding", "Physical States of Matter", "Chemical Equilibrium"],
+                12: ["Carbon Chemistry", "Polymers", "Industrial Chemistry", "Environmental Chemistry"]
+            }
         },
-        "Biology": {
-            9: ["Introduction", "Organisms", "Cell", "Reproduction", "Human Health, Nutrition, and Desease", "Ecology"],
-            10: ["Microbiology", "Genetics", "Evolution", "Human Health"],
-            11: ["Biomolecules", "Enzymes", "Cellular Respiration", "Photosynthesis"],
-            12: ["Ecological Succession", "Environmental Pollution", "Natural Resources", "Biotechnology"]
+        subjects: {
+            12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
+            11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
+            10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
+            9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
         },
-        "Chemistry": {
-            9: ["Chemo's Importance", "Measurements and Scientific Metods", "Structure of Atom", "Periodic Classification", "Chemical Bonding"],
-            10: ["Chemical Reactions", "Acids, Bases & Salts", "Energy Changes", "Electrochemistry"],
-            11: ["Atomic Structure & Periodicity", "Chemical Bonding", "Physical States of Matter", "Chemical Equilibrium"],
-            12: ["Carbon Chemistry", "Polymers", "Industrial Chemistry", "Environmental Chemistry"]
-        }
-    },
-    // Keep your existing scorers, subjects, and clubs below this...
-    subjects: {
-        12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
-        11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
-        10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
-        9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
-    },
-    scorers: [
-        { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
-        { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" }
-    ],
-    clubs: ["ICT Club", "Innovation Hub", "Brightest Generation Club"]
-};
+        scorers: [
+            { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
+            { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" }
+        ],
+        clubs: ["ICT Club", "Innovation Hub", "Brightest Generation Club"]
+    };
 
-        let currentSubject = "";
+    // 3. CORE FUNCTIONS
+    function updateUI(grade, btn) {
+        currentGrade = grade;
+        document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
+        renderSubjects(grade);
+    }
 
-       function updateUI(grade, btn) {
-    currentGrade = grade; // Save the selected grade to memory
-    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
-    renderSubjects(grade);
-}
-
-        function renderSubjects(grade) {
-            const n = appData.subjects[grade].nat;
-            const s = appData.subjects[grade].soc;
-            
-            document.getElementById('nat-list').innerHTML = n.map(sub => `
-                <div class="subject-card" onclick="openGate('${sub}')">
-                    <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
-                    <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
-                </div>`).join('');
-                
-            document.getElementById('soc-list').innerHTML = s.map(sub => `
-                <div class="subject-card" onclick="openGate('${sub}')">
-                    <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
-                    <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
-                </div>`).join('');
-        }
-
-        function renderRankings() {
-            document.getElementById('ranking-body').innerHTML = appData.scorers.map((sc, i) => `
-                <tr class="ranking-row">
-                    <td class="rank-num">${(i+1).toString().padStart(2, '0')}</td>
-                    <td><strong>${sc.name}</strong><br><small>${sc.stream} Science</small></td>
-                    <td><span class="score-badge">${sc.score}</span></td>
-                    <td style="text-align:right; font-family:var(--font-mono); font-size:0.7rem;">${sc.rank}</td>
-                </tr>`).join('');
-        }
-
-        function renderClubs() {
-            document.getElementById('club-list').innerHTML = appData.clubs.map(c => `
-                <div class="club-chip" onclick="alert('Viewing ${c} dashboard...')">${c.toUpperCase()}</div>`).join('');
-        }
-
-        function openGate(subjectName) { 
-            currentSubject = subjectName;
-            document.getElementById('room-modal').style.display = 'flex'; 
-        }
-
-        function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
+    function renderSubjects(grade) {
+        const n = appData.subjects[grade].nat;
+        const s = appData.subjects[grade].soc;
         
-        function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
+        document.getElementById('nat-list').innerHTML = n.map(sub => `
+            <div class="subject-card" onclick="openGate('${sub}')">
+                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
+                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+            </div>`).join('');
+            
+        document.getElementById('soc-list').innerHTML = s.map(sub => `
+            <div class="subject-card" onclick="openGate('${sub}')">
+                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
+                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+            </div>`).join('');
+    }
 
-        function launchStudyRoom() {
-    closeModal();
-    document.getElementById('active-study-room').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
-    
-    // 1. Get the units for the specific Subject and Grade
-    const units = (appData.library[currentSubject] && appData.library[currentSubject][currentGrade]) 
-                  ? appData.library[currentSubject][currentGrade] 
-                  : ["Unit 01: Syllabus Overview", "Unit 02: Resource Loading..."];
+    function openGate(subjectName) { 
+        currentSubject = subjectName;
+        document.getElementById('room-modal').style.display = 'flex'; 
+    }
 
-    // 2. Inject Sidebar Units (Non-linear navigation)
-    const sidebar = document.getElementById('study-sidebar-nav');
-    sidebar.innerHTML = units.map((unit, index) => `
-        <div class="sidebar-item ${index === 0 ? 'active' : ''}" onclick="loadNoteContent('${unit}')">
-            UNIT 0${index + 1}: ${unit.toUpperCase()}
-        </div>
-    `).join('');
-    
-    // 3. Inject Initial Content
-    loadNoteContent(units[0]);
-}
+    function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
 
-// New helper function to load specific unit content
-function loadNoteContent(unitTitle) {
-    // 1. Update the 'active' class in the sidebar so the user knows where they are
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-        item.classList.remove('active');
-        if(item.innerText.includes(unitTitle.toUpperCase())) {
-            item.classList.add('active');
-        }
-    });
+    function launchStudyRoom() {
+        closeModal();
+        document.getElementById('active-study-room').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
+        
+        const units = (appData.library[currentSubject] && appData.library[currentSubject][currentGrade]) 
+                      ? appData.library[currentSubject][currentGrade] 
+                      : ["Syllabus Overview", "Resource Loading..."];
 
-    // 2. Inject the specific note content
-    const content = document.getElementById('study-main-content');
-    content.innerHTML = `
-        <div class="note-card">
-            <h2 style="color:var(--neon); margin-bottom:10px;">${currentSubject.toUpperCase()}</h2>
-            <h3>UNIT: ${unitTitle}</h3>
-            <hr style="border:0; border-top:1fr solid var(--border); margin:20px 0;">
-            <p>Targeting 590+ excellence. Here we will integrate the detailed short-notes for Grade ${currentGrade}.</p>
-            <div class="formula-box" style="margin-top:20px;">
-                // DATA_STREAM: G${currentGrade}_${currentSubject.toUpperCase()}_UNIT_LOADED...
-                <br>// STATUS: READY_FOR_REVIEW
+        const sidebar = document.getElementById('study-sidebar-nav');
+        sidebar.innerHTML = units.map((unit, index) => `
+            <div class="sidebar-item ${index === 0 ? 'active' : ''}" onclick="loadNoteContent('${unit.replace(/'/g, "\\'")}')">
+                UNIT 0${index + 1}: ${unit.toUpperCase()}
             </div>
-        </div>
-        <button class="grade-btn" onclick="launchExamRoom()">SIMULATE ${unitTitle.toUpperCase()} EXAM →</button>
-    `;
-}
-        function closeStudyRoom() {
-            document.getElementById('active-study-room').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        `).join('');
+        
+        loadNoteContent(units[0]);
+    }
 
-        function launchExamRoom() {
-            alert(`Initializing Exam Room for ${currentSubject}... National exam simulation starting.`);
-        }
+    function loadNoteContent(unitTitle) {
+        // Update active sidebar state
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.classList.remove('active');
+            if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
+        });
 
-        window.onload = () => {
-            renderSubjects(12);
-            renderRankings();
-            renderClubs();
-        };
-    </script>
+        const content = document.getElementById('study-main-content');
+        content.innerHTML = `
+            <div class="note-card">
+                <h2 style="color:var(--neon); margin-bottom:10px;">${currentSubject.toUpperCase()}</h2>
+                <h3>UNIT: ${unitTitle}</h3>
+                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+                <p>Grade ${currentGrade} conceptual framework loaded. Analyzing national exam patterns for ${unitTitle}...</p>
+                <div class="formula-box" style="margin-top:20px;">
+                    // STATUS: READY_FOR_DATA_UPLOAD
+                </div>
+            </div>
+            <button class="grade-btn" onclick="launchExamRoom()">SIMULATE ${unitTitle.toUpperCase()} EXAM →</button>
+        `;
+    }
+
+    function closeStudyRoom() {
+        document.getElementById('active-study-room').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function launchExamRoom() {
+        alert(`Initializing Exam Room for ${currentSubject}...`);
+    }
+
+    function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
+
+    function renderRankings() {
+        document.getElementById('ranking-body').innerHTML = appData.scorers.map((sc, i) => `
+            <tr class="ranking-row">
+                <td class="rank-num">${(i+1).toString().padStart(2, '0')}</td>
+                <td><strong>${sc.name}</strong><br><small>${sc.stream} Science</small></td>
+                <td><span class="score-badge">${sc.score}</span></td>
+                <td style="text-align:right; font-family:var(--font-mono); font-size:0.7rem;">${sc.rank}</td>
+            </tr>`).join('');
+    }
+
+    function renderClubs() {
+        document.getElementById('club-list').innerHTML = appData.clubs.map(c => `
+            <div class="club-chip">${c.toUpperCase()}</div>`).join('');
+    }
+
+    window.onload = () => {
+        renderSubjects(12);
+        renderRankings();
+        renderClubs();
+    };
+</script>
 </body>
 </html>
