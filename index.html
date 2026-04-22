@@ -312,6 +312,27 @@ header {
             renderRankings();
             renderClubs();
         };
+        // --- ACADEMIC ROOM CONTROL LOGIC ---
+
+// Function to open a specific room
+function openRoom(roomId) {
+    const room = document.getElementById(roomId);
+    if (room) {
+        room.style.display = 'block';
+        // This prevents the background from scrolling while you study
+        document.body.style.overflow = 'hidden'; 
+    }
+}
+
+// Function to close the room and return to dashboard
+function closeRoom(roomId) {
+    const room = document.getElementById(roomId);
+    if (room) {
+        room.style.display = 'none';
+        // This allows the background to scroll again
+        document.body.style.overflow = 'auto';
+    }
+}
     </script>
 </body>
 </html>
