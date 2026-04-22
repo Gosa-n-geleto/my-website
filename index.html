@@ -3,261 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAUREATE_OS_ULTIMA // GOSA_NEGESO</title>
+    <title>LAUREATE_OS_V6_STABLE // GOSA_NEGESO</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Major+Mono+Display&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Major+Mono+Display&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* 1. BEM-STRUCTURED SYSTEM DESIGN */
         :root {
-            --neon: #23d5ab;
-            --neon-bg: rgba(35, 213, 171, 0.05);
-            --danger: #ff4757;
-            --bg-obsidian: #020204;
-            --panel-glass: rgba(10, 10, 15, 0.95);
-            --border-tech: rgba(255, 255, 255, 0.07);
-            --font-code: 'JetBrains Mono', monospace;
+            --clr-neon: #23d5ab;
+            --clr-neon-muted: rgba(35, 213, 171, 0.1);
+            --clr-bg: #050508;
+            --clr-panel: rgba(10, 10, 15, 0.98);
+            --clr-border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --sidebar-w: 280px;
         }
 
-        /* --- 1. CORE OS STYLING --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
-            background: var(--bg-obsidian); 
+            background: var(--clr-bg); 
             color: #ececec; 
-            font-family: 'Inter', sans-serif; 
-            overflow: hidden; 
-            cursor: cell;
+            font-family: var(--font-main); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        #bg-canvas {
-            position: fixed; inset: 0;
-            background: linear-gradient(rgba(2,2,4,0.92), rgba(2,2,4,0.98)), url('school_bg.png');
-            background-size: cover; background-position: center;
-            z-index: -1; filter: contrast(110%);
-        }
-
-        /* --- 2. LAYERED ARCHITECTURE --- */
-        .os-container {
-            display: grid;
-            grid-template-columns: 70px 320px 1fr 380px;
+        /* 2. RESPONSIVE ARCHITECTURE */
+        .app-shell {
+            display: flex;
+            flex: 1;
             height: 100vh;
+            overflow: hidden;
         }
 
-        /* TOOLBAR (LEFT) */
-        .sidebar-icons { border-right: 1px solid var(--border-tech); display: flex; flex-direction: column; align-items: center; padding: 25px 0; gap: 30px; background: rgba(0,0,0,0.4); }
-        .icon-btn { width: 44px; height: 44px; border: 1px solid var(--border-tech); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s; font-size: 0.7rem; font-family: var(--font-code); color: #555; }
-        .icon-btn:hover, .icon-btn.active { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 20px var(--neon-bg); background: var(--neon-bg); }
-
-        /* DIRECTORY (INNER LEFT) */
-        .resource-tree { background: var(--panel-glass); border-right: 1px solid var(--border-tech); padding: 40px 25px; overflow-y: auto; backdrop-filter: blur(20px); }
-        .tree-group { margin-bottom: 35px; }
-        .tree-header { font-family: var(--font-code); font-size: 0.65rem; color: #444; letter-spacing: 3px; margin-bottom: 15px; }
-        .tree-node { padding: 12px 18px; border-radius: 8px; font-family: var(--font-code); font-size: 0.75rem; margin-bottom: 6px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; color: #888; }
-        .tree-node:hover { background: rgba(255,255,255,0.03); color: #fff; }
-        .tree-node.active { background: var(--neon-bg); color: var(--neon); border-left: 3px solid var(--neon); }
-
-        /* MAIN VIEWPORT (CENTER) */
-        .viewport { padding: 80px 60px; overflow-y: auto; scroll-behavior: smooth; position: relative; }
-        .module-header { margin-bottom: 60px; border-bottom: 1px solid var(--border-tech); padding-bottom: 30px; }
-        .module-title { font-family: 'Major Mono Display'; font-size: 3.5rem; letter-spacing: -2px; color: #fff; }
-        
-        .study-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border-tech); border-radius: 24px; padding: 45px; margin-bottom: 40px; position: relative; overflow: hidden; transition: 0.5s; }
-        .study-block:hover { background: rgba(255,255,255,0.02); border-color: rgba(35, 213, 171, 0.3); }
-        .study-block::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--neon); opacity: 0.4; }
-
-        .latex-render { background: #000; padding: 30px; border-radius: 12px; font-family: var(--font-code); color: var(--neon); border: 1px solid #111; margin: 25px 0; font-size: 0.95rem; line-height: 1.6; position: relative; }
-        .latex-render::after { content: 'RENDERED_VIA_LAUREATE_CORE'; position: absolute; bottom: 8px; right: 12px; font-size: 0.5rem; opacity: 0.3; }
-
-        /* KNOWLEDGE SIDEBAR (RIGHT) */
-        .intel-sidebar { background: var(--panel-glass); border-left: 1px solid var(--border-tech); padding: 40px 30px; display: flex; flex-direction: column; gap: 20px; }
-        .data-card { background: #000; border: 1px solid var(--border-tech); padding: 25px; border-radius: 18px; }
-        .rank-glow { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, #fff, var(--neon)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* --- 3. THE "MIT" EXAM ROOM --- */
-        #exam-environment {
-            display: none; position: fixed; inset: 0; z-index: 10000;
-            background: radial-gradient(circle at center, #0a0a10 0%, #020204 100%);
-            padding: 80px 10%; overflow-y: auto;
+        /* MOBILE OVERRIDE */
+        @media (max-width: 900px) {
+            .app-shell { flex-direction: column; height: auto; overflow: visible; }
+            .sidebar { width: 100% !important; height: auto !important; }
+            .viewport { padding: 20px !important; }
         }
-        .exam-hud { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; border-bottom: 1px solid #222; padding-bottom: 20px; }
-        .exam-timer { font-family: var(--font-code); font-size: 2.5rem; color: var(--neon); text-shadow: 0 0 15px var(--neon-bg); }
-        
-        .question-card { background: rgba(255,255,255,0.02); border: 1px solid #1a1a1a; border-radius: 40px; padding: 70px; position: relative; max-width: 1000px; margin: 0 auto; }
-        .question-card h2 { font-size: 2rem; line-height: 1.4; margin-bottom: 40px; }
-        
-        .option-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .opt { padding: 30px; background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 15px; cursor: pointer; transition: 0.3s; font-family: var(--font-code); font-size: 1rem; }
-        .opt:hover { border-color: var(--neon); background: var(--neon-bg); transform: translateY(-5px); }
 
-        /* --- 4. UTILITIES --- */
-        .btn-action { background: var(--neon); color: #000; border: none; padding: 15px 35px; border-radius: 12px; font-weight: 800; font-family: var(--font-code); cursor: pointer; text-transform: uppercase; }
-        .terminal-scroll { font-family: var(--font-code); font-size: 0.65rem; color: #444; margin-top: auto; line-height: 1.8; }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--clr-panel);
+            border-right: 1px solid var(--clr-border);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            backdrop-filter: blur(20px);
+        }
+
+        /* 3. COMPONENT STYLING */
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--clr-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover { border-color: var(--clr-neon); background: var(--clr-neon-muted); }
+
+        .btn {
+            background: var(--clr-neon);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .btn:disabled { background: #333; cursor: not-allowed; }
+
+        /* 4. EXAM ENGINE 2.0 (NON-LINEAR) */
+        .exam-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--clr-bg);
+            z-index: 1000;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .exam-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-dot {
+            width: 35px;
+            height: 35px;
+            border: 1px solid var(--clr-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .nav-dot.active { background: var(--clr-neon); color: #000; }
+        .nav-dot.completed { border-color: var(--clr-neon); color: var(--clr-neon); }
+
+        .latex-box {
+            font-family: var(--font-mono);
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            color: var(--clr-neon);
+            margin: 15px 0;
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="bg-canvas"></div>
-
-    <div class="os-container">
-        <nav class="sidebar-icons">
-            <div class="icon-btn active" title="Study Hub">HUB</div>
-            <div class="icon-btn" onclick="openExam()" title="Exam Simulator">EXE</div>
-            <div class="icon-btn" title="Research Nodes">RES</div>
-            <div class="icon-btn" title="System Settings">SYS</div>
-            <div style="margin-top:auto"></div>
-            <div class="icon-btn" title="User Profile">GN</div>
-        </nav>
-
-        <aside class="resource-tree">
-            <div class="tree-group">
-                <div class="tree-header">NATURAL_SCI_CURRICULUM</div>
-                <div class="tree-node active">01_MATHEMATICS_ADV</div>
-                <div class="tree-node">02_QUANTUM_PHYSICS</div>
-                <div class="tree-node">03_ORGANIC_CHEMISTRY</div>
-                <div class="tree-node">04_MOLECULAR_BIOLOGY</div>
-            </div>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <h2 style="font-family: 'Major Mono Display'; color: var(--clr-neon); margin-bottom: 40px;">LAUREATE_OS</h2>
             
-            <div class="tree-group">
-                <div class="tree-header">LAUREATE_RESEARCH</div>
-                <div class="tree-node">NEURO_SYMBOLIC_AI</div>
-                <div class="tree-node">MODEL_PRUNING_V2</div>
-                <div class="tree-node">AGRO_MESH_NETWORK</div>
+            <div style="margin-bottom: 40px;">
+                <p style="font-family: var(--font-mono); font-size: 0.6rem; color: #555;">USER_IDENTITY</p>
+                <p style="font-weight: 900;">GOSA NEGESO</p>
+                <p style="font-size: 0.8rem; opacity: 0.6;">National Youth Laureate</p>
             </div>
 
-            <div class="tree-group">
-                <div class="tree-header">EXTERNAL_SIMS</div>
-                <div class="tree-node">SAT_IVY_PREP</div>
-                <div class="tree-node">DUOLINGO_EN_TEST</div>
+            <nav>
+                <p style="font-family: var(--font-mono); font-size: 0.6rem; color: #555; margin-bottom: 10px;">SYSTEM_NODES</p>
+                <div class="card" style="padding: 12px; cursor: pointer;">DASHBOARD</div>
+                <div class="card" style="padding: 12px; cursor: pointer;" onclick="toggleExam(true)">EXAM_SIMULATOR</div>
+            </nav>
+
+            <div id="stats" style="margin-top: auto;">
+                <p style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--clr-neon);">LOGIC_SYNC: 100%</p>
             </div>
         </aside>
 
-        <main class="viewport">
-            <div class="module-header">
-                <p style="color:var(--neon); font-family:var(--font-code); font-weight:800;">[ MODULE_01_MATH_ANALYSIS ]</p>
-                <h1 class="module-title">CALCULUS_CORE</h1>
+        <main class="viewport" style="flex: 1; padding: 60px; overflow-y: auto;">
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">Mathematics_Portal</h1>
+            <p style="opacity: 0.6; margin-bottom: 40px;">Natural Science Stream - Grade 12</p>
+
+            <div class="card">
+                <h3>01. INTEGRAL_CALCULUS</h3>
+                <div class="latex-box">∫ x^n dx = (x^(n+1))/(n+1) + C</div>
+                <p style="font-size: 0.9rem; opacity: 0.7;">Prepare for the 5% national pass rate with recursive logic practice.</p>
             </div>
-
-            <section class="study-block">
-                <h3 style="font-family:var(--font-code); color:var(--neon); margin-bottom:15px;">01.1 // Integration_by_Parts_Expansion</h3>
-                <p style="opacity:0.7; line-height:1.8;">Essential for derivation of backpropagation in Neuro-symbolic models. Focus on the boundary conditions of the $uv$ term.</p>
-                <div class="latex-render">
-                    ∫ u dv = uv - ∫ v du <br>
-                    Let u = x, dv = e^x dx <br>
-                    Result: e^x(x-1) + C
-                </div>
-                <button class="btn-action" style="padding:10px 20px; font-size:0.7rem;" onclick="openExam()">TEST_LOGIC</button>
-            </section>
-
-            <section class="study-block">
-                <h3 style="font-family:var(--font-code); color:var(--neon); margin-bottom:15px;">01.2 // Taylor_Series_Approximation</h3>
-                <div class="latex-render">
-                    f(x) = f(a) + f'(a)(x-a) + f''(a)/2!(x-a)² + ...
-                </div>
-            </section>
         </main>
-
-        <aside class="intel-sidebar">
-            <div class="data-card">
-                <div class="tree-header">NATIONAL_RANKING_PROJECTION</div>
-                <div class="rank-glow">592<span style="font-size:1rem; -webkit-text-fill-color: #444;">/600</span></div>
-                <p style="font-size:0.6rem; font-family:var(--font-code); color:#555; margin-top:10px;">TOP 0.01% NATIONWIDE</p>
-            </div>
-
-            <div class="data-card" style="background:var(--neon-bg); border-color:var(--neon);">
-                <div class="tree-header" style="color:var(--neon)">STUDY_MOMENTUM</div>
-                <p style="font-size:1.2rem; font-weight:800;">14.5 Hours / Day</p>
-                <div style="height:4px; background:#111; margin-top:10px; border-radius:10px; overflow:hidden;">
-                    <div style="width:95%; height:100%; background:var(--neon);"></div>
-                </div>
-            </div>
-
-            <div class="terminal-scroll" id="term-feed">
-                > Initializing GOSA_NEGESO identity...<br>
-                > Loading school_bg.png background...<br>
-                > LaTeX rendering engine: OPTIMAL...<br>
-                > National Exam simulation: READY...<br>
-            </div>
-        </aside>
     </div>
 
-    <div id="exam-environment">
-        <div class="exam-hud">
-            <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_SIMULATOR_PRO</h1>
-            <div class="exam-timer" id="timer">60:00</div>
-            <button class="btn-action" style="background:#222; color:#fff;" onclick="closeExam()">ABORT</button>
-        </div>
+    <div id="exam-room" class="exam-overlay">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <h2 id="exam-timer" style="font-family: var(--font-mono); font-size: 2rem; color: var(--clr-neon);">60:00</h2>
+                <button class="btn" style="background: #222; color: #fff;" onclick="toggleExam(false)">SAVE_EXIT</button>
+            </div>
 
-        <div class="question-card">
-            <p id="q-category" style="color:var(--neon); font-family:var(--font-code); margin-bottom:10px;">SUBJECT: MATHEMATICS (NATURAL)</p>
-            <h2 id="question-text">Calculating logic gate parameters...</h2>
-            <div class="option-matrix" id="option-box">
-                </div>
+            <div class="card" id="question-container" style="min-height: 300px;">
+                <p id="q-text" style="font-size: 1.4rem; margin-bottom: 30px;"></p>
+                <div id="options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"></div>
+            </div>
+
+            <div class="exam-nav" id="exam-pagination"></div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px;">
+                <button class="btn" id="prev-btn" onclick="navQ(-1)">PREVIOUS</button>
+                <button class="btn" id="next-btn" onclick="navQ(1)">NEXT</button>
+                <button class="btn" style="margin-left: auto; background: #ff4757;" onclick="submitExam()">SUBMIT_FINAL</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. TERMINAL FEED LOGIC
-        const feed = document.getElementById('term-feed');
-        const msgs = [
-            "Syncing with Dodola Special Boarding...",
-            "Analyzing 5% national pass rate metrics...",
-            "Preparing Agro-Mesh data nodes...",
-            "Neuro-symbolic AI modules active.",
-            "Identity Confirmed: National Youth Laureate."
-        ];
-        let mIdx = 0;
-        setInterval(() => {
-            const p = document.createElement('div');
-            p.innerHTML = "> " + msgs[mIdx % msgs.length];
-            feed.appendChild(p);
-            if(feed.childNodes.length > 10) feed.removeChild(feed.firstChild);
-            mIdx++;
-        }, 4000);
-
-        // 2. EXAM ENGINE DATA (Expand this for 1500+ line feel)
+        // 1. STATE PERSISTENCE LOGIC
         const bank = [
-            { q: "Evaluate the limit of (sin x)/x as x approaches 0.", o: ["0", "1", "Infinity", "Undefined"], a: 1 },
-            { q: "In Neuro-symbolic AI, what does 'Pruning' primarily reduce?", o: ["Learning rate", "Model size/weights", "Data quality", "Input dimensions"], a: 1 },
-            { q: "Which Oromo hero or location is the 'Source of Genius' hub named after?", o: ["Dodola", "Adama", "Bale", "Arsi"], a: 0 }
+            { q: "What is the derivative of sin(x²)?", o: ["2x cos(x²)", "cos(x²)", "-2x cos(x²)", "2x sin(x)"], a: 0 },
+            { q: "In Neuro-symbolic AI, what is the goal of 'Model Pruning'?", o: ["Efficiency", "Accuracy", "Data Growth", "Complexity"], a: 0 },
+            { q: "Which university did you list as a priority?", o: ["MIT", "Princeton", "Columbia", "All of above"], a: 3 },
+            { q: "Integral of 1/x dx?", o: ["ln|x| + C", "x²", "1", "e^x"], a: 0 }
         ];
 
-        let timerInt;
-        function openExam() {
-            document.getElementById('exam-environment').style.display = 'block';
-            startTimer(3600);
-            loadQ(0);
+        let currentIdx = parseInt(localStorage.getItem('currentQ')) || 0;
+        let answers = JSON.parse(localStorage.getItem('userAnswers')) || new Array(bank.length).fill(null);
+        let timeLeft = parseInt(localStorage.getItem('timer')) || 3600;
+
+        function toggleExam(show) {
+            document.getElementById('exam-room').style.display = show ? 'block' : 'none';
+            if(show) {
+                renderPagination();
+                loadQ();
+                startTimer();
+            }
         }
 
-        function closeExam() {
-            document.getElementById('exam-environment').style.display = 'none';
-            clearInterval(timerInt);
+        function loadQ() {
+            const q = bank[currentIdx];
+            document.getElementById('q-text').innerText = `${currentIdx + 1}. ${q.q}`;
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = q.o.map((opt, i) => `
+                <div class="card" style="margin:0; cursor:pointer; ${answers[currentIdx] === i ? 'border-color:var(--clr-neon)' : ''}" 
+                     onclick="selectOpt(${i})">${opt}</div>
+            `).join('');
+            
+            document.getElementById('prev-btn').disabled = currentIdx === 0;
+            document.getElementById('next-btn').disabled = currentIdx === bank.length - 1;
+            renderPagination();
         }
 
-        function startTimer(sec) {
-            timerInt = setInterval(() => {
-                let m = Math.floor(sec / 60);
-                let s = sec % 60;
-                document.getElementById('timer').innerText = `${m}:${s < 10 ? '0'+s : s}`;
-                if(sec-- <= 0) clearInterval(timerInt);
-            }, 1000);
+        function selectOpt(i) {
+            answers[currentIdx] = i;
+            localStorage.setItem('userAnswers', JSON.stringify(answers));
+            loadQ();
         }
 
-        function loadQ(i) {
-            const d = bank[i];
-            document.getElementById('question-text').innerText = d.q;
-            document.getElementById('option-box').innerHTML = d.o.map((opt, idx) => `
-                <div class="opt" onclick="check(${idx}, ${d.a}, ${i})">${opt}</div>
+        function navQ(dir) {
+            currentIdx += dir;
+            localStorage.setItem('currentQ', currentIdx);
+            loadQ();
+        }
+
+        function renderPagination() {
+            const nav = document.getElementById('exam-pagination');
+            nav.innerHTML = bank.map((_, i) => `
+                <div class="nav-dot ${i === currentIdx ? 'active' : ''} ${answers[i] !== null ? 'completed' : ''}" 
+                     onclick="jumpTo(${i})">${i + 1}</div>
             `).join('');
         }
 
-        function check(sel, cor, cur) {
-            if(sel === cor) {
-                alert("LOGIC_VERIFIED");
-                if(cur + 1 < bank.length) loadQ(cur + 1);
-                else alert("EXAM_COMPLETE: RANK_01_CONFIRMED");
-            } else {
-                alert("SYSTEM_REJECT: RE-EVALUATE");
-            }
+        function jumpTo(i) { currentIdx = i; loadQ(); }
+
+        function startTimer() {
+            const timerEl = document.getElementById('exam-timer');
+            const itv = setInterval(() => {
+                timeLeft--;
+                localStorage.setItem('timer', timeLeft);
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                timerEl.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+                if(timeLeft <= 0) {
+                    clearInterval(itv);
+                    submitExam();
+                }
+            }, 1000);
         }
+
+        function submitExam() {
+            const score = answers.filter((a, i) => a === bank[i].a).length;
+            alert(`EXAM_SUBMITTED. SCORE: ${score}/${bank.length}`);
+            localStorage.clear();
+            location.reload();
+        }
+
     </script>
 </body>
 </html>
