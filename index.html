@@ -286,24 +286,56 @@ header {
         <p style="margin-top: 10px;">Created for the National Youth Laureate</p>
     </footer>
 
-    <div id="room-modal" class="modal">
-        <div class="room-wrapper">
-            <div class="room-card" onclick="alert('Opening Study Room...')">
-                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">STUDY_ROOM</h1>
-                <p style="margin-top: 20px; opacity: 0.5;">Advanced notes and conceptual logic.</p>
+    <div id="math-room" class="academic-room">
+        <button class="grade-btn" style="margin-bottom: 20px;" onclick="closeRoom('math-room')">CLOSE_LAB</button>
+        <div class="study-room-layout">
+            <div class="study-sidebar">
+                <div class="sidebar-item active">01_CALCULUS_II</div>
+                <div class="sidebar-item">02_LINEAR_ALGEBRA</div>
+                <div class="sidebar-item">03_DIFFERENTIAL_EQ</div>
             </div>
-            <div class="room-card" onclick="alert('Opening Exam Room...')">
-                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_ROOM</h1>
-                <p style="margin-top: 20px; opacity: 0.5;">National exam simulation logic.</p>
+            <div class="study-content-area">
+                <div class="note-card">
+                    <h3>INTEGRATION_BY_PARTS</h3>
+                    <p>Advanced integration logic used in university-level analysis.</p>
+                    <div class="formula-box">∫ u dv = uv - ∫ v du</div>
+                </div>
+                <div class="note-card">
+                    <h3>TAYLOR_SERIES</h3>
+                    <p>Approximating functions using infinite sums of terms.</p>
+                    <div class="formula-box">f(x) = ∑ [fⁿ(a) / n!] (x-a)ⁿ</div>
+                </div>
             </div>
         </div>
-        <button class="grade-btn" style="position:fixed; bottom:60px;" onclick="closeModal()">BACK_TO_HUB</button>
+    </div>
+
+    <div id="physics-room" class="academic-room">
+        <button class="grade-btn" style="margin-bottom: 20px;" onclick="closeRoom('physics-room')">CLOSE_LAB</button>
+        <div class="study-room-layout">
+            <div class="study-sidebar">
+                <div class="sidebar-item active">01_MODERN_PHYSICS</div>
+                <div class="sidebar-item">02_MECHANICS_II</div>
+                <div class="sidebar-item">03_ELECTROMAGNETISM</div>
+            </div>
+            <div class="study-content-area">
+                <div class="note-card">
+                    <h3>SPECIAL_RELATIVITY</h3>
+                    <p>Understanding time dilation and mass-energy equivalence.</p>
+                    <div class="formula-box">E = m c²</div>
+                </div>
+                <div class="note-card">
+                    <h3>QUANTUM_LOGIC</h3>
+                    <p>The foundational principles of subatomic interactions.</p>
+                    <div class="formula-box">Δx Δp ≥ h / 4π</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         const appData = {
             subjects: {
-                12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "Calculus II", "Modern Physics"], soc: ["History", "Geography", "Maths", "Economics", "English", "Social Logic"] },
+                12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
                 11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
                 10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
                 9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
@@ -333,14 +365,21 @@ header {
             const n = appData.subjects[grade].nat;
             const s = appData.subjects[grade].soc;
             
-            document.getElementById('nat-list').innerHTML = n.map(sub => `
-                <div class="subject-card" onclick="openGate()">
+            document.getElementById('nat-list').innerHTML = n.map(sub => {
+                // Logic to decide which room to open
+                let clickFunc = "alert('Room coming soon!')";
+                if(sub === "Maths") clickFunc = "openRoom('math-room')";
+                if(sub === "Physics") clickFunc = "openRoom('physics-room')";
+
+                return `
+                <div class="subject-card" onclick="${clickFunc}">
                     <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
                     <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
                 
             document.getElementById('soc-list').innerHTML = s.map(sub => `
-                <div class="subject-card" onclick="openGate()">
+                <div class="subject-card">
                     <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
                     <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
                 </div>`).join('');
@@ -361,37 +400,29 @@ header {
                 <div class="club-chip" onclick="alert('Viewing ${c} dashboard...')">${c.toUpperCase()}</div>`).join('');
         }
 
-        function openGate() { document.getElementById('room-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
+        function openRoom(roomId) {
+            const room = document.getElementById(roomId);
+            if (room) {
+                room.style.display = 'block';
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+
+        function closeRoom(roomId) {
+            const room = document.getElementById(roomId);
+            if (room) {
+                room.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
 
-        // Initial Load
         window.onload = () => {
             renderSubjects(12);
             renderRankings();
             renderClubs();
         };
-        // --- ACADEMIC ROOM CONTROL LOGIC ---
-
-// Function to open a specific room
-function openRoom(roomId) {
-    const room = document.getElementById(roomId);
-    if (room) {
-        room.style.display = 'block';
-        // This prevents the background from scrolling while you study
-        document.body.style.overflow = 'hidden'; 
-    }
-}
-
-// Function to close the room and return to dashboard
-function closeRoom(roomId) {
-    const room = document.getElementById(roomId);
-    if (room) {
-        room.style.display = 'none';
-        // This allows the background to scroll again
-        document.body.style.overflow = 'auto';
-    }
-}
     </script>
 </body>
 </html>
