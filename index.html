@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodola Lab | Source of Genus</title>
+    <title>Dodola Lab | Dual Stream Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,7 +13,6 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --font-main: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,171 +21,164 @@
         /* --- AUTHENTICATION --- */
         #auth-portal {
             position: fixed; inset: 0; z-index: 10000;
-            background: linear-gradient(rgba(1,4,10,0.9), rgba(1,4,10,0.9)), 
+            background: linear-gradient(rgba(1,4,10,0.95), rgba(1,4,10,0.95)), 
                         url('https://gosa-n-geleto.github.io/my-website/image_0e63d9.jpg') center/cover;
             display: flex; align-items: center; justify-content: center;
         }
         .auth-card {
-            background: rgba(1, 4, 10, 0.95); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); padding: 60px; border-radius: 40px;
-            width: 100%; max-width: 450px; text-align: center;
+            background: rgba(1, 4, 10, 0.95); border: 1px solid var(--glass-border);
+            padding: 50px; border-radius: 30px; width: 400px; text-align: center;
         }
         .pin-input {
             background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 12px; padding: 20px; width: 100%; color: white;
-            font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: 15px;
-            text-align: center; margin: 30px 0;
+            border-radius: 12px; padding: 15px; width: 100%; color: var(--neon);
+            font-family: var(--font-mono); font-size: 1.5rem; letter-spacing: 10px;
+            text-align: center; margin: 25px 0;
         }
 
         /* --- DASHBOARD --- */
-        #dashboard { display: none; padding-bottom: 100px; }
+        #dashboard { display: none; }
         header { 
-            padding: 30px 8%; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(1,4,10,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100;
-        }
-        .nav-pill { 
-            padding: 10px 25px; border-radius: 50px; border: 1px solid var(--glass-border); 
-            background: var(--glass); color: white; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem;
-        }
-        .nav-pill.active { background: var(--neon); color: var(--bg); font-weight: bold; }
-
-        .dossier-hero {
-            margin: 40px 8%; background: var(--glass); border: 1px solid var(--glass-border);
-            border-radius: 35px; padding: 60px; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass-border); backdrop-filter: blur(10px);
         }
 
-        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 0 8%; }
-        .sub-card {
-            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 40px; cursor: pointer; transition: var(--transition);
+        .dual-container { display: flex; min-height: calc(100vh - 80px); }
+        .stream-column { flex: 1; padding: 40px 5%; border-right: 1px solid var(--glass-border); }
+        .stream-title { 
+            font-family: 'Major Mono Display'; color: var(--neon); font-size: 1.2rem; 
+            margin-bottom: 30px; letter-spacing: 4px; border-bottom: 2px solid var(--neon);
+            display: inline-block; padding-bottom: 5px;
         }
-        .sub-card:hover { transform: translateY(-10px); border-color: var(--neon); background: rgba(35,213,171,0.04); }
 
-        /* --- ROOM SELECTION --- */
-        #room-overlay {
-            display: none; position: fixed; inset: 0; z-index: 11000;
-            background: rgba(1,4,10,0.98); backdrop-filter: blur(20px);
-            align-items: center; justify-content: center;
+        .sub-item {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 25px; border-radius: 15px; margin-bottom: 15px;
+            cursor: pointer; transition: 0.3s;
         }
-        .room-choice-container { display: flex; gap: 40px; max-width: 1000px; width: 90%; }
-        .room-box {
-            flex: 1; padding: 60px 40px; border-radius: 30px; border: 1px solid var(--glass-border);
-            background: var(--glass); text-align: center; cursor: pointer; transition: var(--transition);
-        }
-        .room-box:hover { border-color: var(--neon); background: rgba(35,213,171,0.05); transform: scale(1.05); }
-        .room-box h2 { font-family: 'Major Mono Display'; color: var(--neon); margin-bottom: 20px; }
+        .sub-item:hover { border-color: var(--neon); background: rgba(35,213,171,0.05); transform: translateX(10px); }
 
-        /* --- WORKSPACE --- */
-        #workspace {
-            display: none; position: fixed; inset: 0; z-index: 12000; background: var(--bg);
-            padding: 60px 10%; overflow-y: auto;
+        /* --- EXAM ROOM --- */
+        #workspace { display: none; position: fixed; inset: 0; z-index: 11000; background: var(--bg); padding: 50px 10%; }
+        .quiz-container { max-width: 800px; margin: 0 auto; }
+        .option {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            padding: 20px; border-radius: 10px; margin-bottom: 10px; cursor: pointer;
+            transition: 0.2s; display: block; width: 100%; text-align: left; color: white; font-size: 1rem;
         }
-        .status-bar { display: flex; justify-content: space-between; border-bottom: 1px solid var(--glass-border); padding-bottom: 30px; margin-bottom: 50px; }
-        .clock { font-family: var(--font-mono); color: var(--neon); font-size: 2.5rem; font-weight: 700; }
-        .content-area { max-width: 850px; margin: 0 auto; }
-        .note-card { background: var(--glass); border-left: 4px solid var(--neon); padding: 30px; border-radius: 12px; line-height: 1.8; font-size: 1.1rem; }
+        .option:hover { border-color: var(--neon); }
+        .option.correct { background: rgba(35, 213, 171, 0.2); border-color: var(--neon); }
+        .option.wrong { background: rgba(255, 82, 82, 0.2); border-color: #ff5252; }
+
+        .btn-action {
+            padding: 12px 30px; border-radius: 50px; border: 1px solid var(--neon);
+            background: transparent; color: var(--neon); cursor: pointer; font-family: var(--font-mono);
+        }
     </style>
 </head>
 <body>
 
     <div id="auth-portal">
         <div class="auth-card">
-            <h1 style="font-family:'Major Mono Display'; font-size: 2rem;">DODOLA_LAB</h1>
-            <p style="opacity:0.4; font-size:0.7rem; letter-spacing:4px; margin-top:10px;">SECURE GATEWAY</p>
+            <h1 style="font-family:'Major Mono Display';">DODOLA_ACCESS</h1>
             <input type="password" id="pin" class="pin-input" maxlength="4" placeholder="••••">
-            <button class="nav-pill" style="width:100%; padding:20px; background:var(--neon); color:var(--bg);" onclick="validate()">INITIALIZE</button>
+            <button class="btn-action" style="width:100%; background:var(--neon); color:var(--bg);" onclick="validate()">VERIFY_LOGIC</button>
         </div>
     </div>
 
     <div id="dashboard">
         <header>
-            <h2 style="font-family:'Major Mono Display'; color:var(--neon); font-size:1rem;">DODOLA_v6.0</h2>
-            <div id="hub-clock" style="font-family:var(--font-mono); color:var(--neon);">02:32:57</div>
+            <h2 style="font-family:'Major Mono Display';">DODOLA_HUB_v6.5</h2>
+            <div style="font-family:var(--font-mono); color:var(--neon);">G12_STATUS: EXCELLENCE</div>
         </header>
 
-        <div class="dossier-hero">
-            <div>
-                <h1 style="font-family:'Major Mono Display'; font-size: 4rem; color:var(--neon);">G12_HUB</h1>
-                <p style="max-width:500px; opacity:0.7; margin-top:20px;">Advancing mathematical logic to solve systemic inequality.</p>
+        <div class="dual-container">
+            <div class="stream-column">
+                <h3 class="stream-title">NATURAL_SCIENCE</h3>
+                <div class="sub-item" onclick="openGate('Maths (Nat)')"><h4>MATHS</h4><p style="opacity:0.5; font-size:0.8rem;">Applied Calculus & Logic</p></div>
+                <div class="sub-item" onclick="openGate('Physics')"><h4>PHYSICS</h4><p style="opacity:0.5; font-size:0.8rem;">Quantum Mechanics & Electromagnetism</p></div>
+                <div class="sub-item" onclick="openGate('Chemistry')"><h4>CHEMISTRY</h4><p style="opacity:0.5; font-size:0.8rem;">Organic Synthesis & Reaction Kinetics</p></div>
+                <div class="sub-item" onclick="openGate('Biology')"><h4>BIOLOGY</h4><p style="opacity:0.5; font-size:0.8rem;">Molecular Genetics & Systemic Anatomy</p></div>
             </div>
-            <div style="text-align: right;">
-                <p style="opacity:0.4; font-size:0.7rem; letter-spacing:3px;">NATIONAL_RECORD</p>
-                <h1 style="font-size: 7rem; font-weight: 700; line-height: 1;">590<span style="font-size:1.5rem; opacity:0.2;">/600</span></h1>
+
+            <div class="stream-column">
+                <h3 class="stream-title">SOCIAL_SCIENCE</h3>
+                <div class="sub-item" onclick="openGate('History')"><h4>HISTORY</h4><p style="opacity:0.5; font-size:0.8rem;">Global Geopolitics & African Renaissance</p></div>
+                <div class="sub-item" onclick="openGate('Geography')"><h4>GEOGRAPHY</h4><p style="opacity:0.5; font-size:0.8rem;">Cartography & Climate Sustainability</p></div>
+                <div class="sub-item" onclick="openGate('Economics')"><h4>ECONOMICS</h4><p style="opacity:0.5; font-size:0.8rem;">Macro-Systems & Resource Allocation</p></div>
+                <div class="sub-item" onclick="openGate('Maths (Soc)')"><h4>MATHS</h4><p style="opacity:0.5; font-size:0.8rem;">Statistics & Social Logic Analysis</p></div>
             </div>
         </div>
-
-        <div class="subject-grid" id="subjects"></div>
-    </div>
-
-    <div id="room-overlay">
-        <div class="room-choice-container">
-            <div class="room-box" onclick="enterRoom('study')">
-                <h2>STUDY_ROOM</h2>
-                <p style="opacity:0.6;">Deep-logic notes and concept frameworks.</p>
-            </div>
-            <div class="room-box" onclick="enterRoom('exam')">
-                <h2>EXAM_ROOM</h2>
-                <p style="opacity:0.6;">High-pressure logic simulations for National Exam prep.</p>
-            </div>
-        </div>
-        <button class="nav-pill" style="position:fixed; bottom:50px;" onclick="closeOverlay()">CANCEL</button>
     </div>
 
     <div id="workspace">
-        <div class="status-bar">
-            <div>
-                <h1 id="work-title" style="font-family:'Major Mono Display'; font-size:2rem;">SUBJECT</h1>
-                <p id="work-mode" style="color:var(--neon); font-size:0.8rem; letter-spacing:2px;">MODE_ACTIVE</p>
+        <div class="quiz-container">
+            <h1 id="quiz-title" style="font-family:'Major Mono Display'; margin-bottom: 10px;">SUBJECT</h1>
+            <div style="display:flex; gap:10px; margin-bottom:40px;">
+                <button class="btn-action" onclick="showStudy()">STUDY_ROOM</button>
+                <button class="btn-action" onclick="showExam()">EXAM_ROOM</button>
             </div>
-            <div id="work-clock" class="clock">02:32:57</div>
+            
+            <div id="quiz-body"></div>
+            <button class="btn-action" style="margin-top:40px; opacity:0.5;" onclick="exit()">EXIT_TO_HUB</button>
         </div>
-        <div class="content-area" id="work-content"></div>
-        <button class="nav-pill" style="margin-top:60px; border-color:var(--neon);" onclick="exitWork()">EXIT_TO_HUB</button>
     </div>
 
     <script>
-        let currentSubject = '';
+        let currentSub = "";
+        const quizData = {
+            "Maths (Nat)": { q: "Solve for x: 2x² - 8 = 0", options: ["x = 4", "x = ±2", "x = 2", "x = 0"], correct: 1, explain: "2x² = 8 → x² = 4 → x = ±2. Consider the negative root." },
+            "History": { q: "What is the primary vision of the Oromia Excellence Initiative?", options: ["Impact, Innovate, Lead", "Memorization", "Tradition", "Isolation"], correct: 0, explain: "The vision is Impact, Innovate, and Lead." }
+        };
 
         function validate() {
-            const p = document.getElementById('pin').value;
-            if(p.length === 4) {
+            if(document.getElementById('pin').value.length === 4) {
                 document.getElementById('auth-portal').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-                renderSubjects();
             }
         }
 
-        function renderSubjects() {
-            const subs = ['Maths', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Economics', 'English'];
-            document.getElementById('subjects').innerHTML = subs.map(s => `
-                <div class="sub-card" onclick="selectSubject('${s}')">
-                    <p style="color:var(--neon); font-size:0.6rem; letter-spacing:3px;">G12_LOGIC</p>
-                    <h3 style="font-family:'Major Mono Display'; font-size:1.5rem;">${s.toUpperCase()}</h3>
-                </div>
-            `).join('');
-        }
-
-        function selectSubject(s) {
-            currentSubject = s;
-            document.getElementById('room-overlay').style.display = 'flex';
-        }
-
-        function enterRoom(mode) {
-            document.getElementById('room-overlay').style.display = 'none';
+        function openGate(s) {
+            currentSub = s;
             document.getElementById('workspace').style.display = 'block';
-            document.getElementById('work-title').innerText = currentSubject;
-            document.getElementById('work-mode').innerText = mode.toUpperCase() + '_ROOM';
-            
-            const content = document.getElementById('work-content');
-            if(mode === 'study') {
-                content.innerHTML = `<div class="note-card"><h3>${currentSubject} Logic Notes</h3><p>Mastering first principles to ensure a 5% pass rate success.</p></div>`;
+            document.getElementById('quiz-title').innerText = s.toUpperCase();
+            showStudy();
+        }
+
+        function showStudy() {
+            document.getElementById('quiz-body').innerHTML = `
+                <div style="background:var(--glass); padding:30px; border-radius:20px; border-left:4px solid var(--neon);">
+                    <h3>${currentSub} Core Logic</h3>
+                    <p style="margin-top:15px; line-height:1.6; opacity:0.8;">
+                        Focus on systemic analysis. In ${currentSub}, success is determined by your ability to connect 
+                        theoretical concepts to logical problem-solving frameworks.
+                    </p>
+                </div>`;
+        }
+
+        function showExam() {
+            const data = quizData[currentSub] || quizData["Maths (Nat)"];
+            let html = `<h2 style="margin-bottom:30px;">${data.q}</h2>`;
+            data.options.forEach((opt, i) => {
+                html += `<button class="option" onclick="check(${i}, ${data.correct}, '${data.explain}')">${opt}</button>`;
+            });
+            document.getElementById('quiz-body').innerHTML = html + `<div id="feedback" style="margin-top:20px;"></div>`;
+        }
+
+        function check(idx, correct, exp) {
+            const opts = document.querySelectorAll('.option');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+            if(idx === correct) {
+                opts[idx].classList.add('correct');
+                document.getElementById('feedback').innerHTML = `<p style="color:var(--neon)">CORRECT. LOGIC VERIFIED.</p>`;
             } else {
-                content.innerHTML = `<h2>Exam Simulation</h2><p>Question: How does logic impact national development?</p><button class="nav-pill" style="width:100%; margin-top:20px; text-align:left;">A) Systemic Analysis</button>`;
+                opts[idx].classList.add('wrong');
+                opts[correct].classList.add('correct');
+                document.getElementById('feedback').innerHTML = `<p style="color:#ff5252;">ANALYSIS REQUIRED: ${exp}</p>`;
             }
         }
 
-        function closeOverlay() { document.getElementById('room-overlay').style.display = 'none'; }
-        function exitWork() { document.getElementById('workspace').style.display = 'none'; }
+        function exit() { document.getElementById('workspace').style.display = 'none'; }
     </script>
 </body>
 </html>
