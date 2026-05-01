@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -385,31 +385,40 @@
         document.body.style.overflow = 'auto';
     }
 
-  async function launchExamRoom() {
+ async function launchExamRoom() {
     const activeItem = document.querySelector('.sidebar-item.active');
-    let unitKey = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
+    let unitTitleFromSidebar = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
     
-    // Normalize text (e.g., "SEQUENCES AND SERIES" -> "Sequences and Series")
-    unitKey = unitKey.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').replace(" And ", " and ");
-
     try {
-        // This is the "Librarian" fetching your specific course file
         const response = await fetch(`data/${currentSubject.toLowerCase()}_g${currentGrade}.json`);
         const subjectData = await response.json();
-        const unitQuestions = subjectData[unitKey];
 
-        if (!unitQuestions) throw new Error("Unit not found");
+        // Finds the specific unit inside your "units" array
+        const targetUnit = subjectData.units.find(u => 
+            u.unit_name.toLowerCase() === unitTitleFromSidebar.toLowerCase()
+        );
 
-        // Save questions temporarily so we can move through them
+        if (!targetUnit || !targetUnit.questions) throw new Error("Unit data mismatch");
+
+        // Converts your JSON format into the format the quiz uses
+        const unitQuestions = targetUnit.questions.map(q => ({
+            q: q.text,
+            options: q.options,
+            correct: q.options.indexOf(q.answer), 
+            explanation: q.explanation
+        }));
+
         sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
-        renderQuestion(0, unitKey); 
+        renderQuestion(0, unitTitleFromSidebar); 
 
     } catch (error) {
-        alert(`DATABASE_OFFLINE: Please ensure you have created the file 'data/${currentSubject.toLowerCase()}_g${currentGrade}.json'`);
+        alert(`DATABASE_OFFLINE: Could not find questions for ${unitTitleFromSidebar}.`);
     }
 }
 function renderQuestion(qIndex, unitKey) {
     const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
+    if (!questions || !questions[qIndex]) return;
+
     const q = questions[qIndex];
     const content = document.getElementById('study-main-content');
     
@@ -464,7 +473,7 @@ function renderQuestion(qIndex, unitKey) {
         renderClubs();
     };
 
-      function verifyLogic(selected, qIndex, unitKey) {
+  function verifyLogic(selected, qIndex, unitKey) {
     const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
     const q = questions[qIndex];
     const isCorrect = selected === q.correct;
@@ -474,8 +483,8 @@ function renderQuestion(qIndex, unitKey) {
             <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
             <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
             ${qIndex < questions.length - 1 
-                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
-                : `<button class="grade-btn" style="width:100%;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
+                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black; margin-top:10px;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
+                : `<button class="grade-btn" style="width:100%; margin-top:10px;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
         </div>
     `;
 }
