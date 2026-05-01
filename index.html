@@ -385,59 +385,52 @@
         document.body.style.overflow = 'auto';
     }
 
-   function launchExamRoom() {
-        // 1. Safety check: Are we already in a study session?
-        const activeItem = document.querySelector('.sidebar-item.active');
-        let unitKey = "";
+  async function launchExamRoom() {
+    const activeItem = document.querySelector('.sidebar-item.active');
+    let unitKey = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
+    
+    // Normalize text (e.g., "SEQUENCES AND SERIES" -> "Sequences and Series")
+    unitKey = unitKey.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').replace(" And ", " and ");
 
-        if (activeItem) {
-            // Get unit from sidebar (e.g., "SEQUENCES AND SERIES")
-            const activeUnit = activeItem.innerText.replace(/UNIT \d+: /, '').trim();
-            // Convert to Title Case (e.g., "Sequences and Series")
-            unitKey = activeUnit.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-            // Small fix for the word 'and' to match your appData keys
-            unitKey = unitKey.replace(" And ", " and ");
-        } else {
-            // 2. If coming from Dashboard, default to the first available unit for that subject
-            const subjectData = appData.library[currentSubject] && appData.library[currentSubject][currentGrade];
-            if (subjectData) {
-                unitKey = Object.keys(subjectData)[0];
-            }
-        }
+    try {
+        // This is the "Librarian" fetching your specific course file
+        const response = await fetch(`data/${currentSubject.toLowerCase()}_g${currentGrade}.json`);
+        const subjectData = await response.json();
+        const unitQuestions = subjectData[unitKey];
 
-        const questions = appData.questions ? appData.questions[unitKey] : null;
+        if (!unitQuestions) throw new Error("Unit not found");
 
-        if (!questions) {
-            alert(`EXAM_DATABASE: Logic for ${unitKey || currentSubject} is currently being compiled.`);
-            return;
-        }
+        // Save questions temporarily so we can move through them
+        sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
+        renderQuestion(0, unitKey); 
 
-        // 3. UI Transition
-        closeModal();
-        document.getElementById('active-study-room').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-        document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_EXAM_SIMULATOR`;
-
-        const q = questions[0]; 
-        const content = document.getElementById('study-main-content');
-        
-        content.innerHTML = `
-            <div class="note-card" style="border-left-color: #ff4d4d; background: rgba(255, 77, 77, 0.03);">
-                <h2 style="color:#ff4d4d; margin-bottom:20px; font-family:'Major Mono Display';">[ EXAM_MODE_ACTIVE ]</h2>
-                <p style="font-size:1.2rem; margin-bottom:25px; line-height:1.6;">${q.q}</p>
-                <div style="display:grid; gap:12px;">
-                    ${q.options.map((opt, i) => `
-                        <button class="grade-btn" style="text-align:left; border-color: rgba(255,255,255,0.1);" 
-                                onclick="checkAnswer(${i}, ${q.correct}, '${unitKey}')">
-                            <span style="color:var(--neon); margin-right:10px;">${String.fromCharCode(65 + i)}|</span> ${opt}
-                        </button>
-                    `).join('')}
-                </div>
-            </div>
-            <button class="grade-btn" style="margin-top:20px; background:transparent; border:1px solid var(--border);" 
-                    onclick="loadNoteContent('${unitKey}')">← RETURN_TO_NOTES</button>
-        `;
+    } catch (error) {
+        alert(`DATABASE_OFFLINE: Please ensure you have created the file 'data/${currentSubject.toLowerCase()}_g${currentGrade}.json'`);
     }
+}
+function renderQuestion(qIndex, unitKey) {
+    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
+    const q = questions[qIndex];
+    const content = document.getElementById('study-main-content');
+    
+    closeModal();
+    document.getElementById('active-study-room').style.display = 'block';
+    
+    content.innerHTML = `
+        <div class="note-card" style="border-left-color: #ff4d4d; background: rgba(255, 77, 77, 0.03);">
+            <h4 style="color:#ff4d4d; font-family:var(--font-mono); margin-bottom:10px;">[ EXAM_MODE | Q${qIndex + 1}/${questions.length} ]</h4>
+            <p style="font-size:1.1rem; margin-bottom:25px;">${q.q}</p>
+            <div style="display:grid; gap:12px;" id="option-grid">
+                ${q.options.map((opt, i) => `
+                    <button class="grade-btn" onclick="verifyLogic(${i}, ${qIndex}, '${unitKey}')">
+                        <span style="color:var(--neon);">${String.fromCharCode(65 + i)}|</span> ${opt}
+                    </button>
+                `).join('')}
+            </div>
+            <div id="explanation-box"></div>
+        </div>
+    `;
+}
     function checkAnswer(selected, correct, unitKey) {
         if(selected === correct) {
             alert("VERIFIED: Correct logic applied.");
@@ -470,6 +463,22 @@
         renderRankings();
         renderClubs();
     };
+
+      function verifyLogic(selected, qIndex, unitKey) {
+    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
+    const q = questions[qIndex];
+    const isCorrect = selected === q.correct;
+    
+    document.getElementById('explanation-box').innerHTML = `
+        <div style="margin-top:25px; padding:20px; border:1px solid ${isCorrect ? 'var(--neon)' : '#ff4d4d'}; background:rgba(1,4,10,0.8);">
+            <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
+            <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
+            ${qIndex < questions.length - 1 
+                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
+                : `<button class="grade-btn" style="width:100%;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
+        </div>
+    `;
+}
 </script>
 </body>
 </html>
