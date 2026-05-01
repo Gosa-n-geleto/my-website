@@ -4,21 +4,42 @@
   "units": [
     {
       "unit_number": 1,
-      "unit_name": "Acid-Base Equilibria",
+      "unit_name": "Solutions and Acid-Base Equilibria",
       "questions": [
         {
-          "id": "CHEM-12-U1-001",
-          "text": "What is a Lewis base? It is",
-          "options": ["proton donor", "proton acceptor", "electron pair acceptor", "electron pair donor"],
-          "answer": "electron pair donor",
-          "explanation": "According to the Lewis theory, a base is an electron pair donor."
+          "id": "CHEM-12-U1-Q31",
+          "text": "Which of the following is a Lewis base?",
+          "options": ["BF3", "AlCl3", "NH3", "H+"],
+          "answer": "NH3",
+          "explanation": "Ammonia has a lone pair of electrons available to donate, fitting the Lewis definition of a base."
         },
         {
-          "id": "CHEM-12-U1-002",
-          "text": "Given the initial concentration of CH3COOH is 0.2 mol/L and the equilibrium concentration of H+ is x, which expression represents the percent ionization?",
-          "options": ["(x / (0.2 - x)) * 100%", "(x / 0.2) * 100%", "((0.2 - x) / 0.2) * 100%", "((0.2 - x) / x) * 100%"],
-          "answer": "(x / 0.2) * 100%",
-          "explanation": "Percent ionization = (ionized concentration / initial concentration) * 100%."
+          "id": "CHEM-12-U1-Q32",
+          "text": "What is the pH of a 0.01 M NaOH solution?",
+          "options": ["2", "10", "12", "14"],
+          "answer": "12",
+          "explanation": "pOH = -log(0.01) = 2; pH = 14 - pOH = 12."
+        },
+        {
+          "id": "CHEM-12-U1-Q33",
+          "text": "Which of the following is the conjugate base of H2PO4-?",
+          "options": ["H3PO4", "HPO4^2-", "PO4^3-", "OH-"],
+          "answer": "HPO4^2-",
+          "explanation": "A conjugate base is formed when the acid (H2PO4-) loses one proton (H+)."
+        },
+        {
+          "id": "CHEM-12-U1-Q56",
+          "text": "A buffer solution is prepared by mixing:",
+          "options": ["HCl and NaCl", "NH3 and NH4Cl", "NaOH and Na2SO4", "HNO3 and KNO3"],
+          "answer": "NH3 and NH4Cl",
+          "explanation": "A buffer requires a weak acid/base and its corresponding salt (conjugate pair)."
+        },
+        {
+          "id": "CHEM-12-U1-Q78",
+          "text": "The pH at the equivalence point of a titration between a strong acid and a weak base is:",
+          "options": ["7", "Greater than 7", "Less than 7", "14"],
+          "answer": "Less than 7",
+          "explanation": "The salt produced undergoes hydrolysis to form an acidic solution."
         }
       ]
     },
@@ -27,11 +48,106 @@
       "unit_name": "Electrochemistry",
       "questions": [
         {
-          "id": "CHEM-12-U2-001",
-          "text": "Which one is the mathematical expression for Faraday’s first law of electrolysis?",
-          "options": ["m1/E1 = m2/E2", "M = n/v(liter)", "m = MPV/RT", "m = MIt/nF"],
-          "answer": "m = MIt/nF",
-          "explanation": "Faraday's first law relates mass to current (I) and time (t)."
+          "id": "CHEM-12-U2-Q06",
+          "text": "In a Galvanic cell, the electrode where oxidation occurs is the:",
+          "options": ["Cathode", "Anode", "Salt bridge", "Platinum wire"],
+          "answer": "Anode",
+          "explanation": "Oxidation always occurs at the anode electrode."
+        },
+        {
+          "id": "CHEM-12-U2-Q53",
+          "text": "During the electrolysis of molten NaCl, which product is formed at the cathode?",
+          "options": ["Cl2 gas", "Na metal", "H2 gas", "O2 gas"],
+          "answer": "Na metal",
+          "explanation": "Sodium ions (Na+) are reduced to sodium metal (Na) at the cathode."
+        },
+        {
+          "id": "CHEM-12-U2-Q64",
+          "text": "Which of the following is used as an electrolyte in a dry cell (Leclanché cell)?",
+          "options": ["H2SO4", "KOH", "NH4Cl paste", "PbSO4"],
+          "answer": "NH4Cl paste",
+          "explanation": "Ammonium chloride serves as the electrolyte in traditional dry cells."
+        }
+      ]
+    },
+    {
+      "unit_number": 3,
+      "unit_name": "Industrial Chemistry",
+      "questions": [
+        {
+          "id": "CHEM-12-U3-Q07",
+          "text": "The main raw material for the manufacture of sulfuric acid by the Contact Process is:",
+          "options": ["SO3", "S or FeS2", "H2SO4", "Na2SO4"],
+          "answer": "S or FeS2",
+          "explanation": "Sulfur or iron pyrites are burned to produce the starting SO2 gas."
+        },
+        {
+          "id": "CHEM-12-U3-Q16",
+          "text": "Which catalyst is used in the Haber Process for the synthesis of ammonia?",
+          "options": ["V2O5", "Pt", "Iron (Fe)", "MnO2"],
+          "answer": "Iron (Fe)",
+          "explanation": "Finely divided iron with molybdenum as a promoter is used in ammonia synthesis."
+        },
+        {
+          "id": "CHEM-12-U3-Q47",
+          "text": "Which of the following is a nitrogenous fertilizer?",
+          "options": ["KCl", "(NH4)2SO4", "Ca3(PO4)2", "K2SO4"],
+          "answer": "(NH4)2SO4",
+          "explanation": "Ammonium sulfate contains nitrogen, an essential plant nutrient."
+        }
+      ]
+    },
+    {
+      "unit_number": 4,
+      "unit_name": "Polymers",
+      "questions": [
+        {
+          "id": "CHEM-12-U4-Q22",
+          "text": "Which of the following is a thermoplastic polymer?",
+          "options": ["Bakelite", "Polyethylene", "Vulcanized rubber", "Urea-formaldehyde resin"],
+          "answer": "Polyethylene",
+          "explanation": "Thermoplastics like polyethylene can be melted and reshaped repeatedly."
+        },
+        {
+          "id": "CHEM-12-U4-Q24",
+          "text": "The monomer of natural rubber is:",
+          "options": ["Isoprene", "Ethene", "Styrene", "Vinyl chloride"],
+          "answer": "Isoprene",
+          "explanation": "Natural rubber is a polymer made from isoprene units (2-methyl-1,3-butadiene)."
+        },
+        {
+          "id": "CHEM-12-U4-Q49",
+          "text": "Which polymer is formed by condensation polymerization?",
+          "options": ["PVC", "Nylon-6,6", "Polypropylene", "Polystyrene"],
+          "answer": "Nylon-6,6",
+          "explanation": "Nylon-6,6 is formed by the condensation of adipic acid and hexamethylenediamine, releasing water."
+        }
+      ]
+    },
+    {
+      "unit_number": 5,
+      "unit_name": "Organic Chemistry II",
+      "questions": [
+        {
+          "id": "CHEM-12-U5-Q26",
+          "text": "The functional group of an ester is:",
+          "options": ["-CHO", "-CO-", "-COOR", "-COOH"],
+          "answer": "-COOR",
+          "explanation": "The ester group consists of a carbonyl group adjacent to an ether linkage."
+        },
+        {
+          "id": "CHEM-12-U5-Q45",
+          "text": "The reaction between an alcohol and a carboxylic acid to form an ester is called:",
+          "options": ["Saponification", "Esterification", "Hydrolysis", "Fermentation"],
+          "answer": "Esterification",
+          "explanation": "This specific condensation reaction is known as Fischer esterification."
+        },
+        {
+          "id": "CHEM-12-U5-Q71",
+          "text": "Which of the following is the correct name for CH3CH2OCH2CH3?",
+          "options": ["Diethyl ether", "Ethoxyethane", "Both A and B", "Methyl ethyl ether"],
+          "answer": "Both A and B",
+          "explanation": "Diethyl ether is the common name, and ethoxyethane is the IUPAC name."
         }
       ]
     }
