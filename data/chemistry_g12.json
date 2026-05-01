@@ -106,21 +106,56 @@
           "text": "Which of the following is a thermoplastic polymer?",
           "options": ["Bakelite", "Polyethylene", "Vulcanized rubber", "Urea-formaldehyde resin"],
           "answer": "Polyethylene",
-          "explanation": "Thermoplastics like polyethylene can be melted and reshaped repeatedly."
+          "explanation": "Thermoplastics like polyethylene soften when heated and harden when cooled, allowing them to be reshaped."
+        },
+        {
+          "id": "CHEM-12-U4-Q23",
+          "text": "Which of the following polymers is a polyamide?",
+          "options": ["Terylene", "Nylon-6,6", "Bakelite", "Teflon"],
+          "answer": "Nylon-6,6",
+          "explanation": "Nylon-6,6 is a polyamide formed by the condensation reaction between a diamine and a dicarboxylic acid."
         },
         {
           "id": "CHEM-12-U4-Q24",
           "text": "The monomer of natural rubber is:",
           "options": ["Isoprene", "Ethene", "Styrene", "Vinyl chloride"],
           "answer": "Isoprene",
-          "explanation": "Natural rubber is a polymer made from isoprene units (2-methyl-1,3-butadiene)."
+          "explanation": "Natural rubber is a polymer of isoprene (2-methyl-1,3-butadiene)."
+        },
+        {
+          "id": "CHEM-12-U4-Q25",
+          "text": "Which of the following is a synthetic fiber?",
+          "options": ["Cotton", "Wool", "Dacron", "Silk"],
+          "answer": "Dacron",
+          "explanation": "Dacron (a polyester) is a synthetic fiber, whereas the others are natural fibers."
         },
         {
           "id": "CHEM-12-U4-Q49",
           "text": "Which polymer is formed by condensation polymerization?",
           "options": ["PVC", "Nylon-6,6", "Polypropylene", "Polystyrene"],
           "answer": "Nylon-6,6",
-          "explanation": "Nylon-6,6 is formed by the condensation of adipic acid and hexamethylenediamine, releasing water."
+          "explanation": "Condensation polymerization involves the elimination of small molecules like water during the formation of the polymer."
+        },
+        {
+          "id": "CHEM-12-U4-Q81",
+          "text": "Vulcanization of rubber involves heating it with:",
+          "options": ["Carbon", "Sulfur", "Nitrogen", "Oxygen"],
+          "answer": "Sulfur",
+          "explanation": "Sulfur creates cross-links between polymer chains, increasing the durability and elasticity of the rubber."
+        },
+        {
+          "id": "CHEM-12-U4-Q82",
+          "text": "Which of the following is an addition polymer?",
+          "options": ["Terylene", "Bakelite", "PVC", "Nylon-6"],
+          "answer": "PVC",
+          "explanation": "Polyvinyl chloride (PVC) is formed by the repeated addition of vinyl chloride monomers without the loss of any small molecules."
+        },
+        {
+          "id": "CHEM-12-U4-Q83",
+          "text": "The repeating unit in Teflon is:",
+          "options": ["-CH2-CH2-", "-CF2-CF2-", "-CH2-CHCl-", "-CH2-CH(CN)-"],
+          "answer": "-CF2-CF2-",
+          "explanation": "Teflon (polytetrafluoroethylene) is made from the monomer tetrafluoroethene."
         }
       ]
     },
@@ -133,21 +168,56 @@
           "text": "The functional group of an ester is:",
           "options": ["-CHO", "-CO-", "-COOR", "-COOH"],
           "answer": "-COOR",
-          "explanation": "The ester group consists of a carbonyl group adjacent to an ether linkage."
+          "explanation": "Esters are derivatives of carboxylic acids where the hydrogen of the hydroxyl group is replaced by an alkyl group (R)."
+        },
+        {
+          "id": "CHEM-12-U5-Q42",
+          "text": "The IUPAC name for the compound CH3-CH2-CH(OH)-CH3 is:",
+          "options": ["1-Butanol", "2-Butanol", "2-Methyl-1-propanol", "Butan-2-one"],
+          "answer": "2-Butanol",
+          "explanation": "The longest carbon chain has four carbons, and the hydroxyl group is on the second carbon[cite: 1]."
         },
         {
           "id": "CHEM-12-U5-Q45",
           "text": "The reaction between an alcohol and a carboxylic acid to form an ester is called:",
           "options": ["Saponification", "Esterification", "Hydrolysis", "Fermentation"],
           "answer": "Esterification",
-          "explanation": "This specific condensation reaction is known as Fischer esterification."
+          "explanation": "Esterification is a condensation reaction that specifically produces an ester and water[cite: 1]."
         },
         {
           "id": "CHEM-12-U5-Q71",
           "text": "Which of the following is the correct name for CH3CH2OCH2CH3?",
           "options": ["Diethyl ether", "Ethoxyethane", "Both A and B", "Methyl ethyl ether"],
           "answer": "Both A and B",
-          "explanation": "Diethyl ether is the common name, and ethoxyethane is the IUPAC name."
+          "explanation": "Diethyl ether is the common name, while ethoxyethane is the systematic IUPAC name[cite: 1]."
+        },
+        {
+          "id": "CHEM-12-U5-Q72",
+          "text": "Which of the following compounds is a secondary alcohol?",
+          "options": ["CH3OH", "CH3CH2OH", "(CH3)2CHOH", "(CH3)3COH"],
+          "answer": "(CH3)2CHOH",
+          "explanation": "In isopropyl alcohol, the carbon attached to the -OH group is bonded to two other carbon atoms[cite: 1]."
+        },
+        {
+          "id": "CHEM-12-U5-Q73",
+          "text": "The oxidation of a primary alcohol using a strong oxidizing agent like KMnO4 yields a(n):",
+          "options": ["Ketone", "Aldehyde", "Carboxylic acid", "Ether"],
+          "answer": "Carboxylic acid",
+          "explanation": "Primary alcohols oxidize first to aldehydes and then further to carboxylic acids under strong conditions[cite: 1]."
+        },
+        {
+          "id": "CHEM-12-U5-Q74",
+          "text": "Which of the following is the general formula for an aldehyde?",
+          "options": ["R-OH", "R-CHO", "R-CO-R", "R-COOH"],
+          "answer": "R-CHO",
+          "explanation": "Aldehydes contain a carbonyl group bonded to at least one hydrogen atom at the end of a carbon chain[cite: 1]."
+        },
+        {
+          "id": "CHEM-12-U5-Q75",
+          "text": "The product of the reaction between an organic acid and a base is a(n):",
+          "options": ["Ester", "Salt and water", "Alcohol", "Aldehyde"],
+          "answer": "Salt and water",
+          "explanation": "Like inorganic acids, organic acids (carboxylic acids) undergo neutralization with bases to form salts and water[cite: 1]."
         }
       ]
     }
