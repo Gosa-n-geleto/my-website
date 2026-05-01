@@ -1,0 +1,70 @@
+{
+  "subject": "Chemistry",
+  "grade_level": 12,
+  "unit_number": 1,
+  "unit_name": "Acid-Base Equilibria",
+  "questions": [
+    {
+      "id": "CHEM-12-U1-001",
+      "text": "What is a Lewis base? It is",
+      "options": [
+        "proton donor",
+        "proton acceptor",
+        "electron pair acceptor",
+        "electron pair donor"
+      ],
+      "answer": "electron pair donor",
+      "explanation": "According to the Lewis theory, a base is an electron pair donor, while a Lewis acid is an electron pair acceptor."
+    },
+    {
+      "id": "CHEM-12-U1-002",
+      "text": "Given the initial concentration of CH3COOH is 0.2 mol/L and the equilibrium concentration of H+ is x, which expression represents the percent ionization?",
+      "options": [
+        "(x / (0.2 - x)) * 100%",
+        "(x / 0.2) * 100%",
+        "((0.2 - x) / 0.2) * 100%",
+        "((0.2 - x) / x) * 100%"
+      ],
+      "answer": "(x / 0.2) * 100%",
+      "explanation": "Percent ionization is calculated by dividing the concentration of ionized acid (x) by the initial concentration of the acid (0.2) and multiplying by 100%."
+    },
+    {
+      "id": "CHEM-12-U1-003",
+      "text": "Which statement distinguishes equivalence point from end point in acid base titration?",
+      "options": [
+        "Equivalence point is where reactants evaporate whereas end point is where products condense.",
+        "Equivalence point is where reactants melt whereas end point is where products freeze.",
+        "Equivalence point is where the indicator changes color whereas end point is where acid has completely reacted.",
+        "End point is where the indicator changes color whereas equivalence point is where acid has completely reacted."
+      ],
+      "answer": "End point is where the indicator changes color whereas equivalence point is where acid has completely reacted.",
+      "explanation": "The equivalence point is the theoretical point where the moles of acid equal the moles of base. The end point is the physical point observed during titration when the indicator changes color."
+    },
+    {
+      "id": "CHEM-12-U1-004",
+      "text": "Which of the following compounds is a Bronsted-Lowry base?",
+      "options": ["BF3", "NH3", "HCl", "H2S"],
+      "answer": "NH3",
+      "explanation": "NH3 (Ammonia) acts as a Bronsted-Lowry base because it can accept a proton (H+) to become NH4+."
+    },
+    {
+      "id": "CHEM-12-U1-005",
+      "text": "What is the percent ionization of a 0.5 M solution of HNO2? (Ka = 7.1 x 10^-4)",
+      "options": ["0.2%", "1.8%", "3.8%", "9.1%"],
+      "answer": "3.8%",
+      "explanation": "Using the formula $$[H^+] = \\sqrt{Ka \\times [HA]}$$, we get $$[H^+] = \\sqrt{7.1 \\times 10^{-4} \\times 0.5} \\approx 0.0188$$. Percent ionization = $$(0.0188 / 0.5) \\times 100 \\approx 3.8\\%$$.[cite: 1]"
+    },
+    {
+      "id": "CHEM-12-U1-006",
+      "text": "A 0.47 M aqueous solution of a weak base has a pOH of 2. What is Kb for the weak base?",
+      "options": [
+        "2.17 x 10^-4",
+        "3.14 x 10^-3",
+        "1.0 x 10^-2",
+        "4.4 x 10^-1"
+      ],
+      "answer": "2.17 x 10^-4",
+      "explanation": "pOH = 2 means [OH-] = 10^-2 = 0.01. Using $$Kb = [OH^-]^2 / ([Base] - [OH^-])$$, we get $$Kb = (0.01)^2 / (0.47 - 0.01) = 0.0001 / 0.46 \\approx 2.17 \\times 10^{-4}$$."
+    }
+  ]
+}
