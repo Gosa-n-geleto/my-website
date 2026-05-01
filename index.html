@@ -349,7 +349,16 @@
         loadNoteContent(units[0]);
     }
 
-    function loadNoteContent(unitTitle) {
+   function loadNoteContent(unitTitle) {
+    // Keep this existing line to save the title!
+    sessionStorage.setItem('activeUnit', unitTitle); 
+
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.remove('active');
+        if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
+    });
+
+    const content = document.getElementById('study-main-content');
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.classList.remove('active');
             if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
@@ -385,22 +394,26 @@
         document.body.style.overflow = 'auto';
     }
 
- async function launchExamRoom() {
+async function launchExamRoom() {
+    // 1. Try to get title from sidebar, or use the one we saved earlier
     const activeItem = document.querySelector('.sidebar-item.active');
-    let unitTitleFromSidebar = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
+    let unitTitle = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : sessionStorage.getItem('activeUnit');
     
+    if (!unitTitle) {
+        alert("Please select a Unit in the Study Room first!");
+        return;
+    }
+
     try {
         const response = await fetch(`data/${currentSubject.toLowerCase()}_g${currentGrade}.json`);
         const subjectData = await response.json();
 
-        // Finds the specific unit inside your "units" array
         const targetUnit = subjectData.units.find(u => 
-            u.unit_name.toLowerCase() === unitTitleFromSidebar.toLowerCase()
+            u.unit_name.toLowerCase() === unitTitle.toLowerCase()
         );
 
-        if (!targetUnit || !targetUnit.questions) throw new Error("Unit data mismatch");
+        if (!targetUnit || !targetUnit.questions) throw new Error("Data missing");
 
-        // Converts your JSON format into the format the quiz uses
         const unitQuestions = targetUnit.questions.map(q => ({
             q: q.text,
             options: q.options,
@@ -409,10 +422,11 @@
         }));
 
         sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
-        renderQuestion(0, unitTitleFromSidebar); 
+        renderQuestion(0, unitTitle); 
 
     } catch (error) {
-        alert(`DATABASE_OFFLINE: Could not find questions for ${unitTitleFromSidebar}.`);
+        console.error(error);
+        alert(`DATABASE_OFFLINE: Questions for "${unitTitle}" not found.`);
     }
 }
 function renderQuestion(qIndex, unitKey) {
