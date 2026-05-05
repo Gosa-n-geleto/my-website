@@ -1,435 +1,424 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DODOLA_HUB_V3.0 | Source of Genus</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --neon: #23d5ab;
-            --neon-glow: rgba(35, 213, 171, 0.4);
-            --bg-deep: #01040a;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --text-main: #e2e8f0;
-            --font-mono: 'JetBrains Mono', monospace;
-            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DODOLA_HUB_V3.0 | Source of Genus</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Major+Mono+Display&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon: #23d5ab;
+            --neon-glow: rgba(35, 213, 171, 0.4);
+            --bg-deep: #01040a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #e2e8f0;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; outline: none; }
-        body { 
-            background: var(--bg-deep); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; outline: none; }
+        body { 
+            background: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000;
-            background: rgba(1, 4, 10, 0.85); backdrop-filter: blur(15px);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; border-bottom: 1px solid var(--border);
-        }
-        .logo { font-family: 'Major Mono Display'; color: var(--neon); font-size: 1.4rem; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { 
-            text-decoration: none; color: white; font-family: var(--font-mono); 
-            font-size: 0.75rem; transition: 0.3s; opacity: 0.7; cursor: pointer;
-        }
-        .nav-links a:hover { opacity: 1; color: var(--neon); }
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000;
+            background: rgba(1, 4, 10, 0.85); backdrop-filter: blur(15px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Major Mono Display'; color: var(--neon); font-size: 1.4rem; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            text-decoration: none; color: white; font-family: var(--font-mono); 
+            font-size: 0.75rem; transition: 0.3s; opacity: 0.7; cursor: pointer;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--neon); }
 
-        /* --- HERO SECTION --- */
-        header {
-            padding: 160px 5% 80px;
-            background: linear-gradient(rgba(1, 4, 10, 0.75), rgba(1, 4, 10, 0.75)), url('Screenshot 2026-04-22 100541.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            min-height: 80vh;
-        }
-        .hero-text h1 { font-family: 'Major Mono Display'; font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
-        .stat-box { text-align: right; border-left: 1px solid var(--border); padding-left: 40px; }
-        .stat-value { font-size: 7rem; font-weight: 800; color: white; line-height: 1; }
-        .stat-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon); letter-spacing: 4px; }
+        /* --- HERO SECTION --- */
+        header {
+            padding: 160px 5% 80px;
+            background: linear-gradient(rgba(1, 4, 10, 0.75), rgba(1, 4, 10, 0.75)), url('Screenshot 2026-04-22 100541.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            min-height: 80vh;
+        }
+        .hero-text h1 { font-family: 'Major Mono Display'; font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .stat-box { text-align: right; border-left: 1px solid var(--border); padding-left: 40px; }
+        .stat-value { font-size: 7rem; font-weight: 800; color: white; line-height: 1; }
+        .stat-label { font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon); letter-spacing: 4px; }
 
-        /* --- SELECTOR --- */
-        .selector-bar { padding: 40px 5%; display: flex; gap: 15px; background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); }
-        .grade-btn {
-            padding: 12px 30px; border-radius: 8px; border: 1px solid var(--border);
-            background: var(--bg-card); color: white; font-family: var(--font-mono);
-            cursor: pointer; transition: var(--transition);
-        }
-        .grade-btn.active { background: var(--neon); color: var(--bg-deep); border-color: var(--neon); font-weight: bold; }
+        /* --- SELECTOR --- */
+        .selector-bar { padding: 40px 5%; display: flex; gap: 15px; background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); }
+        .grade-btn {
+            padding: 12px 30px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-card); color: white; font-family: var(--font-mono);
+            cursor: pointer; transition: var(--transition);
+        }
+        .grade-btn.active { background: var(--neon); color: var(--bg-deep); border-color: var(--neon); font-weight: bold; }
 
-        /* --- STREAM ARCHITECTURE --- */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 5%; }
-        .stream-container { 
-            background: rgba(255,255,255,0.01); border: 1px solid var(--border); 
-            border-radius: 40px; padding: 50px; 
-        }
-        .stream-tag { 
-            font-family: 'Major Mono Display'; color: var(--neon); 
-            margin-bottom: 40px; border-bottom: 1px solid var(--neon); 
-            display: inline-block; padding-bottom: 8px; font-size: 1.2rem;
-        }
-        .subject-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            padding: 30px; border-radius: 20px; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: var(--transition); cursor: pointer;
-        }
-        .subject-card:hover { transform: scale(1.02); border-color: var(--neon); }
+        /* --- STREAM ARCHITECTURE --- */
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 5%; }
+        .stream-container { 
+            background: rgba(255,255,255,0.01); border: 1px solid var(--border); 
+            border-radius: 40px; padding: 50px; 
+        }
+        .stream-tag { 
+            font-family: 'Major Mono Display'; color: var(--neon); 
+            margin-bottom: 40px; border-bottom: 1px solid var(--neon); 
+            display: inline-block; padding-bottom: 8px; font-size: 1.2rem;
+        }
+        .subject-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 30px; border-radius: 20px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: var(--transition); cursor: pointer;
+        }
+        .subject-card:hover { transform: scale(1.02); border-color: var(--neon); }
 
-        /* --- RANKINGS --- */
-        .ranking-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 30px; }
-        .ranking-row { background: var(--bg-card); border: 1px solid var(--border); transition: 0.3s; }
-        .ranking-row td { padding: 25px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .rank-num { color: var(--neon); font-family: var(--font-mono); font-size: 1.2rem; width: 80px; }
-        .score-badge { background: var(--neon); color: var(--bg-deep); padding: 5px 15px; border-radius: 6px; font-weight: 900; font-family: var(--font-mono); }
+        /* --- RANKINGS --- */
+        .ranking-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 30px; }
+        .ranking-row { background: var(--bg-card); border: 1px solid var(--border); transition: 0.3s; }
+        .ranking-row td { padding: 25px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .rank-num { color: var(--neon); font-family: var(--font-mono); font-size: 1.2rem; width: 80px; }
+        .score-badge { background: var(--neon); color: var(--bg-deep); padding: 5px 15px; border-radius: 6px; font-weight: 900; font-family: var(--font-mono); }
 
-        /* --- CLUBS --- */
-        .club-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 40px; }
-        .club-chip {
-            padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border);
-            background: var(--bg-card); font-family: var(--font-mono); font-size: 0.75rem;
-            cursor: pointer; transition: 0.3s;
-        }
-        .club-chip:hover { border-color: var(--neon); color: var(--neon); transform: translateY(-5px); }
+        /* --- CLUBS --- */
+        .club-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 40px; }
+        .club-chip {
+            padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border);
+            background: var(--bg-card); font-family: var(--font-mono); font-size: 0.75rem;
+            cursor: pointer; transition: 0.3s;
+        }
+        .club-chip:hover { border-color: var(--neon); color: var(--neon); transform: translateY(-5px); }
 
-        /* --- MODALS & ACADEMIC ROOMS --- */
-        .modal {
-            display: none; position: fixed; inset: 0; background: rgba(1, 4, 10, 0.98);
-            z-index: 5000; backdrop-filter: blur(30px); align-items: center; justify-content: center;
-        }
-        .room-wrapper { display: flex; gap: 40px; width: 90%; max-width: 1000px; }
-        .room-card {
-            flex: 1; padding: 100px 40px; border-radius: 35px; border: 1px solid var(--border);
-            background: var(--bg-card); text-align: center; cursor: pointer; transition: var(--transition);
-        }
-        .room-card:hover { border-color: var(--neon); transform: translateY(-20px); background: rgba(35, 213, 171, 0.05); }
+        /* --- MODALS & ACADEMIC ROOMS --- */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(1, 4, 10, 0.98);
+            z-index: 5000; backdrop-filter: blur(30px); align-items: center; justify-content: center;
+        }
+        .room-wrapper { display: flex; gap: 40px; width: 90%; max-width: 1000px; }
+        .room-card {
+            flex: 1; padding: 100px 40px; border-radius: 35px; border: 1px solid var(--border);
+            background: var(--bg-card); text-align: center; cursor: pointer; transition: var(--transition);
+        }
+        .room-card:hover { border-color: var(--neon); transform: translateY(-20px); background: rgba(35, 213, 171, 0.05); }
 
-        .academic-room {
-            display: none; position: fixed; inset: 0; background: var(--bg-deep);
-            z-index: 6000; padding: 80px 5%; overflow-y: auto;
-        }
-        .study-room-layout {
-            display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-top: 50px; height: 80vh;
-        }
-        .study-sidebar { border-right: 1px solid var(--border); padding-right: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .sidebar-item {
-            padding: 15px 20px; border-radius: 12px; font-family: var(--font-mono); font-size: 0.75rem;
-            color: #666; cursor: pointer; transition: 0.3s; border: 1px solid transparent;
-        }
-        .sidebar-item.active { background: rgba(35, 213, 171, 0.05); color: var(--neon); border-color: var(--neon); }
-        .study-content-area { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 30px; padding: 60px; overflow-y: auto; }
-        .note-card { background: var(--bg-card); border-left: 4px solid var(--neon); padding: 30px; margin-bottom: 30px; border-radius: 0 20px 20px 0; }
-        .formula-box { background: #000; padding: 20px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.85rem; color: #888; border-left: 3px solid var(--neon); }
+        .academic-room {
+            display: none; position: fixed; inset: 0; background: var(--bg-deep);
+            z-index: 6000; padding: 80px 5%; overflow-y: auto;
+        }
+        .study-room-layout {
+            display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-top: 50px; height: 80vh;
+        }
+        .study-sidebar { border-right: 1px solid var(--border); padding-right: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-item {
+            padding: 15px 20px; border-radius: 12px; font-family: var(--font-mono); font-size: 0.75rem;
+            color: #666; cursor: pointer; transition: 0.3s; border: 1px solid transparent;
+        }
+        .sidebar-item.active { background: rgba(35, 213, 171, 0.05); color: var(--neon); border-color: var(--neon); }
+        .study-content-area { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 30px; padding: 60px; overflow-y: auto; }
+        .note-card { background: var(--bg-card); border-left: 4px solid var(--neon); padding: 30px; margin-bottom: 30px; border-radius: 0 20px 20px 0; }
+        .formula-box { background: #000; padding: 20px; border-radius: 10px; font-family: var(--font-mono); font-size: 0.85rem; color: #888; border-left: 3px solid var(--neon); }
 
-        footer { padding: 100px 5%; border-top: 1px solid var(--border); text-align: center; opacity: 0.5; font-size: 0.8rem; }
-    </style>
+        footer { padding: 100px 5%; border-top: 1px solid var(--border); text-align: center; opacity: 0.5; font-size: 0.8rem; }
+    </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">DODOLA_LAB</div>
-        <div class="nav-links">
-            <a onclick="scrollWin('home')">DASHBOARD</a>
-            <a onclick="scrollWin('academics')">ACADEMICS</a>
-            <a onclick="scrollWin('rankings')">RANKINGS</a>
-            <a onclick="scrollWin('clubs')">STUDENT_LIFE</a>
-        </div>
-    </nav>
+    <nav>
+        <div class="logo">DODOLA_LAB</div>
+        <div class="nav-links">
+            <a onclick="scrollWin('home')">DASHBOARD</a>
+            <a onclick="scrollWin('academics')">ACADEMICS</a>
+            <a onclick="scrollWin('rankings')">RANKINGS</a>
+            <a onclick="scrollWin('clubs')">STUDENT_LIFE</a>
+        </div>
+    </nav>
 
-    <header id="home">
-        <div class="hero-text">
-            <p style="color: var(--neon); font-family: var(--font-mono); letter-spacing: 5px;">[ SOURCE OF GENUS ]</p>
-            <h1 id="portal-title">G12_PORTAL</h1>
-            <p style="max-width: 600px; line-height: 1.8; opacity: 0.7;">Impact. Innovate. Lead. The premier academic portal for the Brightest Generation.</p>
-        </div>
-        <div class="stat-box">
-            <p class="stat-label">NAT_EXAM_AVG</p>
-            <div class="stat-value">590<span style="font-size: 2rem; opacity: 0.2;">/600</span></div>
-        </div>
-    </header>
+    <header id="home">
+        <div class="hero-text">
+            <p style="color: var(--neon); font-family: var(--font-mono); letter-spacing: 5px;">[ SOURCE OF GENUS ]</p>
+            <h1 id="portal-title">G12_PORTAL</h1>
+            <p style="max-width: 600px; line-height: 1.8; opacity: 0.7;">Impact. Innovate. Lead. The premier academic portal for the Brightest Generation.</p>
+        </div>
+        <div class="stat-box">
+            <p class="stat-label">NAT_EXAM_AVG</p>
+            <div class="stat-value">590<span style="font-size: 2rem; opacity: 0.2;">/600</span></div>
+        </div>
+    </header>
 
-    <div class="selector-bar">
-        <button class="grade-btn active" onclick="updateUI(12, this)">GRADE_12</button>
-        <button class="grade-btn" onclick="updateUI(11, this)">GRADE_11</button>
-        <button class="grade-btn" onclick="updateUI(10, this)">GRADE_10</button>
-        <button class="grade-btn" onclick="updateUI(9, this)">GRADE_09</button>
-    </div>
+    <div class="selector-bar">
+        <button class="grade-btn active" onclick="updateUI(12, this)">GRADE_12</button>
+        <button class="grade-btn" onclick="updateUI(11, this)">GRADE_11</button>
+        <button class="grade-btn" onclick="updateUI(10, this)">GRADE_10</button>
+        <button class="grade-btn" onclick="updateUI(9, this)">GRADE_09</button>
+    </div>
 
-    <section id="academics" class="main-grid">
-        <div class="stream-container">
-            <div class="stream-tag">NATURAL_SCIENCE</div>
-            <div id="nat-list"></div>
-        </div>
-        <div class="stream-container">
-            <div class="stream-tag">SOCIAL_SCIENCE</div>
-            <div id="soc-list"></div>
-        </div>
-    </section>
+    <section id="academics" class="main-grid">
+        <div class="stream-container">
+            <div class="stream-tag">NATURAL_SCIENCE</div>
+            <div id="nat-list"></div>
+        </div>
+        <div class="stream-container">
+            <div class="stream-tag">SOCIAL_SCIENCE</div>
+            <div id="soc-list"></div>
+        </div>
+    </section>
 
-    <section id="rankings" style="padding: 100px 5%;">
-        <div class="stream-tag">2025_NATIONAL_SCORERS</div>
-        <table class="ranking-table" id="ranking-body"></table>
-        <p style="margin-top: 30px; opacity: 0.4; font-size: 0.8rem;">*Only school in Ethiopia with 100% scores above 480.</p>
-    </section>
+    <section id="rankings" style="padding: 100px 5%;">
+        <div class="stream-tag">2025_NATIONAL_SCORERS</div>
+        <table class="ranking-table" id="ranking-body"></table>
+        <p style="margin-top: 30px; opacity: 0.4; font-size: 0.8rem;">*Only school in Ethiopia with 100% scores above 480.</p>
+    </section>
 
-    <section id="clubs" style="padding: 100px 5%; background: rgba(35, 213, 171, 0.02);">
-        <div class="stream-tag">EXTRACURRICULAR_ACTIVITIES</div>
-        <div class="club-grid" id="club-list"></div>
-    </section>
+    <section id="clubs" style="padding: 100px 5%; background: rgba(35, 213, 171, 0.02);">
+        <div class="stream-tag">EXTRACURRICULAR_ACTIVITIES</div>
+        <div class="club-grid" id="club-list"></div>
+    </section>
 
-    <footer>
-        <p>Dodola Ifa Boru Special Boarding Secondary School | © 2026</p>
-        <p style="margin-top: 10px;">Created for the National Youth Laureate</p>
-    </footer>
+    <footer>
+        <p>Dodola Ifa Boru Special Boarding Secondary School | © 2026</p>
+        <p style="margin-top: 10px;">Created for the National Youth Laureate</p>
+    </footer>
 
-    <div id="room-modal" class="modal">
-        <div class="room-wrapper">
-            <div class="room-card" onclick="launchStudyRoom()">
-                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">STUDY_ROOM</h1>
-                <p style="margin-top: 20px; opacity: 0.5;">Advanced notes and conceptual logic.</p>
-            </div>
-            <div class="room-card" onclick="launchExamRoom()">
-                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_ROOM</h1>
-                <p style="margin-top: 20px; opacity: 0.5;">National exam simulation logic.</p>
-            </div>
-        </div>
-        <button class="grade-btn" style="position:fixed; bottom:60px;" onclick="closeModal()">BACK_TO_HUB</button>
-    </div>
+    <div id="room-modal" class="modal">
+        <div class="room-wrapper">
+            <div class="room-card" onclick="launchStudyRoom()">
+                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">STUDY_ROOM</h1>
+                <p style="margin-top: 20px; opacity: 0.5;">Advanced notes and conceptual logic.</p>
+            </div>
+            <div class="room-card" onclick="launchExamRoom()">
+                <h1 style="font-family:'Major Mono Display'; color:var(--neon);">EXAM_ROOM</h1>
+                <p style="margin-top: 20px; opacity: 0.5;">National exam simulation logic.</p>
+            </div>
+        </div>
+        <button class="grade-btn" style="position:fixed; bottom:60px;" onclick="closeModal()">BACK_TO_HUB</button>
+    </div>
 
-    <div id="active-study-room" class="academic-room">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 30px;">
-            <h2 id="study-subject-title" style="font-family:'Major Mono Display'; color:var(--neon);">SUBJECT_LAB</h2>
-            <button class="grade-btn" onclick="closeStudyRoom()">EXIT_LAB</button>
-        </div>
-        <div class="study-room-layout">
-            <aside class="study-sidebar" id="study-sidebar-nav"></aside>
-            <main class="study-content-area" id="study-main-content">
-                <div class="note-card">
-                    <h3>Select a Unit to start.</h3>
-                    <p>Welcome, Laureate. Your notes are synced and ready.</p>
-                </div>
-            </main>
-        </div>
-    </div>
+    <div id="active-study-room" class="academic-room">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 30px;">
+            <h2 id="study-subject-title" style="font-family:'Major Mono Display'; color:var(--neon);">SUBJECT_LAB</h2>
+            <button class="grade-btn" onclick="closeStudyRoom()">EXIT_LAB</button>
+        </div>
+        <div class="study-room-layout">
+            <aside class="study-sidebar" id="study-sidebar-nav"></aside>
+            <main class="study-content-area" id="study-main-content">
+                <div class="note-card">
+                    <h3>Select a Unit to start.</h3>
+                    <p>Welcome, Laureate. Your notes are synced and ready.</p>
+                </div>
+            </main>
+        </div>
+    </div>
 
-  <script>
-    // 1. STATE MANAGEMENT
-    let currentGrade = 12; 
-    let currentSubject = "";
+  <script>
+    // 1. STATE MANAGEMENT
+    let currentGrade = 12; 
+    let currentSubject = "";
 
-    // 2. MASTER DATA LIBRARY (Aligned with Ethiopian New Curriculum 2024/25)
-    const appData = {
-        library: {
-            "Maths": {
-                12: {
-                    "Sequences and Series": { notes: "Focus on limits of sequences and convergence of infinite series. Essential for the national exam finance questions.", formula: "S_inf = a / (1 - r) for |r| < 1" },
-                    "Limits and Continuity": { notes: "Study one-sided limits and the 3-step continuity test. Includes the Intermediate Value Theorem (IVT).", formula: "lim x→c f(x) = f(c)" },
-                    "Introduction to Differential Calculus": { notes: "Power rule, Product rule, and the Chain rule. Understanding derivatives from first principles.", formula: "f'(x) = lim h→0 [f(x+h) - f(x)]/h" },
-                    "Applications of Differential Calculus": { notes: "Optimization, curve sketching, and related rates. High probability exam topic.", formula: "f'(x) = 0 for Critical Points" },
-                    "Introduction to Integral Calculus": { notes: "Anti-derivatives and the Fundamental Theorem of Calculus. Focus on U-substitution.", formula: "∫ x^n dx = (x^n+1)/(n+1) + C" },
-                    "3D Geometry and Vectors": { notes: "Equation of lines and planes in space. Distance between points and planes.", formula: "Ax + By + Cz + D = 0" },
-                    "Mathematical Proofs": { notes: "Methods of direct proof, contradiction, and mathematical induction.", formula: "P(k) ⇒ P(k+1)" }
-                },
-                11: ["Complex Numbers", "Matrices", "Vectors", "Coordinate Geometry", "Mathematical Induction"],
-                10: ["Polynomial Functions", "Exponential & Logarithmic", "Circles", "Solid Geometry"],
-                9: ["Further on Sets", "The Number System", "Solving Inequalities", "Geometry"]
-            },
-            "Biology": {
-                12: {
-                    "Application of Biology": { notes: "Biotechnology in agriculture, conservation of Ethiopia's biodiversity, and 'Green Legacy' initiatives.", formula: "GENE_EDITING: CRISPR_V3" },
-                    "Microorganisms": { notes: "Detailed study of Bacteria, Viruses, and Fungi. Economic importance in food (Enjera) and medicine.", formula: "SCAN: PATHOGEN_DETECTION_ACTIVE" },
-                    "Energy Transformation": { notes: "The mechanics of Photosynthesis (C3/C4) and Cellular Respiration (Krebs Cycle, ETC).", formula: "C6H12O6 + 6O2 → 6CO2 + 6H2O + ATP" },
-                    "Evolution": { notes: "Natural selection and human evolution. Focus on Ethiopian fossil sites: Hadar (Lucy) and Middle Awash.", formula: "OUT_OF_AFRICA_THEORY: VERIFIED" },
-                    "Human Body System": { notes: "Nervous system, endocrine system, and homeostasis mechanism.", formula: "FEEDBACK_LOOP: NEGATIVE/POSITIVE" }
-                },
-                11: ["Biomolecules", "Enzymes", "Cellular Respiration", "Photosynthesis"],
-                10: ["Microbiology", "Genetics", "Evolution", "Human Health"],
-                9: ["Introduction", "Organisms", "Cell", "Reproduction", "Ecology"]
-            },
-            "Chemistry": {
-                12: {
-                    "Acid-Base Equilibria": { notes: "pH calculations, buffer solutions, and titration curves. Importance of K_a and K_b.", formula: "pH = -log[H+]" },
-                    "Electrochemistry": { notes: "Galvanic cells, electrolysis, and the Nernst equation. Applications in metal refining.", formula: "E_cell = E_cathode - E_anode" },
-                    "Industrial Chemistry": { notes: "Focus on Ethiopia's manufacturing sector: Sugar, Cement, and Leather industries.", formula: "CATALYST_EFFICIENCY: 98%" },
-                    "Polymers": { notes: "Addition and condensation polymerization. Synthetic vs Natural polymers.", formula: "-(CH2-CH2)-n" }
-                }
-            }
-        },
-        subjects: {
-            12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "ICT"], soc: ["History", "Geography", "Maths", "Economics", "English", "General Logic"] },
-            11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
-            10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
-            9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
-        },
-        scorers: [
-            { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
-            { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" }
-        ],
-        clubs: ["ICT Club", "Innovation Hub", "Brightest Generation Club"],
-        questions: {
-            "Sequences and Series": [
-                {
-                    q: "What is the sum of the infinite geometric series: 5 + 5/2 + 5/4 + ...?",
-                    options: ["10", "15", "5.5", "Infinite"],
-                    correct: 0 
-                },
-                {
-                    q: "Which of the following sequences is convergent?",
-                    options: ["a_n = n^2", "a_n = (-1)^n", "a_n = (1/3)^n", "a_n = 2n + 1"],
-                    correct: 2 
-                }
-            ]
-        }
-    };
+    // 2. MASTER DATA LIBRARY (Aligned with Ethiopian New Curriculum 2024/25)
+    const appData = {
+        library: {
+            "Maths": {
+                12: {
+                    "Sequences and Series": { notes: "Focus on limits of sequences and convergence of infinite series. Essential for the national exam finance questions.", formula: "S_inf = a / (1 - r) for |r| < 1" },
+                    "Limits and Continuity": { notes: "Study one-sided limits and the 3-step continuity test. Includes the Intermediate Value Theorem (IVT).", formula: "lim x→c f(x) = f(c)" },
+                    "Introduction to Differential Calculus": { notes: "Power rule, Product rule, and the Chain rule. Understanding derivatives from first principles.", formula: "f'(x) = lim h→0 [f(x+h) - f(x)]/h" },
+                    "Applications of Differential Calculus": { notes: "Optimization, curve sketching, and related rates. High probability exam topic.", formula: "f'(x) = 0 for Critical Points" },
+                    "Introduction to Integral Calculus": { notes: "Anti-derivatives and the Fundamental Theorem of Calculus. Focus on U-substitution.", formula: "∫ x^n dx = (x^n+1)/(n+1) + C" },
+                    "3D Geometry and Vectors": { notes: "Equation of lines and planes in space. Distance between points and planes.", formula: "Ax + By + Cz + D = 0" },
+                    "Mathematical Proofs": { notes: "Methods of direct proof, contradiction, and mathematical induction.", formula: "P(k) ⇒ P(k+1)" }
+                },
+                11: ["Complex Numbers", "Matrices", "Vectors", "Coordinate Geometry", "Mathematical Induction"],
+                10: ["Polynomial Functions", "Exponential & Logarithmic", "Circles", "Solid Geometry"],
+                9: ["Further on Sets", "The Number System", "Solving Inequalities", "Geometry"]
+            },
+            "Biology": {
+                12: {
+                    "Application of Biology": { notes: "Biotechnology in agriculture, conservation of Ethiopia's biodiversity, and 'Green Legacy' initiatives.", formula: "GENE_EDITING: CRISPR_V3" },
+                    "Microorganisms": { notes: "Detailed study of Bacteria, Viruses, and Fungi. Economic importance in food (Enjera) and medicine.", formula: "SCAN: PATHOGEN_DETECTION_ACTIVE" },
+                    "Energy Transformation": { notes: "The mechanics of Photosynthesis (C3/C4) and Cellular Respiration (Krebs Cycle, ETC).", formula: "C6H12O6 + 6O2 → 6CO2 + 6H2O + ATP" },
+                    "Evolution": { notes: "Natural selection and human evolution. Focus on Ethiopian fossil sites: Hadar (Lucy) and Middle Awash.", formula: "OUT_OF_AFRICA_THEORY: VERIFIED" },
+                    "Human Body System": { notes: "Nervous system, endocrine system, and homeostasis mechanism.", formula: "FEEDBACK_LOOP: NEGATIVE/POSITIVE" }
+                },
+                11: ["Biomolecules", "Enzymes", "Cellular Respiration", "Photosynthesis"],
+                10: ["Microbiology", "Genetics", "Evolution", "Human Health"],
+                9: ["Introduction", "Organisms", "Cell", "Reproduction", "Ecology"]
+            },
+            "Chemistry": {
+                12: {
+                    "Acid-Base Equilibria": { notes: "pH calculations, buffer solutions, and titration curves. Importance of K_a and K_b.", formula: "pH = -log[H+]" },
+                    "Electrochemistry": { notes: "Galvanic cells, electrolysis, and the Nernst equation. Applications in metal refining.", formula: "E_cell = E_cathode - E_anode" },
+                    "Industrial Chemistry": { notes: "Focus on Ethiopia's manufacturing sector: Sugar, Cement, and Leather industries.", formula: "CATALYST_EFFICIENCY: 98%" },
+                    "Polymers": { notes: "Addition and condensation polymerization. Synthetic vs Natural polymers.", formula: "-(CH2-CH2)-n" }
+                }
+            }
+        },
+        subjects: {
+            12: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English", "ICT"], soc: ["History", "Geography", "Maths", "Economics", "English", "General Logic"] },
+            11: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["History", "Geography", "Maths", "Economics", "English"] },
+            10: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] },
+            9: { nat: ["Maths", "Physics", "Chemistry", "Biology", "English"], soc: ["Civics", "History", "Geography", "Maths", "English"] }
+        },
+        scorers: [
+            { name: "Kalid Beshir Hasen", score: 592, rank: "#1 National", stream: "Natural" },
+            { name: "Gosa Negeso Geleto", score: 590, rank: "#2 National", stream: "Natural" }
+        ],
+        clubs: ["ICT Club", "Innovation Hub", "Brightest Generation Club"],
+        questions: {
+            "Sequences and Series": [
+                {
+                    q: "What is the sum of the infinite geometric series: 5 + 5/2 + 5/4 + ...?",
+                    options: ["10", "15", "5.5", "Infinite"],
+                    correct: 0 
+                },
+                {
+                    q: "Which of the following sequences is convergent?",
+                    options: ["a_n = n^2", "a_n = (-1)^n", "a_n = (1/3)^n", "a_n = 2n + 1"],
+                    correct: 2 
+                }
+            ]
+        }
+    };
 
-    // 3. CORE FUNCTIONS
-    function updateUI(grade, btn) {
-        currentGrade = grade;
-        document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
-        renderSubjects(grade);
-    }
+    // 3. CORE FUNCTIONS
+    function updateUI(grade, btn) {
+        currentGrade = grade;
+        document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('portal-title').innerText = `G${grade}_PORTAL`;
+        renderSubjects(grade);
+    }
 
-    function renderSubjects(grade) {
-        const n = appData.subjects[grade].nat;
-        const s = appData.subjects[grade].soc;
-        
-        document.getElementById('nat-list').innerHTML = n.map(sub => `
-            <div class="subject-card" onclick="openGate('${sub}')">
-                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
-                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
-            </div>`).join('');
-            
-        document.getElementById('soc-list').innerHTML = s.map(sub => `
-            <div class="subject-card" onclick="openGate('${sub}')">
-                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
-                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
-            </div>`).join('');
-    }
+    function renderSubjects(grade) {
+        const n = appData.subjects[grade].nat;
+        const s = appData.subjects[grade].soc;
+        
+        document.getElementById('nat-list').innerHTML = n.map(sub => `
+            <div class="subject-card" onclick="openGate('${sub}')">
+                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Advanced Logic</p></div>
+                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+            </div>`).join('');
+            
+        document.getElementById('soc-list').innerHTML = s.map(sub => `
+            <div class="subject-card" onclick="openGate('${sub}')">
+                <div><h3>${sub}</h3><p style="font-size:0.7rem; opacity:0.4;">Social Systems</p></div>
+                <div style="color:var(--neon); font-family:var(--font-mono); font-size:0.7rem;">SYNC_ON</div>
+            </div>`).join('');
+    }
 
-    function openGate(subjectName) { 
-        currentSubject = subjectName;
-        document.getElementById('room-modal').style.display = 'flex'; 
-    }
+    function openGate(subjectName) { 
+        currentSubject = subjectName;
+        document.getElementById('room-modal').style.display = 'flex'; 
+    }
 
-    function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
+    function closeModal() { document.getElementById('room-modal').style.display = 'none'; }
 
-    function launchStudyRoom() {
-        closeModal();
-        document.getElementById('active-study-room').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-        document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
-        
-        const rawData = (appData.library[currentSubject] && appData.library[currentSubject][currentGrade]) 
-                      ? appData.library[currentSubject][currentGrade] 
-                      : ["Syllabus Overview", "Resource Loading..."];
+    function launchStudyRoom() {
+        closeModal();
+        document.getElementById('active-study-room').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        document.getElementById('study-subject-title').innerText = `${currentSubject.toUpperCase()}_RESEARCH_LAB`;
+        
+        const rawData = (appData.library[currentSubject] && appData.library[currentSubject][currentGrade]) 
+                      ? appData.library[currentSubject][currentGrade] 
+                      : ["Syllabus Overview", "Resource Loading..."];
 
-        // Handle both Array and Object keys
-        const units = Array.isArray(rawData) ? rawData : Object.keys(rawData);
+        // Handle both Array and Object keys
+        const units = Array.isArray(rawData) ? rawData : Object.keys(rawData);
 
-        const sidebar = document.getElementById('study-sidebar-nav');
-        sidebar.innerHTML = units.map((unit, index) => `
-            <div class="sidebar-item ${index === 0 ? 'active' : ''}" onclick="loadNoteContent('${unit.replace(/'/g, "\\'")}')">
-                UNIT 0${index + 1}: ${unit.toUpperCase()}
-            </div>
-        `).join('');
-        
-        loadNoteContent(units[0]);
-    }
+        const sidebar = document.getElementById('study-sidebar-nav');
+        sidebar.innerHTML = units.map((unit, index) => `
+            <div class="sidebar-item ${index === 0 ? 'active' : ''}" onclick="loadNoteContent('${unit.replace(/'/g, "\\'")}')">
+                UNIT 0${index + 1}: ${unit.toUpperCase()}
+            </div>
+        `).join('');
+        
+        loadNoteContent(units[0]);
+    }
 
-   function loadNoteContent(unitTitle) {
-    // Keep this existing line to save the title!
-    sessionStorage.setItem('activeUnit', unitTitle); 
+    function loadNoteContent(unitTitle) {
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.classList.remove('active');
+            if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
+        });
 
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-        item.classList.remove('active');
-        if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
-    });
+        const content = document.getElementById('study-main-content');
+        const unitData = appData.library[currentSubject][currentGrade][unitTitle];
+        
+        let displayNotes = `Grade ${currentGrade} conceptual framework loaded. Analyzing national exam patterns for ${unitTitle}...`;
+        let displayFormula = "// STATUS: READY_FOR_DATA_UPLOAD";
 
-    const content = document.getElementById('study-main-content');
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.classList.remove('active');
-            if(item.innerText.includes(unitTitle.toUpperCase())) item.classList.add('active');
-        });
+        if (unitData && typeof unitData === 'object') {
+            displayNotes = unitData.notes;
+            displayFormula = unitData.formula;
+        }
 
-        const content = document.getElementById('study-main-content');
-        const unitData = appData.library[currentSubject][currentGrade][unitTitle];
-        
-        let displayNotes = `Grade ${currentGrade} conceptual framework loaded. Analyzing national exam patterns for ${unitTitle}...`;
-        let displayFormula = "// STATUS: READY_FOR_DATA_UPLOAD";
+        content.innerHTML = `
+            <div class="note-card">
+                <h2 style="color:var(--neon); margin-bottom:10px;">${currentSubject.toUpperCase()}</h2>
+                <h3>UNIT: ${unitTitle}</h3>
+                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+                <p style="line-height:1.6;">${displayNotes}</p>
+                <div class="formula-box" style="margin-top:20px;">
+                    ${displayFormula}
+                </div>
+            </div>
+            <button class="grade-btn" onclick="launchExamRoom()">SIMULATE ${unitTitle.toUpperCase()} EXAM →</button>
+        `;
+    }
 
-        if (unitData && typeof unitData === 'object') {
-            displayNotes = unitData.notes;
-            displayFormula = unitData.formula;
-        }
+    function closeStudyRoom() {
+        document.getElementById('active-study-room').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 
-        content.innerHTML = `
-            <div class="note-card">
-                <h2 style="color:var(--neon); margin-bottom:10px;">${currentSubject.toUpperCase()}</h2>
-                <h3>UNIT: ${unitTitle}</h3>
-                <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
-                <p style="line-height:1.6;">${displayNotes}</p>
-                <div class="formula-box" style="margin-top:20px;">
-                    ${displayFormula}
-                </div>
-            </div>
-            <button class="grade-btn" onclick="launchExamRoom()">SIMULATE ${unitTitle.toUpperCase()} EXAM →</button>
-        `;
-    }
-
-    function closeStudyRoom() {
-        document.getElementById('active-study-room').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-
-async function launchExamRoom() {
-    // 1. Try to get title from sidebar, or use the one we saved earlier
+  async function launchExamRoom() {
     const activeItem = document.querySelector('.sidebar-item.active');
-    let unitTitle = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : sessionStorage.getItem('activeUnit');
+    let unitTitleFromSidebar = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
     
-    if (!unitTitle) {
-        alert("Please select a Unit in the Study Room first!");
-        return;
-    }
-
     try {
         const response = await fetch(`data/${currentSubject.toLowerCase()}_g${currentGrade}.json`);
         const subjectData = await response.json();
 
+        // 1. Look inside the "units" array to find the matching unit name
         const targetUnit = subjectData.units.find(u => 
-            u.unit_name.toLowerCase() === unitTitle.toLowerCase()
+            u.unit_name.toLowerCase() === unitTitleFromSidebar.toLowerCase()
         );
 
-        if (!targetUnit || !targetUnit.questions) throw new Error("Data missing");
+        if (!targetUnit || !targetUnit.questions) {
+            throw new Error("Unit or Questions not found in JSON");
+        }
 
+        // 2. Map the data to match the format the quiz expects
         const unitQuestions = targetUnit.questions.map(q => ({
             q: q.text,
             options: q.options,
-            correct: q.options.indexOf(q.answer), 
+            correct: q.options.indexOf(q.answer), // Finds the index (0, 1, 2, or 3)
             explanation: q.explanation
         }));
 
         sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
-        renderQuestion(0, unitTitle); 
+        renderQuestion(0, unitTitleFromSidebar); 
 
     } catch (error) {
         console.error(error);
-        alert(`DATABASE_OFFLINE: Questions for "${unitTitle}" not found.`);
+        alert(`DATABASE_ERROR: Check console or file path 'data/${currentSubject.toLowerCase()}_g${currentGrade}.json'`);
     }
 }
-function renderQuestion(qIndex, unitKey) {
+   function renderQuestion(qIndex, unitKey) {
     const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
     if (!questions || !questions[qIndex]) return;
 
@@ -454,53 +443,53 @@ function renderQuestion(qIndex, unitKey) {
         </div>
     `;
 }
-    function checkAnswer(selected, correct, unitKey) {
-        if(selected === correct) {
-            alert("VERIFIED: Correct logic applied.");
-            // You could add logic here to load the next question
-        } else {
-            alert("FAILED: Mismatch in mathematical derivation. Reviewing notes is recommended.");
-            loadNoteContent(unitKey);
-        }
-    }
+    function checkAnswer(selected, correct, unitKey) {
+        if(selected === correct) {
+            alert("VERIFIED: Correct logic applied.");
+            // You could add logic here to load the next question
+        } else {
+            alert("FAILED: Mismatch in mathematical derivation. Reviewing notes is recommended.");
+            loadNoteContent(unitKey);
+        }
+    }
 
-    function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
+    function scrollWin(id) { document.getElementById(id).scrollIntoView(); }
 
-    function renderRankings() {
-        document.getElementById('ranking-body').innerHTML = appData.scorers.map((sc, i) => `
-            <tr class="ranking-row">
-                <td class="rank-num">${(i+1).toString().padStart(2, '0')}</td>
-                <td><strong>${sc.name}</strong><br><small>${sc.stream} Science</small></td>
-                <td><span class="score-badge">${sc.score}</span></td>
-                <td style="text-align:right; font-family:var(--font-mono); font-size:0.7rem;">${sc.rank}</td>
-            </tr>`).join('');
-    }
+    function renderRankings() {
+        document.getElementById('ranking-body').innerHTML = appData.scorers.map((sc, i) => `
+            <tr class="ranking-row">
+                <td class="rank-num">${(i+1).toString().padStart(2, '0')}</td>
+                <td><strong>${sc.name}</strong><br><small>${sc.stream} Science</small></td>
+                <td><span class="score-badge">${sc.score}</span></td>
+                <td style="text-align:right; font-family:var(--font-mono); font-size:0.7rem;">${sc.rank}</td>
+            </tr>`).join('');
+    }
 
-    function renderClubs() {
-        document.getElementById('club-list').innerHTML = appData.clubs.map(c => `
-            <div class="club-chip">${c.toUpperCase()}</div>`).join('');
-    }
+    function renderClubs() {
+        document.getElementById('club-list').innerHTML = appData.clubs.map(c => `
+            <div class="club-chip">${c.toUpperCase()}</div>`).join('');
+    }
 
-    window.onload = () => {
-        renderSubjects(12);
-        renderRankings();
-        renderClubs();
-    };
+    window.onload = () => {
+        renderSubjects(12);
+        renderRankings();
+        renderClubs();
+    };
 
-  function verifyLogic(selected, qIndex, unitKey) {
-    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
-    const q = questions[qIndex];
-    const isCorrect = selected === q.correct;
-    
-    document.getElementById('explanation-box').innerHTML = `
-        <div style="margin-top:25px; padding:20px; border:1px solid ${isCorrect ? 'var(--neon)' : '#ff4d4d'}; background:rgba(1,4,10,0.8);">
-            <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
-            <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
-            ${qIndex < questions.length - 1 
-                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black; margin-top:10px;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
-                : `<button class="grade-btn" style="width:100%; margin-top:10px;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
-        </div>
-    `;
+      function verifyLogic(selected, qIndex, unitKey) {
+    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
+    const q = questions[qIndex];
+    const isCorrect = selected === q.correct;
+    
+    document.getElementById('explanation-box').innerHTML = `
+        <div style="margin-top:25px; padding:20px; border:1px solid ${isCorrect ? 'var(--neon)' : '#ff4d4d'}; background:rgba(1,4,10,0.8);">
+            <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
+            <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
+            ${qIndex < questions.length - 1 
+                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
+                : `<button class="grade-btn" style="width:100%;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
+        </div>
+    `;
 }
 </script>
 </body>
