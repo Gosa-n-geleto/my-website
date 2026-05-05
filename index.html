@@ -477,19 +477,19 @@
     };
 
       function verifyLogic(selected, qIndex, unitKey) {
-    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
-    const q = questions[qIndex];
-    const isCorrect = selected === q.correct;
-    
-    document.getElementById('explanation-box').innerHTML = `
-        <div style="margin-top:25px; padding:20px; border:1px solid ${isCorrect ? 'var(--neon)' : '#ff4d4d'}; background:rgba(1,4,10,0.8);">
-            <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
-            <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
-            ${qIndex < questions.length - 1 
-                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
-                : `<button class="grade-btn" style="width:100%;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
-        </div>
-    `;
+    const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
+    const q = questions[qIndex];
+    const isCorrect = selected === q.correct;
+    
+    document.getElementById('explanation-box').innerHTML = `
+        <div style="margin-top:25px; padding:20px; border:1px solid ${isCorrect ? 'var(--neon)' : '#ff4d4d'}; background:rgba(1,4,10,0.8);">
+            <h5 style="color:${isCorrect ? 'var(--neon)' : '#ff4d4d'};">${isCorrect ? 'SUCCESS: Logic Verified' : 'ERROR: Derivation Mismatch'}</h5>
+            <p style="margin:10px 0; font-size:0.9rem; line-height:1.6;">${q.explanation}</p>
+            ${qIndex < questions.length - 1 
+                ? `<button class="grade-btn" style="width:100%; background:var(--neon); color:black; margin-top:10px;" onclick="renderQuestion(${qIndex + 1}, '${unitKey}')">NEXT QUESTION →</button>`
+                : `<button class="grade-btn" style="width:100%; margin-top:10px;" onclick="closeStudyRoom()">FINISH MODULE</button>`}
+        </div>
+    `;
 }
 </script>
 </body>
