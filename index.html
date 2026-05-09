@@ -385,40 +385,28 @@
         document.body.style.overflow = 'auto';
     }
 
-  async function launchExamRoom() {
+ async function launchExamRoom() {
     const activeItem = document.querySelector('.sidebar-item.active');
     let unitTitleFromSidebar = activeItem ? activeItem.innerText.replace(/UNIT \d+: /, '').trim() : "";
     
+    // Check if we have the data in the local library first before fetching
+    if (appData.questions[unitTitleFromSidebar]) {
+        const unitQuestions = appData.questions[unitTitleFromSidebar];
+        sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
+        renderQuestion(0, unitTitleFromSidebar);
+        return;
+    }
+
     try {
         const response = await fetch(`data/${currentSubject.toLowerCase()}_g${currentGrade}.json`);
+        if (!response.ok) throw new Error("File not found");
         const subjectData = await response.json();
-
-        // 1. Look inside the "units" array to find the matching unit name
-        const targetUnit = subjectData.units.find(u => 
-            u.unit_name.toLowerCase() === unitTitleFromSidebar.toLowerCase()
-        );
-
-        if (!targetUnit || !targetUnit.questions) {
-            throw new Error("Unit or Questions not found in JSON");
-        }
-
-        // 2. Map the data to match the format the quiz expects
-        const unitQuestions = targetUnit.questions.map(q => ({
-            q: q.text,
-            options: q.options,
-            correct: q.options.indexOf(q.answer), // Finds the index (0, 1, 2, or 3)
-            explanation: q.explanation
-        }));
-
-        sessionStorage.setItem('activeQuestions', JSON.stringify(unitQuestions));
-        renderQuestion(0, unitTitleFromSidebar); 
-
+        // ... rest of your fetch logic
     } catch (error) {
-        console.error(error);
-        alert(`DATABASE_ERROR: Check console or file path 'data/${currentSubject.toLowerCase()}_g${currentGrade}.json'`);
+        console.error("Fetch Error:", error);
+        alert(`OFFLINE_MODE: Data for ${unitTitleFromSidebar} not found in local library or JSON folder.`);
     }
 }
-    
 function renderQuestion(qIndex, unitKey) {
     const questions = JSON.parse(sessionStorage.getItem('activeQuestions'));
     if (!questions || !questions[qIndex]) return;
